@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
 
 /* 
 
--------------- [ Students Study Better ] -----------------
+-------------- [ App Name Goes Here ] -----------------
 Created by: Shafil Alam, Suraj Hussain, and Benito Karkada
 ----------------------------------------------------------
 

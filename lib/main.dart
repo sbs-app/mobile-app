@@ -7,6 +7,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+/* 
+
+-------------- [ Students Study Better ] -----------------
+Created by: Shafil Alam, Suraj Hussain, and Benito Karkada
+----------------------------------------------------------
+
+This is the main file where the theme, translations, auth, and student providers are setup. 
+After this process is done, the code will open the sign in screen or the home screen.
+
+*/
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

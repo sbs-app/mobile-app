@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() => InitState();
+  State<StatefulWidget> createState() => SignUpScreenState();
 }
 
-class InitState extends State<SignUpScreen> {
+class SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) => initWidget();
 
   Widget initWidget() {
     return Scaffold(
-        backgroundColor: Color(0xffCEBAC5),
+        backgroundColor: const Color(0xffCEBAC5),
         body: SingleChildScrollView(
             child: Column(
           children: [
             Container(
               height: 250,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40)),
                 color: Color.fromARGB(235, 91, 2, 57),
                 gradient: LinearGradient(
-                  colors: [(new Color(0xffc31432)), new Color(0xff240b36)],
+                  colors: [(Color(0xffc31432)), Color(0xff240b36)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -34,7 +36,7 @@ class InitState extends State<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 50),
+                    margin: const EdgeInsets.only(top: 50),
                     child: Image.asset(
                       "assets/app_logo.png",
                       height: 90,
@@ -42,9 +44,9 @@ class InitState extends State<SignUpScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 20, top: 20),
+                    margin: const EdgeInsets.only(right: 20, top: 20),
                     alignment: Alignment.bottomRight,
-                    child: Text(
+                    child: const Text(
                       "Register",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
@@ -54,20 +56,20 @@ class InitState extends State<SignUpScreen> {
             ),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 70),
-              padding: EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 70),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               height: 54,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 color: Colors.grey[200],
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       offset: Offset(0, 10),
                       blurRadius: 50,
                       color: Color(0xffEEEEEE)),
                 ],
               ),
-              child: TextField(
+              child: const TextField(
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                   icon: Icon(
@@ -82,20 +84,20 @@ class InitState extends State<SignUpScreen> {
             ),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              padding: EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               height: 54,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 color: Colors.grey[200],
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       offset: Offset(0, 10),
                       blurRadius: 50,
                       color: Color(0xffEEEEEE)),
                 ],
               ),
-              child: TextField(
+              child: const TextField(
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                   icon: Icon(
@@ -110,20 +112,20 @@ class InitState extends State<SignUpScreen> {
             ),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              padding: EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               height: 54,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: Color(0xffEEEEEE),
-                boxShadow: [
+                color: const Color(0xffEEEEEE),
+                boxShadow: const [
                   BoxShadow(
                       offset: Offset(0, 20),
                       blurRadius: 100,
                       color: Color(0xffEEEEEE)),
                 ],
               ),
-              child: TextField(
+              child: const TextField(
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                   focusColor: Color(0xffF5591F),
@@ -139,20 +141,20 @@ class InitState extends State<SignUpScreen> {
             ),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              padding: EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               height: 54,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: Color(0xffEEEEEE),
-                boxShadow: [
+                color: const Color(0xffEEEEEE),
+                boxShadow: const [
                   BoxShadow(
                       offset: Offset(0, 20),
                       blurRadius: 100,
                       color: Color(0xffEEEEEE)),
                 ],
               ),
-              child: TextField(
+              child: const TextField(
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                   focusColor: Color(0xffF5591F),
@@ -172,37 +174,37 @@ class InitState extends State<SignUpScreen> {
               },
               child: Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 70),
-                padding: EdgeInsets.only(left: 20, right: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20, top: 70),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 height: 54,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [(new Color(0xffF5591F)), new Color(0xffF2861E)],
+                  gradient: const LinearGradient(
+                      colors: [(Color(0xffF5591F)), Color(0xffF2861E)],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight),
                   borderRadius: BorderRadius.circular(50),
                   color: Colors.grey[200],
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         offset: Offset(0, 10),
                         blurRadius: 50,
                         color: Color(0xffEEEEEE)),
                   ],
                 ),
-                child: Text(
+                child: const Text(
                   "REGISTER",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10),
+              margin: const EdgeInsets.only(top: 10, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Have Already Member?  "),
+                  const Text("Have Already Member?  "),
                   GestureDetector(
-                    child: Text(
+                    child: const Text(
                       "Login Now",
                       style: TextStyle(color: Color(0xffF5591F)),
                     ),

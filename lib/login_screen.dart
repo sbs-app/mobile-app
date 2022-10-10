@@ -1,14 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:studentapp/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() => StartState();
+  State<StatefulWidget> createState() => LoginScreenState();
 }
 
-class StartState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return initWidget();
@@ -16,19 +16,19 @@ class StartState extends State<LoginScreen> {
 
   initWidget() {
     return Scaffold(
-        backgroundColor: Color(0xffCEBAC5),
+        backgroundColor: const Color(0xffCEBAC5),
         body: SingleChildScrollView(
             child: Column(
           children: [
             Container(
               height: 300,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40)),
                 color: Color.fromARGB(235, 91, 2, 57),
                 gradient: LinearGradient(
-                  colors: [(new Color(0xffc31432)), new Color(0xff240b36)],
+                  colors: [(Color(0xffc31432)), Color(0xff240b36)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -39,7 +39,7 @@ class StartState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 50),
+                    margin: const EdgeInsets.only(top: 50),
                     child: Image.asset(
                       "assets/app_logo.png",
                       height: 90,
@@ -47,9 +47,9 @@ class StartState extends State<LoginScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 40, top: 20),
+                    margin: const EdgeInsets.only(right: 40, top: 20),
                     alignment: Alignment.bottomRight,
-                    child: Text(
+                    child: const Text(
                       "Login",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
@@ -58,9 +58,9 @@ class StartState extends State<LoginScreen> {
               )),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.center,
-              child: Text(
+              child: const Text(
                 "Hello!",
                 style: TextStyle(
                     fontSize: 45,
@@ -69,29 +69,29 @@ class StartState extends State<LoginScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.center,
-              child: Text(
+              child: const Text(
                 "Welcome",
                 style: TextStyle(fontSize: 25, color: Color(0xff240b36)),
               ),
             ),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-              padding: EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               height: 54,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 color: Colors.grey[200],
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     offset: Offset(0, 10),
                     blurRadius: 25,
                   ),
                 ],
               ),
-              child: TextField(
+              child: const TextField(
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                   icon: Icon(
@@ -106,20 +106,20 @@ class StartState extends State<LoginScreen> {
             ),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              padding: EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               height: 54,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 color: Colors.white,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     offset: Offset(0, 10),
                     blurRadius: 25,
                   ),
                 ],
               ),
-              child: TextField(
+              child: const TextField(
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                   focusColor: Color(0xffF5591F),
@@ -134,13 +134,13 @@ class StartState extends State<LoginScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               alignment: Alignment.centerRight,
               child: GestureDetector(
                 onTap: () {
                   // Write Click Listener Code Here
                 },
-                child: Text("Forget Password?"),
+                child: const Text("Forget Password?"),
               ),
             ),
             GestureDetector(
@@ -149,37 +149,37 @@ class StartState extends State<LoginScreen> {
               },
               child: Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                padding: EdgeInsets.only(left: 20, right: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20, top: 15),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 height: 54,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [(new Color(0xff810541)), new Color(0xff810541)],
+                  gradient: const LinearGradient(
+                      colors: [(Color(0xff810541)), Color(0xff810541)],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight),
                   borderRadius: BorderRadius.circular(50),
                   color: Colors.grey[200],
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       offset: Offset(0, 10),
                       blurRadius: 25,
                     ),
                   ],
                 ),
-                child: Text(
+                child: const Text(
                   "LOGIN",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't Have Any Account?  "),
+                  const Text("Don't Have Any Account?  "),
                   GestureDetector(
-                    child: Text(
+                    child: const Text(
                       "Register Now",
                       style: TextStyle(color: Color(0xffF5591F)),
                     ),

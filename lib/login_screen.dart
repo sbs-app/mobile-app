@@ -16,7 +16,7 @@ class StartState extends State<LoginScreen> {
 
   initWidget() {
     return Scaffold(
-        backgroundColor: Color.fromARGB(193, 209, 182, 249),
+        backgroundColor: Color(0xffCEBAC5),
         body: SingleChildScrollView(
             child: Column(
           children: [
@@ -24,8 +24,8 @@ class StartState extends State<LoginScreen> {
               height: 300,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(90),
-                    bottomRight: Radius.circular(90)),
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40)),
                 color: Color.fromARGB(235, 91, 2, 57),
                 gradient: LinearGradient(
                   colors: [(new Color(0xffc31432)), new Color(0xff240b36)],

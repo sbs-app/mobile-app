@@ -154,7 +154,7 @@ class StartState extends State<LoginScreen> {
                 height: 54,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: [(new Color(0xffc31432)), new Color(0xffc31432)],
+                      colors: [(new Color(0xff810541)), new Color(0xff810541)],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight),
                   borderRadius: BorderRadius.circular(50),

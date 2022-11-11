@@ -4,7 +4,7 @@ import 'package:studentapp/login_screen.dart';
 import 'package:studentapp/splash_screen.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {

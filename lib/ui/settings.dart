@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/constants/constants.dart';
 import 'package:studentapp/ui/components/components.dart';
+import 'package:studentapp/ui/auth/auth.dart';
 
 class SettingsUI extends StatelessWidget {
   const SettingsUI({super.key});
@@ -29,7 +30,7 @@ class SettingsUI extends StatelessWidget {
             title: Text('settings.updateProfile'.tr),
             trailing: ElevatedButton(
               onPressed: () async {
-                // Get.to(UpdateProfileUI());
+                Get.to(UpdateProfileUI());
               },
               child: Text(
                 'settings.updateProfile'.tr,

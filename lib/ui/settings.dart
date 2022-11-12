@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/constants/constants.dart';
+import 'package:studentapp/models/models.dart';
 import 'package:studentapp/ui/components/components.dart';
 import 'package:studentapp/ui/auth/auth.dart';
 
 class SettingsUI extends StatelessWidget {
-  const SettingsUI({super.key});
+  SettingsUI({super.key});
 
-  //final LanguageController languageController = LanguageController.to;
-  //final ThemeController themeController = ThemeController.to;
+  final LanguageController languageController = LanguageController.to;
+  final ThemeController themeController = ThemeController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class SettingsUI extends StatelessWidget {
     return ListView(
       children: <Widget>[
         languageListTile(context),
-        // themeListTile(context),
+        themeListTile(context),
         ListTile(
             title: Text('settings.updateProfile'.tr),
             trailing: ElevatedButton(
@@ -67,27 +68,25 @@ class SettingsUI extends StatelessWidget {
     );
   }
 
-  // TODO: Fix
-  // themeListTile(BuildContext context) {
-  //   final List<MenuOptionsModel> themeOptions = [
-  //     MenuOptionsModel(
-  //         key: "system", value: 'settings.system'.tr, icon: Icons.brightness_4),
-  //     MenuOptionsModel(
-  //         key: "light", value: 'settings.light'.tr, icon: Icons.brightness_low),
-  //     MenuOptionsModel(
-  //         key: "dark", value: 'settings.dark'.tr, icon: Icons.brightness_3)
-  //   ];
-  //   return GetBuilder<ThemeController>(
-  //     builder: (controller) => ListTile(
-  //       title: Text('settings.theme'.tr),
-  //       trailing: SegmentedSelector(
-  //         selectedOption: controller.currentTheme,
-  //         menuOptions: themeOptions,
-  //         onValueChanged: (value) {
-  //           controller.setThemeMode(value);
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
+  themeListTile(BuildContext context) {
+    final List<MenuOptionsModel> themeOptions = [
+      MenuOptionsModel(
+          key: "system", value: 'settings.system'.tr, icon: Icons.brightness_4),
+      MenuOptionsModel(
+          key: "light", value: 'settings.light'.tr, icon: Icons.brightness_low),
+      MenuOptionsModel(
+          key: "dark", value: 'settings.dark'.tr, icon: Icons.brightness_3)
+    ];
+    return GetBuilder<ThemeController>(
+        builder: (controller) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SegmentedSelector(
+                selectedOption: controller.currentTheme,
+                menuOptions: themeOptions,
+                onValueChanged: (value) {
+                  controller.setThemeMode(value);
+                },
+              ),
+            ));
+  }
 }

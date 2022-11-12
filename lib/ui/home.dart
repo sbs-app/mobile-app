@@ -22,7 +22,7 @@ class HomeUI extends StatelessWidget {
                   IconButton(
                       icon: const Icon(Icons.settings),
                       onPressed: () {
-                        Get.to(const SettingsUI());
+                        Get.to(SettingsUI());
                       }),
                 ],
               ),

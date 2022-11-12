@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:studentapp/models/models.dart';
 import 'package:studentapp/ui/auth/auth.dart';
 import 'package:studentapp/helpers/helpers.dart';
 import 'package:studentapp/controllers/controllers.dart';
 
-class SignUpUI extends StatelessWidget {
-  SignUpUI({Key? key}) : super(key: key);
+class SignUpUI extends StatefulWidget {
+  const SignUpUI({super.key});
+
+  @override
+  State<SignUpUI> createState() => SignUpState();
+}
+
+class SignUpState extends State<SignUpUI> {
+  String selectedType = "student"; // Default type is student.
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -149,12 +157,43 @@ class SignUpUI extends StatelessWidget {
                     ),
                   ),
                 ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  height: 54,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: const Color(0xffEEEEEE),
+                    boxShadow: const [
+                      BoxShadow(
+                          offset: Offset(0, 20),
+                          blurRadius: 100,
+                          color: Color(0xffEEEEEE)),
+                    ],
+                  ),
+                  child: DropdownButton<String>(
+                    items: userTypes.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value.capitalizeFirst!),
+                      );
+                    }).toList(),
+                    hint: Text(selectedType.capitalizeFirst!),
+                    onChanged: (selection) {
+                      setState(() {
+                        selectedType = selection!;
+                      });
+                    },
+                  ),
+                ),
                 GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       SystemChannels.textInput.invokeMethod(
                           'TextInput.hide'); // To hide the keyboard - if any
-                      authController.registerWithEmailAndPassword(context);
+                      authController.registerWithEmailAndPassword(
+                          context, selectedType);
                     }
                   },
                   child: Container(
@@ -187,7 +226,7 @@ class SignUpUI extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Have An Already Member? "),
+                      const Text("Already a member? "),
                       GestureDetector(
                           child: const Text(
                             "Login Now",

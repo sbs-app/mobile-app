@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:studentapp/ui/auth/auth.dart';
 import 'package:get/get.dart';
 import 'package:studentapp/controllers/controllers.dart';
-import 'package:studentapp/models/models.dart';
 import 'package:studentapp/constants/constants.dart';
 import 'package:studentapp/ui/components/components.dart';
 

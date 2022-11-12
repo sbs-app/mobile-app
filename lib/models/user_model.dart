@@ -32,4 +32,4 @@ class UserModel {
       };
 }
 
-enum UserType { student, parent, teacher }
+const List<String> userTypes = ["student", "parent", "teacher"];

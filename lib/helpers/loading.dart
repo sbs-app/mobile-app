@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 // Loading indicator code is a modified and simplified version of this code
 // https://github.com/fayaz07/ots
@@ -60,14 +59,11 @@ Future<void> showLoadingIndicator(
     {bool isModal = true, Color? modalColor}) async {
   try {
     debugPrint('Showing loading overlay');
-    final _child = Center(
+    const child = Center(
       child: SizedBox(
-        child: CircularProgressIndicator(),
-        /*(Platform.isAndroid
-                ? CircularProgressIndicator()
-                : CupertinoActivityIndicator()),*/
         width: 30,
         height: 30,
+        child: CircularProgressIndicator(),
       ),
     );
     await _showOverlay(
@@ -77,14 +73,14 @@ Future<void> showLoadingIndicator(
                 ModalBarrier(
                   color: modalColor,
                 ),
-                _child
+                child
               ],
             )
-          : _child,
+          : child,
     );
   } catch (err) {
     debugPrint('Exception showing loading overlay\n${err.toString()}');
-    throw err;
+    rethrow;
   }
 }
 
@@ -94,7 +90,7 @@ Future<void> hideLoadingIndicator() async {
     await _hideOverlay();
   } catch (err) {
     debugPrint('Exception hiding loading overlay');
-    throw err;
+    rethrow;
   }
 }
 
@@ -118,7 +114,7 @@ Future<void> _showOverlay({required Widget child}) async {
     _loaderShown = true;
   } catch (err) {
     debugPrint('Exception inserting loading overlay\n${err.toString()}');
-    throw err;
+    rethrow;
   }
 }
 
@@ -128,6 +124,6 @@ Future<void> _hideOverlay() async {
     _loaderShown = false;
   } catch (err) {
     debugPrint('Exception removing loading overlay\n${err.toString()}');
-    throw err;
+    rethrow;
   }
 }

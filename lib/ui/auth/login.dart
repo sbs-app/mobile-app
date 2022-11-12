@@ -184,7 +184,7 @@ class LoginUI extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't Have An Account? "),
+                      const Text("Don't have an account? "),
                       GestureDetector(
                         child: const Text(
                           "Register Now",

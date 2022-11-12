@@ -17,11 +17,11 @@ void main() async {
   Get.put<AuthController>(AuthController());
   Get.put<ThemeController>(ThemeController());
   Get.put<LanguageController>(LanguageController());
-  runApp(const SplashScreenInit());
+  runApp(const SplashScreen());
 }
 
-class SplashScreenInit extends StatelessWidget {
-  const SplashScreenInit({Key? key}) : super(key: key);
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +30,7 @@ class SplashScreenInit extends StatelessWidget {
             duration: 1000,
             splash: 'assets/app_logo.png',
             nextScreen: const App(),
-            splashTransition: SplashTransition.rotationTransition,
+            splashTransition: SplashTransition.scaleTransition,
             pageTransitionType: PageTransitionType.fade,
             gradient: const LinearGradient(
               colors: [(Color(0xffc31432)), Color(0xff240b36)],

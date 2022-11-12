@@ -142,10 +142,11 @@ class LoginUI extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
-                    onTap: () {
-                      // Write Click Listener Code Here
-                    },
-                    child: const Text("Forget Password?"),
+                    onTap: () => Get.to(ResetPasswordUI()),
+                    child: const Text(
+                      "Forget Password?",
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
                 ),
                 GestureDetector(
@@ -180,17 +181,18 @@ class LoginUI extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't have an account? "),
+                      const Text("Don't have an account? ",
+                          style: TextStyle(color: Colors.black)),
                       GestureDetector(
                         child: const Text(
                           "Register Now",
-                          style: TextStyle(color: Color(0xffF5591F)),
+                          style: TextStyle(color: Colors.black),
                         ),
-                        onTap: () => Get.to(SignUpUI()),
+                        onTap: () => Get.to(const SignUpUI()),
                       )
                     ],
                   ),

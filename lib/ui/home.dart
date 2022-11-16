@@ -29,8 +29,9 @@ class HomeUI extends StatelessWidget {
               body: Center(
                 child: Column(
                   children: <Widget>[
-                    const SizedBox(height: 120),
-                    Image.network(controller.firestoreUser.value!.photoUrl),
+                    const SizedBox(height: 50),
+                    Image.network(controller.firestoreUser.value!.photoUrl,
+                        width: 128, height: 128),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,

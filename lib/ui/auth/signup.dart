@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:studentapp/models/models.dart';
 import 'package:studentapp/ui/auth/auth.dart';
 import 'package:studentapp/helpers/helpers.dart';
 import 'package:studentapp/controllers/controllers.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class SignUpUI extends StatefulWidget {
   const SignUpUI({super.key});
@@ -15,8 +18,11 @@ class SignUpUI extends StatefulWidget {
 
 class SignUpState extends State<SignUpUI> {
   String selectedType = "student"; // Default type is student.
+  String imageURL = ""; // Holds URL to uploaded image.
+
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -187,13 +193,45 @@ class SignUpState extends State<SignUpUI> {
                     },
                   ),
                 ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  height: 54,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: const Color(0xffEEEEEE),
+                    boxShadow: const [
+                      BoxShadow(
+                          offset: Offset(0, 20),
+                          blurRadius: 100,
+                          color: Color(0xffEEEEEE)),
+                    ],
+                  ),
+                  child: TextButton(
+                    child: const Text("Upload image"),
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+                      XFile? image =
+                          await picker.pickImage(source: ImageSource.gallery);
+                      Reference ref =
+                          _storage.ref().child("image-${DateTime.now()}");
+                      showLoadingIndicator();
+                      TaskSnapshot uploadTask =
+                          await ref.putFile(File(image!.path));
+                      imageURL = await uploadTask.ref.getDownloadURL();
+                      hideLoadingIndicator();
+                      Get.snackbar('Profile Image', 'Your image was uploaded!');
+                    },
+                  ),
+                ),
                 GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       SystemChannels.textInput.invokeMethod(
                           'TextInput.hide'); // To hide the keyboard - if any
                       authController.registerWithEmailAndPassword(
-                          context, selectedType);
+                          context, selectedType, imageURL);
                     }
                   },
                   child: Container(

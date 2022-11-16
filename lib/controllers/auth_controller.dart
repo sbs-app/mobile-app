@@ -98,22 +98,21 @@ class AuthController extends GetxController {
   }
 
   // User registration using email and password
-  registerWithEmailAndPassword(BuildContext context, String userType) async {
+  registerWithEmailAndPassword(
+      BuildContext context, String userType, String imageURL) async {
     showLoadingIndicator();
     try {
       await _auth
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((result) async {
-        //get photo url
-        String photoUrl = "";
         //create the new user object
         UserModel newUser = UserModel(
             uid: result.user!.uid,
             email: result.user!.email!,
             name: nameController.text,
             type: userType,
-            photoUrl: photoUrl);
+            photoUrl: imageURL);
         //create the user in firestore
         _createUserFirestore(newUser, result.user!);
         emailController.clear();

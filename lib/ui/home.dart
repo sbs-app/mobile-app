@@ -43,7 +43,7 @@ class HomeUI extends StatelessWidget {
                         // Name
                         Text('Hello, ${controller.firestoreUser.value!.name}!',
                             style: const TextStyle(
-                                fontSize: 16, color: Colors.white)),
+                                fontSize: 16, color: Colors.amber)),
                         // User type
                         Text(
                             'User Type: ${controller.firestoreUser.value!.type}',

@@ -42,18 +42,37 @@ class HomeUI extends StatelessWidget {
                         //     style: const TextStyle(fontSize: 16)),
                         // Name
                         Text('Hello, ${controller.firestoreUser.value!.name}!',
-                            style: const TextStyle(fontSize: 16)),
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.white)),
                         // User type
                         Text(
                             'User Type: ${controller.firestoreUser.value!.type}',
-                            style: const TextStyle(fontSize: 16)),
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.white)),
                         // Email
                         Text(
                             '${'home.emailLabel'.tr}: ${controller.firestoreUser.value!.email}',
-                            style: const TextStyle(fontSize: 16)),
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.white)),
                         IconButton(
                             icon: const Icon(
                               Icons.settings,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Get.to(SettingsUI());
+                            }),
+                        IconButton(
+                            icon: const Icon(
+                              Icons.home,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Get.to(SettingsUI());
+                            }),
+                        IconButton(
+                            icon: const Icon(
+                              Icons.mail,
                               color: Colors.white,
                             ),
                             onPressed: () {

@@ -16,33 +16,32 @@ class HomeUI extends StatelessWidget {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
+              backgroundColor: Colors.blueGrey,
               appBar: AppBar(
                 title: Text('home.title'.tr),
-                actions: [
-                  IconButton(
-                      icon: const Icon(Icons.settings),
-                      onPressed: () {
-                        Get.to(SettingsUI());
-                      }),
-                ],
+                actions: [],
               ),
               body: Center(
                 child: Column(
                   children: <Widget>[
-                    const SizedBox(height: 50),
-                    Image.network(controller.firestoreUser.value!.photoUrl,
-                        width: 128, height: 128),
+                    ClipOval(
+                      child: Image.network(
+                        controller.firestoreUser.value!.photoUrl,
+                        width: 230,
+                        height: 230,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         // UID
-                        Text(
-                            '${'home.uidLabel'.tr}: ${controller.firestoreUser.value!.uid}',
-                            style: const TextStyle(fontSize: 16)),
+                        // Text(
+                        //     '${'home.uidLabel'.tr}: ${controller.firestoreUser.value!.uid}',
+                        //     style: const TextStyle(fontSize: 16)),
                         // Name
-                        Text(
-                            '${'home.nameLabel'.tr}: ${controller.firestoreUser.value!.name}',
+                        Text('Hello, ${controller.firestoreUser.value!.name}!',
                             style: const TextStyle(fontSize: 16)),
                         // User type
                         Text(
@@ -52,10 +51,18 @@ class HomeUI extends StatelessWidget {
                         Text(
                             '${'home.emailLabel'.tr}: ${controller.firestoreUser.value!.email}',
                             style: const TextStyle(fontSize: 16)),
+                        IconButton(
+                            icon: const Icon(
+                              Icons.settings,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Get.to(SettingsUI());
+                            }),
                         // Admin
-                        Text(
-                            '${'home.adminUserLabel'.tr}: ${controller.admin.value}',
-                            style: const TextStyle(fontSize: 16)),
+                        // Text(
+                        //     '${'home.adminUserLabel'.tr}: ${controller.admin.value}',
+                        //     style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                   ],

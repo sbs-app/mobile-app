@@ -6,7 +6,6 @@ import 'package:slide_digital_clock/slide_digital_clock.dart';
 
 class HomeUI extends StatelessWidget {
   const HomeUI({super.key});
-//Siyam was here
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(

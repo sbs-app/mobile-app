@@ -18,6 +18,7 @@ class HomeUI extends StatelessWidget {
             )
           : Scaffold(
               body: Container(
+                width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -25,84 +26,69 @@ class HomeUI extends StatelessWidget {
                       colors: [Color(0xff009fff), Color(0xffec2f4b)]),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    ClipOval(
-                      child: Image.network(
-                        controller.firestoreUser.value!.photoUrl,
-                        width: 230,
-                        height: 230,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        Text('Hello, ${controller.firestoreUser.value!.name}!',
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.amber)),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // UID
-                        // Text(
-                        //     '${'home.uidLabel'.tr}: ${controller.firestoreUser.value!.uid}',
-                        //     style: const TextStyle(fontSize: 16)),
-                        // Name
-                        // Text('Hello, ${controller.firestoreUser.value!.name}!',
-                        //     style: const TextStyle(
-                        //         fontSize: 16, color: Colors.amber)),
-                        // User type
-                        Text(
-                            'User Type: ${controller.firestoreUser.value!.type}',
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.white)),
-                        // Email
-                        Text(
-                            '${'home.emailLabel'.tr}: ${controller.firestoreUser.value!.email}',
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.white)),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.settings,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Get.to(SettingsUI());
-                            }),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.home,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Get.to(SettingsUI());
-                            }),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.mail,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Get.to(SettingsUI());
-                            }),
-                        DigitalClock(
-                          is24HourTimeFormat: false,
-                          digitAnimationStyle: Curves.bounceInOut,
-                          areaDecoration:
-                              BoxDecoration(color: Colors.transparent),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      ClipOval(
+                        child: Image.network(
+                          controller.firestoreUser.value!.photoUrl,
+                          width: 230,
+                          height: 230,
+                          fit: BoxFit.cover,
                         ),
-                        // Admin
-                        // Text(
-                        //     '${'home.adminUserLabel'.tr}: ${controller.admin.value}',
-                        //     style: const TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                      // Name
+                      Text('Hello, ${controller.firestoreUser.value!.name}!',
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.amber)),
+                      // UID
+                      // Text(
+                      //     '${'home.uidLabel'.tr}: ${controller.firestoreUser.value!.uid}',
+                      //     style: const TextStyle(fontSize: 16)),
+                      // User type
+                      Text('User Type: ${controller.firestoreUser.value!.type}',
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.white)),
+                      // Email
+                      Text(
+                          '${'home.emailLabel'.tr}: ${controller.firestoreUser.value!.email}',
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.white)),
+                      IconButton(
+                          icon: const Icon(
+                            Icons.settings,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Get.to(SettingsUI());
+                          }),
+                      IconButton(
+                          icon: const Icon(
+                            Icons.home,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Get.to(SettingsUI());
+                          }),
+                      IconButton(
+                          icon: const Icon(
+                            Icons.mail,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Get.to(SettingsUI());
+                          }),
+                      DigitalClock(
+                        is24HourTimeFormat: false,
+                        digitAnimationStyle: Curves.bounceInOut,
+                        areaDecoration:
+                            const BoxDecoration(color: Colors.transparent),
+                      )
+                      // Admin
+                      // Text(
+                      //     '${'home.adminUserLabel'.tr}: ${controller.admin.value}',
+                      //     style: const TextStyle(fontSize: 16)),
+                    ]),
               ),
             ),
     );

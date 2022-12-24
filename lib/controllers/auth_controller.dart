@@ -53,7 +53,7 @@ class AuthController extends GetxController {
       // Send to signin
       Get.offAll(LoginUI());
     } else {
-      Get.offAll(const HomeUI());
+      Get.offAll(HomeUI());
     }
   }
 

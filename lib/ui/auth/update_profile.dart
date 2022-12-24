@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:studentapp/models/models.dart';
 import 'package:studentapp/helpers/helpers.dart';
 import 'package:studentapp/controllers/controllers.dart';
@@ -11,6 +15,9 @@ class UpdateProfileUI extends StatelessWidget {
 
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String imageURL = ""; // Holds URL to uploaded image.
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +56,22 @@ class UpdateProfileUI extends StatelessWidget {
                     onSaved: (value) =>
                         authController.emailController.text = value!,
                   ),
+                  TextButton(
+                      onPressed: () async {
+                        final ImagePicker picker = ImagePicker();
+                        XFile? image =
+                            await picker.pickImage(source: ImageSource.gallery);
+                        Reference ref =
+                            _storage.ref().child("image-${DateTime.now()}");
+                        showLoadingIndicator();
+                        TaskSnapshot uploadTask =
+                            await ref.putFile(File(image!.path));
+                        imageURL = await uploadTask.ref.getDownloadURL();
+                        hideLoadingIndicator();
+                        Get.snackbar(
+                            'Profile Image', 'Your image was uploaded!');
+                      },
+                      child: Text("Update image")),
                   // FormVerticalSpace(),
                   TextButton(
                       child: Text('auth.updateUser'.tr),
@@ -61,8 +84,7 @@ class UpdateProfileUI extends StatelessWidget {
                               name: authController.nameController.text,
                               email: authController.emailController.text,
                               type: userTypes[0], // student
-                              photoUrl:
-                                  authController.firestoreUser.value!.photoUrl);
+                              photoUrl: imageURL);
                           _updateUserConfirm(context, updatedUser,
                               authController.firestoreUser.value!.email);
                         }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/ui/ui.dart';
 import 'package:get/get.dart';
+import 'package:slide_digital_clock/slide_digital_clock.dart';
 
 class HomeUI extends StatelessWidget {
   const HomeUI({super.key});
@@ -16,13 +17,15 @@ class HomeUI extends StatelessWidget {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
-              backgroundColor: Colors.blueGrey,
-              appBar: AppBar(
-                title: Text('home.title'.tr),
-                actions: [],
-              ),
-              body: Center(
+              body: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomLeft,
+                      colors: [Color(0xff009fff), Color(0xffec2f4b)]),
+                ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     ClipOval(
                       child: Image.network(
@@ -33,6 +36,14 @@ class HomeUI extends StatelessWidget {
                       ),
                     ),
                     Column(
+                      children: [
+                        Text('Hello, ${controller.firestoreUser.value!.name}!',
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.amber)),
+                      ],
+                    ),
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -41,9 +52,9 @@ class HomeUI extends StatelessWidget {
                         //     '${'home.uidLabel'.tr}: ${controller.firestoreUser.value!.uid}',
                         //     style: const TextStyle(fontSize: 16)),
                         // Name
-                        Text('Hello, ${controller.firestoreUser.value!.name}!',
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.amber)),
+                        // Text('Hello, ${controller.firestoreUser.value!.name}!',
+                        //     style: const TextStyle(
+                        //         fontSize: 16, color: Colors.amber)),
                         // User type
                         Text(
                             'User Type: ${controller.firestoreUser.value!.type}',
@@ -78,6 +89,12 @@ class HomeUI extends StatelessWidget {
                             onPressed: () {
                               Get.to(SettingsUI());
                             }),
+                        DigitalClock(
+                          is24HourTimeFormat: false,
+                          digitAnimationStyle: Curves.bounceInOut,
+                          areaDecoration:
+                              BoxDecoration(color: Colors.transparent),
+                        ),
                         // Admin
                         // Text(
                         //     '${'home.adminUserLabel'.tr}: ${controller.admin.value}',

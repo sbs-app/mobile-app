@@ -91,28 +91,40 @@ class SettingsUI extends StatelessWidget {
             Card(
                 color: Colors.transparent,
                 elevation: 0,
-                child: Row(children: [
-                  Container(
-                      margin: EdgeInsets.only(right: 30, left: 10),
-                      width: 85,
-                      height: 85,
-                      child: CircleAvatar(
-                        //radius: 100,
-                        backgroundColor: Colors.transparent,
-                        child: ClipOval(
-                            child: Image.network(
-                          authController.firestoreUser.value!.photoUrl,
-                          fit: BoxFit.fill,
-                          width: 100,
-                          height: 100,
+                child: Row(
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(right: 70, left: 10),
+                        width: 85,
+                        height: 85,
+                        child: CircleAvatar(
+                          //radius: 100,
+                          backgroundColor: Colors.transparent,
+                          child: ClipOval(
+                              child: Image.network(
+                            authController.firestoreUser.value!.photoUrl,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          )),
                         )),
-                      )),
-                  Text(
-                    '${authController.firestoreUser.value!.name}',
-                    style: TextStyle(color: Colors.white),
-                  )
-                ])),
-
+                    Expanded(
+                      child: Text(
+                        '${authController.firestoreUser.value!.name}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
+                )),
+            Divider(
+              color: Colors.white,
+            ),
             ListTile(
               title: Text(
                 'settings.signOut'.tr,
@@ -127,6 +139,9 @@ class SettingsUI extends StatelessWidget {
                 ),
               ),
             ),
+            Divider(
+              color: Colors.white,
+            ),
             ListTile(
                 title: Text(
                   'settings.updateProfile'.tr,
@@ -140,6 +155,9 @@ class SettingsUI extends StatelessWidget {
                     'settings.updateProfile'.tr,
                   ),
                 )),
+            Divider(
+              color: Colors.white,
+            ),
           ],
         ));
   }

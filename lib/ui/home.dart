@@ -23,6 +23,11 @@ class HomeUI extends StatelessWidget {
           : Scaffold(
               extendBodyBehindAppBar: true,
               appBar: AppBar(
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back_ios_new_rounded),
+                  color: Colors.transparent,
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
                 title: Text(
                   'home.title'.tr,
                   style: TextStyle(color: Colors.white),

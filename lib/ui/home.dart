@@ -21,6 +21,15 @@ class HomeUI extends StatelessWidget {
               child: CircularProgressIndicator(),
             )
           : Scaffold(
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                title: Text(
+                  'home.title'.tr,
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+              ),
               body: Container(
                 margin: EdgeInsets.only(top: 0),
                 width: MediaQuery.of(context).size.width,
@@ -38,7 +47,7 @@ class HomeUI extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Container(
-                          margin: const EdgeInsets.only(top: 45),
+                          margin: const EdgeInsets.only(top: 60),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             boxShadow: [
@@ -89,6 +98,9 @@ class HomeUI extends StatelessWidget {
                           icon: const Icon(
                             Icons.settings,
                             color: Colors.white,
+                            shadows: <Shadow>[
+                              Shadow(color: Colors.white, blurRadius: 10.0)
+                            ],
                           ),
                           onPressed: () {
                             Get.to(SettingsUI());
@@ -97,14 +109,20 @@ class HomeUI extends StatelessWidget {
                           icon: const Icon(
                             Icons.home,
                             color: Colors.white,
+                            shadows: <Shadow>[
+                              Shadow(color: Colors.white, blurRadius: 10.0)
+                            ],
                           ),
                           onPressed: () {
-                            Get.to(SettingsUI());
+                            Get.to(HomeUI());
                           }),
                       IconButton(
                           icon: const Icon(
                             Icons.mail,
                             color: Colors.white,
+                            shadows: <Shadow>[
+                              Shadow(color: Colors.white, blurRadius: 10.0)
+                            ],
                           ),
                           onPressed: () {
                             Get.to(SettingsUI());

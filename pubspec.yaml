@@ -47,6 +47,7 @@ dependencies:
   http: ^0.13.5
   image_picker: ^0.8.6
   slide_digital_clock: ^1.0.2
+  flutter_speed_dial: ^6.2.0
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,7 @@ flutter:
   assets:
     - assets/app_logo.png
     - assets/video.mp4
+    - lib/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

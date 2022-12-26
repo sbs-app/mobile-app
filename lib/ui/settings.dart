@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/constants/constants.dart';
@@ -6,50 +7,141 @@ import 'package:studentapp/models/models.dart';
 import 'package:studentapp/ui/components/components.dart';
 import 'package:studentapp/ui/auth/auth.dart';
 
+import 'home.dart';
+
 class SettingsUI extends StatelessWidget {
   SettingsUI({super.key});
 
   final LanguageController languageController = LanguageController.to;
   final ThemeController themeController = ThemeController.to;
+  final AuthController authController = AuthController.to;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('settings.title'.tr),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          color: Colors.transparent,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'settings.title'.tr,
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: _buildLayoutSection(context),
+      floatingActionButton: SpeedDial(
+        foregroundColor: Colors.white,
+        animatedIcon: AnimatedIcons.menu_close,
+        backgroundColor: Color.fromARGB(255, 64, 58, 134),
+        children: [
+          SpeedDialChild(
+              child: Icon(
+                Icons.mail,
+                color: Colors.white,
+              ),
+              onTap: () {
+                Get.to(HomeUI());
+              },
+              backgroundColor: Color(0xff302b63)),
+          SpeedDialChild(
+              child: Icon(
+                Icons.home,
+                color: Colors.white,
+              ),
+              onTap: () async {
+                Get.to(HomeUI());
+              },
+              backgroundColor: Color(0xff302b63)),
+          SpeedDialChild(
+              child: Icon(
+                Icons.settings,
+                color: Colors.white,
+              ),
+              onTap: () async {
+                Get.to(SettingsUI());
+              },
+              backgroundColor: Color(0xff302b63)),
+        ],
+      ),
     );
   }
 
   Widget _buildLayoutSection(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        languageListTile(context),
-        themeListTile(context),
-        ListTile(
-            title: Text('settings.updateProfile'.tr),
-            trailing: ElevatedButton(
-              onPressed: () async {
-                Get.to(UpdateProfileUI());
-              },
-              child: Text(
-                'settings.updateProfile'.tr,
+    return Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color(0xff0f0c29),
+                Color(0xff302b63),
+                Color(0xff24243e)
+              ]),
+        ),
+        child: ListView(
+          children: <Widget>[
+            // languageListTile(context),
+            // themeListTile(context),
+
+            Card(
+                color: Colors.transparent,
+                elevation: 0,
+                child: Row(children: [
+                  Container(
+                      margin: EdgeInsets.only(right: 30, left: 10),
+                      width: 85,
+                      height: 85,
+                      child: CircleAvatar(
+                        //radius: 100,
+                        backgroundColor: Colors.transparent,
+                        child: ClipOval(
+                            child: Image.network(
+                          authController.firestoreUser.value!.photoUrl,
+                          fit: BoxFit.fill,
+                          width: 100,
+                          height: 100,
+                        )),
+                      )),
+                  Text(
+                    '${authController.firestoreUser.value!.name}',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ])),
+
+            ListTile(
+              title: Text(
+                'settings.signOut'.tr,
+                style: TextStyle(color: Colors.white),
               ),
-            )),
-        ListTile(
-          title: Text('settings.signOut'.tr),
-          trailing: ElevatedButton(
-            onPressed: () {
-              AuthController.to.signOut();
-            },
-            child: Text(
-              'settings.signOut'.tr,
+              trailing: ElevatedButton(
+                onPressed: () {
+                  AuthController.to.signOut();
+                },
+                child: Text(
+                  'settings.signOut'.tr,
+                ),
+              ),
             ),
-          ),
-        )
-      ],
-    );
+            ListTile(
+                title: Text(
+                  'settings.updateProfile'.tr,
+                  style: TextStyle(color: Colors.white),
+                ),
+                trailing: ElevatedButton(
+                  onPressed: () async {
+                    Get.to(UpdateProfileUI());
+                  },
+                  child: Text(
+                    'settings.updateProfile'.tr,
+                  ),
+                )),
+          ],
+        ));
   }
 
   languageListTile(BuildContext context) {

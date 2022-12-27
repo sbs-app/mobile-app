@@ -85,9 +85,6 @@ class SettingsUI extends StatelessWidget {
         ),
         child: ListView(
           children: <Widget>[
-            // languageListTile(context),
-            // themeListTile(context),
-
             Card(
                 color: Colors.transparent,
                 elevation: 0,
@@ -125,6 +122,10 @@ class SettingsUI extends StatelessWidget {
             Divider(
               color: Colors.white,
             ),
+            themeListTile(context),
+            Divider(
+              color: Colors.white,
+            ),
             ListTile(
               title: Text(
                 'settings.signOut'.tr,
@@ -158,6 +159,11 @@ class SettingsUI extends StatelessWidget {
             Divider(
               color: Colors.white,
             ),
+            // TODO
+            // languageListTile(context),
+            // Divider(
+            //   color: Colors.white,
+            // )
           ],
         ));
   }
@@ -165,7 +171,9 @@ class SettingsUI extends StatelessWidget {
   languageListTile(BuildContext context) {
     return GetBuilder<LanguageController>(
       builder: (controller) => ListTile(
-        title: Text('settings.language'.tr),
+        title: Text(
+          'settings.language'.tr,
+        ),
         trailing: DropdownPicker(
           menuOptions: Globals.languageOptions,
           selectedOption: controller.currentLanguage,

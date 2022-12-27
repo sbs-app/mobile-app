@@ -69,7 +69,10 @@ class UpdateProfileUI extends StatelessWidget {
                         imageURL = await uploadTask.ref.getDownloadURL();
                         hideLoadingIndicator();
                         Get.snackbar(
-                            'Profile Image', 'Your image was uploaded!');
+                            'Profile Image', 'Your image was uploaded!',
+                            backgroundColor:
+                                Get.theme.snackBarTheme.backgroundColor,
+                            colorText: Get.theme.snackBarTheme.actionTextColor);
                       },
                       child: Text("Update image")),
                   // FormVerticalSpace(),
@@ -84,7 +87,8 @@ class UpdateProfileUI extends StatelessWidget {
                               name: authController.nameController.text,
                               email: authController.emailController.text,
                               type: userTypes[0], // student
-                              photoUrl: imageURL);
+                              photoUrl: imageURL,
+                              classes: []);
                           _updateUserConfirm(context, updatedUser,
                               authController.firestoreUser.value!.email);
                         }

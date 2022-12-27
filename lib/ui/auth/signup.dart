@@ -221,7 +221,10 @@ class SignUpState extends State<SignUpUI> {
                           await ref.putFile(File(image!.path));
                       imageURL = await uploadTask.ref.getDownloadURL();
                       hideLoadingIndicator();
-                      Get.snackbar('Profile Image', 'Your image was uploaded!');
+                      Get.snackbar('Profile Image', 'Your image was uploaded!',
+                          backgroundColor:
+                              Get.theme.snackBarTheme.backgroundColor,
+                          colorText: Get.theme.snackBarTheme.actionTextColor);
                     },
                   ),
                 ),

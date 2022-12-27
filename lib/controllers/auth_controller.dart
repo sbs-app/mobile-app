@@ -112,7 +112,8 @@ class AuthController extends GetxController {
             email: result.user!.email!,
             name: nameController.text,
             type: userType,
-            photoUrl: imageURL);
+            photoUrl: imageURL,
+            classes: []);
         //create the user in firestore
         _createUserFirestore(newUser, result.user!);
         emailController.clear();
@@ -166,7 +167,6 @@ class AuthController extends GetxController {
       //List<String> errors = error.toString().split(',');
       // print("Error: " + errors[1]);
       hideLoadingIndicator();
-      print(error.code);
       String authError;
       switch (error.code) {
         case 'ERROR_WRONG_PASSWORD':
@@ -184,19 +184,30 @@ class AuthController extends GetxController {
     }
   }
 
-  //updates the firestore user in users collection
+  // updates the firestore user in users collection
   void _updateUserFirestore(UserModel user, User firebaseUser) {
     _db.doc('/users/${firebaseUser.uid}').update(user.toJson());
     update();
   }
 
-  //create the firestore user in users collection
+  // create the firestore user in users collection
   void _createUserFirestore(UserModel user, User firebaseUser) {
     _db.doc('/users/${firebaseUser.uid}').set(user.toJson());
     update();
   }
 
-  //password reset email
+  // Add class to firestore user
+  Future<bool> addClassToUser(String newClass, User firebaseUser) async {
+    var classDoc = await _db.doc('/classes/$newClass').get();
+    if (!classDoc.exists) return false;
+
+    UserModel current = firestoreUser.value!;
+    current.classes.add(newClass);
+    _db.doc('/users/${firebaseUser.uid}').update(current.toJson());
+    return true;
+  }
+
+  // password reset email
   Future<void> sendPasswordResetEmail(BuildContext context) async {
     showLoadingIndicator();
     try {
@@ -218,7 +229,7 @@ class AuthController extends GetxController {
     }
   }
 
-  //check if user is an admin user
+  // check if user is an admin user
   isAdmin() async {
     await getUser.then((user) async {
       DocumentSnapshot adminRef =

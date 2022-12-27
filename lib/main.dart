@@ -15,6 +15,7 @@ void main() async {
   await Firebase.initializeApp();
   await GetStorage.init();
   Get.put<AuthController>(AuthController());
+  Get.put<ClassController>(ClassController());
   Get.put<ThemeController>(ThemeController());
   Get.put<LanguageController>(LanguageController());
   runApp(const SplashScreen());

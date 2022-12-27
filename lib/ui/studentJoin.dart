@@ -12,6 +12,11 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 class studentJoinUI extends StatelessWidget {
   studentJoinUI({super.key});
 
+  TextEditingController controller = TextEditingController();
+
+  final AuthController authController = AuthController.to;
+  final ClassController classController = ClassController.to;
+
   RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
@@ -102,6 +107,7 @@ class studentJoinUI extends StatelessWidget {
         Padding(
             padding: EdgeInsets.only(left: 50, right: 50, top: 50),
             child: TextField(
+              controller: controller,
               cursorColor: Color(0xff302b63),
               style: TextStyle(
                 color: Colors.white,
@@ -131,8 +137,24 @@ class studentJoinUI extends StatelessWidget {
   }
 
   void _doSomething() async {
-    Timer(Duration(seconds: 3), () {
+    String? result = await classController.addClassToUser(
+        controller.text,
+        authController.firebaseUser.value!,
+        authController.firestoreUser.value!);
+    if (result == null) {
+      Get.snackbar('Class', 'The class was added!',
+          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+          colorText: Get.theme.snackBarTheme.actionTextColor);
       _btnController.success();
+    } else {
+      Get.snackbar('Class', 'Error: $result',
+          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+          colorText: Get.theme.snackBarTheme.actionTextColor);
+      _btnController.error();
+    }
+
+    Timer(const Duration(seconds: 2), () {
+      _btnController.reset();
     });
   }
 }

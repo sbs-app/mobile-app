@@ -23,7 +23,7 @@ class SettingsUI extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new_rounded),
-          color: Colors.transparent,
+          color: Colors.white,
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(

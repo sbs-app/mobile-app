@@ -92,7 +92,7 @@ class studentJoinUI extends StatelessWidget {
           endIndent: 0,
         ),
         Padding(
-          padding: EdgeInsets.only(top: 100),
+          padding: EdgeInsets.only(top: 40),
           child: Text(
             "Class Code",
             textAlign: TextAlign.center,
@@ -100,7 +100,7 @@ class studentJoinUI extends StatelessWidget {
           ),
         ),
         Padding(
-            padding: EdgeInsets.only(left: 50, right: 50, top: 100),
+            padding: EdgeInsets.only(left: 50, right: 50, top: 50),
             child: TextField(
               cursorColor: Color(0xff302b63),
               style: TextStyle(

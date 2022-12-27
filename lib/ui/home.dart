@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:studentapp/controllers/controllers.dart';
+import 'package:studentapp/ui/studentJoin.dart';
 import 'package:studentapp/ui/ui.dart';
 import 'package:get/get.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
 import 'package:intl/intl.dart';
+
+import 'calendar.dart';
 
 class HomeUI extends StatelessWidget {
   HomeUI({super.key});
@@ -27,10 +30,6 @@ class HomeUI extends StatelessWidget {
                   icon: Icon(Icons.arrow_back_ios_new_rounded),
                   color: Colors.transparent,
                   onPressed: () => Navigator.of(context).pop(),
-                ),
-                title: Text(
-                  'home.title'.tr,
-                  style: TextStyle(color: Colors.white),
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -113,14 +112,14 @@ class HomeUI extends StatelessWidget {
                             }),
                         IconButton(
                             icon: const Icon(
-                              Icons.home,
+                              Icons.calendar_month_rounded,
                               color: Colors.white,
                               shadows: <Shadow>[
                                 Shadow(color: Colors.white, blurRadius: 10.0)
                               ],
                             ),
                             onPressed: () {
-                              Get.to(HomeUI());
+                              Get.to(CalendarUI());
                             }),
                         IconButton(
                             icon: const Icon(
@@ -132,6 +131,17 @@ class HomeUI extends StatelessWidget {
                             ),
                             onPressed: () {
                               Get.to(SettingsUI());
+                            }),
+                        IconButton(
+                            icon: const Icon(
+                              Icons.person,
+                              color: Colors.white,
+                              shadows: <Shadow>[
+                                Shadow(color: Colors.white, blurRadius: 10.0)
+                              ],
+                            ),
+                            onPressed: () {
+                              Get.to(studentJoinUI());
                             }),
                         DigitalClock(
                           is24HourTimeFormat: false,

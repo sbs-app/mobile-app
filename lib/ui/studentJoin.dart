@@ -129,14 +129,14 @@ class studentJoinUI extends StatelessWidget {
           color: Color.fromARGB(255, 26, 20, 95),
           child: Text('Submit', style: TextStyle(color: Colors.white)),
           controller: _btnController,
-          onPressed: _doSomething,
+          onPressed: _joinClass,
           successColor: Colors.green,
         )
       ]),
     );
   }
 
-  void _doSomething() async {
+  void _joinClass() async {
     String? result = await classController.addClassToUser(
         controller.text,
         authController.firebaseUser.value!,

@@ -91,13 +91,13 @@ class studentJoinUI extends StatelessWidget {
           indent: 190,
           endIndent: 0,
         ),
-        SizedBox(
-          height: 200,
-        ),
-        Text(
-          "Class Code",
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontSize: 23),
+        Padding(
+          padding: EdgeInsets.only(top: 100),
+          child: Text(
+            "Class Code",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 23),
+          ),
         ),
         Padding(
             padding: EdgeInsets.only(left: 50, right: 50, top: 100),

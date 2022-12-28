@@ -96,61 +96,101 @@ class HomeUI extends StatelessWidget {
                         //     '${'home.emailLabel'.tr}: ${controller.firestoreUser.value!.email}',
                         //     style: const TextStyle(
                         //         fontSize: 16, color: Colors.white)),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.settings,
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(color: Colors.white, blurRadius: 10.0)
-                              ],
-                            ),
-                            onPressed: () {
-                              Get.to(() => SettingsUI());
-                            }),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.calendar_month_rounded,
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(color: Colors.white, blurRadius: 10.0)
-                              ],
-                            ),
-                            onPressed: () {
-                              Get.to(() => CalendarUI());
-                            }),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.mail,
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(color: Colors.white, blurRadius: 10.0)
-                              ],
-                            ),
-                            onPressed: () {
-                              Get.to(() => SettingsUI());
-                            }),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.list_alt,
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(color: Colors.white, blurRadius: 10.0)
-                              ],
-                            ),
-                            onPressed: () {
-                              Get.to(() => ClassViewUI());
-                            }),
-                        IconButton(
-                            icon: const Icon(
-                              Icons.person,
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(color: Colors.white, blurRadius: 10.0)
-                              ],
-                            ),
-                            onPressed: () {
-                              Get.to(() => StudentJoinUI());
-                            }),
+
+                        Stack(
+                          children: [
+                            Align(
+                                alignment: Alignment(0, 0),
+                                child: IconButton(
+                                    icon: const Icon(
+                                      Icons.settings,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            color: Colors.white,
+                                            blurRadius: 10.0)
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Get.to(() => SettingsUI());
+                                    })),
+                            Align(
+                                alignment: Alignment(1, 0),
+                                child: IconButton(
+                                    icon: const Icon(
+                                      Icons.calendar_month_rounded,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            color: Colors.white,
+                                            blurRadius: 10.0)
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Get.to(() => CalendarUI());
+                                    })),
+                            Align(
+                                alignment: Alignment(-0.5, 0),
+                                child: IconButton(
+                                    icon: const Icon(
+                                      Icons.mail,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            color: Colors.white,
+                                            blurRadius: 10.0)
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Get.to(() => SettingsUI());
+                                    })),
+                            Align(
+                                alignment: Alignment(0.5, 0),
+                                child: IconButton(
+                                    icon: const Icon(
+                                      Icons.list_alt,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            color: Colors.white,
+                                            blurRadius: 10.0)
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Get.to(() => ClassViewUI());
+                                    })),
+                            Positioned(
+                                top: (0),
+                                child: IconButton(
+                                    icon: const Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            color: Colors.white,
+                                            blurRadius: 10.0)
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Get.to(() => StudentJoinUI());
+                                    })),
+                            Align(
+                                alignment: Alignment(0, 0),
+                                child: IconButton(
+                                    icon: const Icon(
+                                      Icons.settings,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            color: Colors.white,
+                                            blurRadius: 10.0)
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Get.to(() => SettingsUI());
+                                    })),
+                          ],
+                        ),
                         DigitalClock(
                           is24HourTimeFormat: false,
                           digitAnimationStyle: Curves.bounceIn,

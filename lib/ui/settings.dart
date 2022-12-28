@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/constants/constants.dart';
@@ -91,11 +92,15 @@ class SettingsUI extends StatelessWidget {
               color: Colors.white,
             ),
             ListTile(
-              title: Text(
+              title: NeumorphicText(
                 'settings.signOut'.tr,
-                style: const TextStyle(color: Colors.white),
+                style: NeumorphicStyle(color: Colors.white),
               ),
-              trailing: ElevatedButton(
+              trailing: NeumorphicButton(
+                style: NeumorphicStyle(
+                  depth: 4.5, //customize depth here
+                  color: Colors.indigo, //customize color here
+                ),
                 onPressed: () {
                   AuthController.to.signOut();
                 },
@@ -108,11 +113,15 @@ class SettingsUI extends StatelessWidget {
               color: Colors.white,
             ),
             ListTile(
-                title: Text(
+                title: NeumorphicText(
                   'settings.updateProfile'.tr,
-                  style: const TextStyle(color: Colors.white),
+                  style: NeumorphicStyle(color: Colors.white),
                 ),
-                trailing: ElevatedButton(
+                trailing: NeumorphicButton(
+                  style: NeumorphicStyle(
+                    depth: 4.5, //customize depth here
+                    color: Colors.indigo,
+                  ), //customize color here
                   onPressed: () async {
                     Get.to(() => UpdateProfileUI());
                   },

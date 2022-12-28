@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/models/models.dart';
 import 'package:studentapp/ui/components/actions.dart';
@@ -80,10 +81,19 @@ class ClassViewUI extends StatelessWidget {
         if (snapshot.hasData) {
           ClassModel classInfo = snapshot.data as ClassModel;
           return Card(
+            color: Color.fromARGB(255, 66, 61, 127),
             child: Column(
               children: [
                 ListTile(
-                    leading: const Icon(Icons.school),
+                    leading: const Icon(
+                      Icons.school,
+                      color: Colors.white,
+                      shadows: <Shadow>[
+                        Shadow(
+                            color: Color.fromARGB(255, 17, 146, 238),
+                            blurRadius: 10.0)
+                      ],
+                    ),
                     title: Text('Name: ${classInfo.name}'),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +105,12 @@ class ClassViewUI extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    TextButton(
+                    NeumorphicButton(
+                      style: NeumorphicStyle(
+                        depth: 4, //customize depth here
+                        color: Color.fromARGB(
+                            255, 116, 108, 206), //customize color here
+                      ),
                       child: const Text('Leave class'),
                       onPressed: () {
                         String? result = classController.removeClassFromUser(

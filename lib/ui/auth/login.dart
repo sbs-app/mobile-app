@@ -190,7 +190,8 @@ class LoginUI extends StatelessWidget {
                       GestureDetector(
                         child: const Text(
                           "Register Now",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 7, 108, 223)),
                         ),
                         onTap: () => Get.to(() => const SignUpUI()),
                       )

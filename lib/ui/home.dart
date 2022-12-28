@@ -34,6 +34,7 @@ class HomeUI extends StatelessWidget {
               body: SingleChildScrollView(
                 child: Container(
                   width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
@@ -161,12 +162,9 @@ class HomeUI extends StatelessWidget {
                           secondDigitDecoration:
                               const BoxDecoration(color: Colors.transparent),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            convertedDateTime,
-                            style: const TextStyle(color: Colors.white),
-                          ),
+                        Text(
+                          convertedDateTime,
+                          style: const TextStyle(color: Colors.white),
                         )
                         // Admin
                         // Text(

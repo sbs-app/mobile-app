@@ -1,23 +1,19 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:studentapp/controllers/controllers.dart';
-import 'package:studentapp/ui/ui.dart';
+import 'package:studentapp/ui/components/components.dart';
 import 'package:get/get.dart';
-import 'package:slide_digital_clock/slide_digital_clock.dart';
-import 'package:intl/intl.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class studentJoinUI extends StatelessWidget {
-  studentJoinUI({super.key});
+class StudentJoinUI extends StatelessWidget {
+  StudentJoinUI({super.key});
 
-  TextEditingController controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
 
   final AuthController authController = AuthController.to;
   final ClassController classController = ClassController.to;
 
-  RoundedLoadingButtonController _btnController =
+  final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
   @override
@@ -26,52 +22,19 @@ class studentJoinUI extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
           color: Colors.white,
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           'Join a Class'.tr,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: _buildLayoutSection(context),
-      floatingActionButton: SpeedDial(
-        foregroundColor: Colors.white,
-        animatedIcon: AnimatedIcons.menu_close,
-        backgroundColor: Color.fromARGB(255, 64, 58, 134),
-        children: [
-          SpeedDialChild(
-              child: Icon(
-                Icons.mail,
-                color: Colors.white,
-              ),
-              onTap: () {
-                Get.to(HomeUI());
-              },
-              backgroundColor: Color(0xff302b63)),
-          SpeedDialChild(
-              child: Icon(
-                Icons.home,
-                color: Colors.white,
-              ),
-              onTap: () async {
-                Get.to(HomeUI());
-              },
-              backgroundColor: Color(0xff302b63)),
-          SpeedDialChild(
-              child: Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
-              onTap: () async {
-                Get.to(SettingsUI());
-              },
-              backgroundColor: Color(0xff302b63)),
-        ],
-      ),
+      floatingActionButton: getActions(),
     );
   }
 
@@ -84,19 +47,19 @@ class studentJoinUI extends StatelessWidget {
             colors: [Color(0xff0f0c29), Color(0xff302b63), Color(0xff24243e)]),
       ),
       child: ListView(children: <Widget>[
-        Text(
+        const Text(
           "Add a Class",
           textAlign: TextAlign.right,
           style: TextStyle(color: Colors.white, fontSize: 25),
         ),
-        Divider(
+        const Divider(
           color: Colors.white,
           height: 15,
           thickness: 2,
           indent: 190,
           endIndent: 0,
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.only(top: 40),
           child: Text(
             "Class Code",
@@ -105,32 +68,35 @@ class studentJoinUI extends StatelessWidget {
           ),
         ),
         Padding(
-            padding: EdgeInsets.only(left: 50, right: 50, top: 50),
+            padding: const EdgeInsets.only(left: 50, right: 50, top: 50),
             child: TextField(
               controller: controller,
-              cursorColor: Color(0xff302b63),
-              style: TextStyle(
+              cursorColor: const Color(0xff302b63),
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
               ),
               decoration: InputDecoration(
                 hintText: "Enter your class code",
                 filled: true,
-                fillColor: Colors.grey,
+                fillColor: Colors.grey[600],
                 border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(30)),
               ),
             )),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        RoundedLoadingButton(
-          color: Color.fromARGB(255, 26, 20, 95),
-          child: Text('Submit', style: TextStyle(color: Colors.white)),
-          controller: _btnController,
-          onPressed: _joinClass,
-          successColor: Colors.green,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: RoundedLoadingButton(
+            color: const Color.fromARGB(255, 26, 20, 95),
+            controller: _btnController,
+            onPressed: _joinClass,
+            successColor: Colors.green,
+            child: const Text('Join', style: TextStyle(color: Colors.white)),
+          ),
         )
       ]),
     );

@@ -102,6 +102,7 @@ Future<void> _showOverlay({required Widget child}) async {
 
     if (_loaderShown) {
       debugPrint('An overlay is already showing');
+      // ignore: void_checks
       return Future.value(false);
     }
 

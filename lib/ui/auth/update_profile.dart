@@ -16,11 +16,11 @@ class UpdateProfileUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String imageURL = ""; // Holds URL to uploaded image.
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   @override
   Widget build(BuildContext context) {
+    String imageURL = ""; // Holds URL to uploaded image.
     authController.nameController.text =
         authController.firestoreUser.value!.name;
     authController.emailController.text =
@@ -74,7 +74,7 @@ class UpdateProfileUI extends StatelessWidget {
                                 Get.theme.snackBarTheme.backgroundColor,
                             colorText: Get.theme.snackBarTheme.actionTextColor);
                       },
-                      child: Text("Update image")),
+                      child: const Text("Update image")),
                   // FormVerticalSpace(),
                   TextButton(
                       child: Text('auth.updateUser'.tr),
@@ -96,7 +96,7 @@ class UpdateProfileUI extends StatelessWidget {
                   // FormVerticalSpace(),
                   TextButton(
                     child: Text('auth.resetPasswordLabelButton'.tr),
-                    onPressed: () => Get.to(ResetPasswordUI()),
+                    onPressed: () => Get.to(() => ResetPasswordUI()),
                   ),
                 ],
               ),

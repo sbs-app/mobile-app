@@ -142,7 +142,7 @@ class LoginUI extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
-                    onTap: () => Get.to(ResetPasswordUI()),
+                    onTap: () => Get.to(() => ResetPasswordUI()),
                     child: const Text(
                       "Forget Password?",
                       style: TextStyle(color: Colors.black),
@@ -192,7 +192,7 @@ class LoginUI extends StatelessWidget {
                           "Register Now",
                           style: TextStyle(color: Colors.black),
                         ),
-                        onTap: () => Get.to(const SignUpUI()),
+                        onTap: () => Get.to(() => const SignUpUI()),
                       )
                     ],
                   ),

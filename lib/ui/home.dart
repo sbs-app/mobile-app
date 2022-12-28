@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:studentapp/controllers/controllers.dart';
-import 'package:studentapp/ui/studentJoin.dart';
 import 'package:studentapp/ui/ui.dart';
 import 'package:get/get.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
 import 'package:intl/intl.dart';
-
 import 'calendar.dart';
 
 class HomeUI extends StatelessWidget {
   HomeUI({super.key});
 
-  String convertedDateTime =
-      new DateFormat("MMMM d, yyyy").format(DateTime.now());
+  final String convertedDateTime =
+      DateFormat("MMMM d, yyyy").format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
       init: AuthController(),
-      // ignore: unnecessary_null_comparison
-      builder: (controller) => controller.firestoreUser.value!.uid == null
+      builder: (controller) => controller.firestoreUser.value == null
           ? const Center(
               child: CircularProgressIndicator(),
             )
@@ -27,7 +24,7 @@ class HomeUI extends StatelessWidget {
               extendBodyBehindAppBar: true,
               appBar: AppBar(
                 leading: IconButton(
-                  icon: Icon(Icons.arrow_back_ios_new_rounded),
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
                   color: Colors.transparent,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
@@ -37,7 +34,6 @@ class HomeUI extends StatelessWidget {
               body: SingleChildScrollView(
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
@@ -53,7 +49,7 @@ class HomeUI extends StatelessWidget {
                       children: <Widget>[
                         Container(
                             margin: const EdgeInsets.only(top: 60),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
@@ -108,7 +104,7 @@ class HomeUI extends StatelessWidget {
                               ],
                             ),
                             onPressed: () {
-                              Get.to(SettingsUI());
+                              Get.to(() => SettingsUI());
                             }),
                         IconButton(
                             icon: const Icon(
@@ -119,7 +115,7 @@ class HomeUI extends StatelessWidget {
                               ],
                             ),
                             onPressed: () {
-                              Get.to(CalendarUI());
+                              Get.to(() => CalendarUI());
                             }),
                         IconButton(
                             icon: const Icon(
@@ -130,7 +126,18 @@ class HomeUI extends StatelessWidget {
                               ],
                             ),
                             onPressed: () {
-                              Get.to(SettingsUI());
+                              Get.to(() => SettingsUI());
+                            }),
+                        IconButton(
+                            icon: const Icon(
+                              Icons.list_alt,
+                              color: Colors.white,
+                              shadows: <Shadow>[
+                                Shadow(color: Colors.white, blurRadius: 10.0)
+                              ],
+                            ),
+                            onPressed: () {
+                              Get.to(() => ClassViewUI());
                             }),
                         IconButton(
                             icon: const Icon(
@@ -141,7 +148,7 @@ class HomeUI extends StatelessWidget {
                               ],
                             ),
                             onPressed: () {
-                              Get.to(studentJoinUI());
+                              Get.to(() => StudentJoinUI());
                             }),
                         DigitalClock(
                           is24HourTimeFormat: false,
@@ -154,9 +161,12 @@ class HomeUI extends StatelessWidget {
                           secondDigitDecoration:
                               const BoxDecoration(color: Colors.transparent),
                         ),
-                        Text(
-                          convertedDateTime,
-                          style: TextStyle(color: Colors.white),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            convertedDateTime,
+                            style: const TextStyle(color: Colors.white),
+                          ),
                         )
                         // Admin
                         // Text(

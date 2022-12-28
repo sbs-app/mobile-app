@@ -273,7 +273,7 @@ class SignUpState extends State<SignUpUI> {
                             "Login Now",
                             style: TextStyle(color: Color(0xffF5591F)),
                           ),
-                          onTap: () => Get.to(LoginUI()))
+                          onTap: () => Get.to(() => LoginUI()))
                     ],
                   ),
                 )

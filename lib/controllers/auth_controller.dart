@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +25,7 @@ class AuthController extends GetxController {
 
   @override
   void onReady() async {
-    //run every time auth state changes
+    // Run every time auth state changes
     ever(firebaseUser, handleAuthChanged);
 
     firebaseUser.bindStream(user);
@@ -43,7 +42,7 @@ class AuthController extends GetxController {
   }
 
   handleAuthChanged(firebaseUser) async {
-    //get user data from firestore
+    // Get user data from firestore
     if (firebaseUser?.uid != null) {
       firestoreUser.bindStream(streamFirestoreUser());
       await isAdmin();
@@ -51,9 +50,9 @@ class AuthController extends GetxController {
 
     if (firebaseUser == null) {
       // Send to signin
-      Get.offAll(LoginUI());
+      Get.offAll(() => LoginUI());
     } else {
-      Get.offAll(HomeUI());
+      Get.offAll(() => HomeUI());
     }
   }
 
@@ -77,7 +76,7 @@ class AuthController extends GetxController {
         (documentSnapshot) => UserModel.fromMap(documentSnapshot.data()!));
   }
 
-  //Method to handle user sign in using email and password
+  // Method to handle user sign in using email and password
   signInWithEmailAndPassword(BuildContext context) async {
     showLoadingIndicator();
     try {
@@ -130,7 +129,7 @@ class AuthController extends GetxController {
     }
   }
 
-  //handles updating the user when updating profile
+  // Handles updating the user when updating profile
   Future<void> updateUser(BuildContext context, UserModel user, String oldEmail,
       String password) async {
     String authUpdateUserNoticeTitle = 'auth.updateUserSuccessNoticeTitle'.tr;
@@ -146,7 +145,7 @@ class AuthController extends GetxController {
               .then((value) => _updateUserFirestore(user, firebaseUser.user!));
         });
       } catch (err) {
-        print('Caught error: $err');
+        // print('Caught error: $err');
         //not yet working, see this issue https://github.com/delay/flutter_starter/issues/21
         if (err.toString() ==
             "[firebase_auth/email-already-in-use] The email address is already in use by another account.") {
@@ -164,7 +163,7 @@ class AuthController extends GetxController {
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     } on PlatformException catch (error) {
-      //List<String> errors = error.toString().split(',');
+      // List<String> errors = error.toString().split(',');
       // print("Error: " + errors[1]);
       hideLoadingIndicator();
       String authError;
@@ -184,13 +183,13 @@ class AuthController extends GetxController {
     }
   }
 
-  // updates the firestore user in users collection
+  // Updates the firestore user in users collection
   void _updateUserFirestore(UserModel user, User firebaseUser) {
     _db.doc('/users/${firebaseUser.uid}').update(user.toJson());
     update();
   }
 
-  // create the firestore user in users collection
+  // Create the firestore user in users collection
   void _createUserFirestore(UserModel user, User firebaseUser) {
     _db.doc('/users/${firebaseUser.uid}').set(user.toJson());
     update();
@@ -207,7 +206,7 @@ class AuthController extends GetxController {
     return true;
   }
 
-  // password reset email
+  // Password reset email
   Future<void> sendPasswordResetEmail(BuildContext context) async {
     showLoadingIndicator();
     try {
@@ -229,7 +228,7 @@ class AuthController extends GetxController {
     }
   }
 
-  // check if user is an admin user
+  // Check if user is an admin user
   isAdmin() async {
     await getUser.then((user) async {
       DocumentSnapshot adminRef =

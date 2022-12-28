@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studentapp/controllers/controllers.dart';
-import 'package:studentapp/ui/ui.dart';
 import 'package:get/get.dart';
-import 'package:slide_digital_clock/slide_digital_clock.dart';
-import 'package:intl/intl.dart';
 
 class CalendarUI extends StatelessWidget {
   CalendarUI({super.key});
@@ -21,7 +18,7 @@ class CalendarUI extends StatelessWidget {
               extendBodyBehindAppBar: true,
               appBar: AppBar(
                 leading: IconButton(
-                  icon: Icon(Icons.arrow_back_ios_new_rounded),
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
                   color: Colors.transparent,
                   onPressed: () => Navigator.of(context).pop(),
                 ),

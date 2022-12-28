@@ -3,17 +3,16 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studentapp/models/models.dart';
-import 'package:studentapp/helpers/helpers.dart';
 
 class ClassController extends GetxController {
   static ClassController to = Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  Rxn<UserModel> firestoreClass = Rxn<UserModel>();
+  Rxn<ClassModel> firestoreClass = Rxn<ClassModel>();
 
   // Get the firestore class from the firestore collection
-  Future<UserModel> getFirestoreClass(String classCode) {
+  Future<ClassModel> getFirestoreClass(String classCode) {
     return _db.doc('/classes/$classCode').get().then(
-        (documentSnapshot) => UserModel.fromMap(documentSnapshot.data()!));
+        (documentSnapshot) => ClassModel.fromMap(documentSnapshot.data()!));
   }
 
   // Add class to firestore user
@@ -32,6 +31,18 @@ class ClassController extends GetxController {
     // Add class to user
     UserModel current = firestoreUser;
     current.classes.add(newClass);
+    _db.doc('/users/${firebaseUser.uid}').update(current.toJson());
+    return null;
+  }
+
+  String? removeClassFromUser(
+      String classCode, User firebaseUser, UserModel firestoreUser) {
+    // Check if null or empty
+    if (classCode.isEmpty) return "Class code is empty";
+
+    // Remove class from user
+    UserModel current = firestoreUser;
+    current.classes.remove(classCode);
     _db.doc('/users/${firebaseUser.uid}').update(current.toJson());
     return null;
   }

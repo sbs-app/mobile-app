@@ -257,7 +257,7 @@ class AnimatedSplashScreenState extends State<AnimatedSplashScreen>
               PageTransition(type: w.transitionType, child: screen));
         }
       } catch (msg) {
-        print('AnimatedSplashScreen -> '
+        debugPrint('AnimatedSplashScreen -> '
             'error in jump to next screen, probably '
             'this run is in hot reload: $msg');
       }

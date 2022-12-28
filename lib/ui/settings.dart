@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/constants/constants.dart';
 import 'package:studentapp/models/models.dart';
-import 'package:studentapp/ui/components/components.dart';
 import 'package:studentapp/ui/auth/auth.dart';
-
-import 'home.dart';
+import 'package:studentapp/ui/components/components.dart';
 
 class SettingsUI extends StatelessWidget {
   SettingsUI({super.key});
@@ -22,52 +19,19 @@ class SettingsUI extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
           color: Colors.white,
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           'settings.title'.tr,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: _buildLayoutSection(context),
-      floatingActionButton: SpeedDial(
-        foregroundColor: Colors.white,
-        animatedIcon: AnimatedIcons.menu_close,
-        backgroundColor: Color.fromARGB(255, 64, 58, 134),
-        children: [
-          SpeedDialChild(
-              child: Icon(
-                Icons.mail,
-                color: Colors.white,
-              ),
-              onTap: () {
-                Get.to(HomeUI());
-              },
-              backgroundColor: Color(0xff302b63)),
-          SpeedDialChild(
-              child: Icon(
-                Icons.home,
-                color: Colors.white,
-              ),
-              onTap: () async {
-                Get.to(HomeUI());
-              },
-              backgroundColor: Color(0xff302b63)),
-          SpeedDialChild(
-              child: Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
-              onTap: () async {
-                Get.to(SettingsUI());
-              },
-              backgroundColor: Color(0xff302b63)),
-        ],
-      ),
+      floatingActionButton: getActions(),
     );
   }
 
@@ -91,7 +55,7 @@ class SettingsUI extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                        margin: EdgeInsets.only(right: 70, left: 10),
+                        margin: const EdgeInsets.only(right: 70, left: 10),
                         width: 85,
                         height: 85,
                         child: CircleAvatar(
@@ -107,10 +71,10 @@ class SettingsUI extends StatelessWidget {
                         )),
                     Expanded(
                       child: Text(
-                        '${authController.firestoreUser.value!.name}',
+                        authController.firestoreUser.value!.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -119,17 +83,17 @@ class SettingsUI extends StatelessWidget {
                     )
                   ],
                 )),
-            Divider(
+            const Divider(
               color: Colors.white,
             ),
             themeListTile(context),
-            Divider(
+            const Divider(
               color: Colors.white,
             ),
             ListTile(
               title: Text(
                 'settings.signOut'.tr,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
               trailing: ElevatedButton(
                 onPressed: () {
@@ -140,23 +104,23 @@ class SettingsUI extends StatelessWidget {
                 ),
               ),
             ),
-            Divider(
+            const Divider(
               color: Colors.white,
             ),
             ListTile(
                 title: Text(
                   'settings.updateProfile'.tr,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 trailing: ElevatedButton(
                   onPressed: () async {
-                    Get.to(UpdateProfileUI());
+                    Get.to(() => UpdateProfileUI());
                   },
                   child: Text(
                     'settings.updateProfile'.tr,
                   ),
                 )),
-            Divider(
+            const Divider(
               color: Colors.white,
             ),
             // TODO

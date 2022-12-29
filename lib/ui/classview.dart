@@ -107,9 +107,15 @@ class ClassViewUI extends StatelessWidget {
                   children: <Widget>[
                     NeumorphicButton(
                       style: NeumorphicStyle(
-                        depth: 4, //customize depth here
+                        intensity: 0.7,
+                        surfaceIntensity: 0,
+                        shape: NeumorphicShape.convex,
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(20)),
+                        lightSource: LightSource.topLeft,
+                        depth: 8, //customize depth here
                         color: Color.fromARGB(
-                            255, 116, 108, 206), //customize color here
+                            244, 57, 51, 237), //customize color here
                       ),
                       child: const Text('Leave class'),
                       onPressed: () {

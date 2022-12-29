@@ -98,8 +98,14 @@ class SettingsUI extends StatelessWidget {
               ),
               trailing: NeumorphicButton(
                 style: NeumorphicStyle(
-                  depth: 4.5, //customize depth here
-                  color: Colors.indigo, //customize color here
+                  intensity: 0.7,
+                  surfaceIntensity: 0,
+                  shape: NeumorphicShape.convex,
+                  boxShape:
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
+                  lightSource: LightSource.topLeft,
+                  depth: 8, //customize depth here
+                  color: Colors.transparent,
                 ),
                 onPressed: () {
                   AuthController.to.signOut();
@@ -119,8 +125,14 @@ class SettingsUI extends StatelessWidget {
                 ),
                 trailing: NeumorphicButton(
                   style: NeumorphicStyle(
-                    depth: 4.5, //customize depth here
-                    color: Colors.indigo,
+                    intensity: 0.7,
+                    surfaceIntensity: 0,
+                    shape: NeumorphicShape.convex,
+                    boxShape:
+                        NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
+                    lightSource: LightSource.topLeft,
+                    depth: 8, //customize depth here
+                    color: Colors.transparent,
                   ), //customize color here
                   onPressed: () async {
                     Get.to(() => UpdateProfileUI());

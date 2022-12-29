@@ -97,7 +97,7 @@ class StudentJoinUI extends StatelessWidget {
             successColor: Colors.green,
             child: const Text('Join', style: TextStyle(color: Colors.white)),
           ),
-        )
+        ),
       ]),
     );
   }

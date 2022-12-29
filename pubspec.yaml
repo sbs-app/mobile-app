@@ -53,6 +53,8 @@ dependencies:
   rounded_loading_button: ^2.0.8
   flutter_neumorphic: ^3.2.0
   neumorphic: any
+  syncfusion_flutter_calendar: ^20.4.38
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

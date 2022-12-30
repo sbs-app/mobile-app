@@ -104,7 +104,7 @@ class SettingsUI extends StatelessWidget {
                   boxShape:
                       NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
                   lightSource: LightSource.topLeft,
-                  depth: 8, //customize depth here
+                  depth: 3, //customize depth here
                   color: Colors.transparent,
                 ),
                 onPressed: () {
@@ -131,8 +131,8 @@ class SettingsUI extends StatelessWidget {
                     boxShape:
                         NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
                     lightSource: LightSource.topLeft,
-                    depth: 8, //customize depth here
-                    color: Colors.transparent,
+                    depth: 3, //customize depth here
+                    color: Color.fromARGB(164, 47, 47, 221),
                   ), //customize color here
                   onPressed: () async {
                     Get.to(() => UpdateProfileUI());

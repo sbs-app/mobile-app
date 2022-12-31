@@ -26,6 +26,7 @@ class CalendarUI extends StatelessWidget {
       body: SfCalendar(
         backgroundColor: Color(0xff0f0c29),
         view: CalendarView.month,
+        dataSource: _getCalendarDataSource(),
         cellBorderColor: Colors.transparent,
         allowedViews: <CalendarView>[
           CalendarView.day,
@@ -59,10 +60,10 @@ class CalendarUI extends StatelessWidget {
                     color: Color.fromARGB(255, 241, 238, 238)),
                 leadingDatesTextStyle: TextStyle(
                     fontFamily: 'SyneTactile',
-                    color: Color.fromARGB(255, 247, 135, 135)),
+                    color: Color.fromARGB(255, 151, 194, 224)),
                 trailingDatesTextStyle: TextStyle(
                     fontFamily: 'SyneTactile',
-                    color: Color.fromARGB(255, 247, 135, 135))),
+                    color: Color.fromARGB(255, 151, 194, 224))),
             agendaStyle: AgendaStyle(
                 dayTextStyle: TextStyle(
                     fontFamily: 'SyneTactile',
@@ -80,3 +81,90 @@ class CalendarUI extends StatelessWidget {
     );
   }
 }
+
+_AppointmentDataSource _getCalendarDataSource() {
+  List<Appointment> appointments = <Appointment>[];
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 1, 4),
+    endTime: DateTime(2023, 1, 4),
+    subject: 'Teacher Planning/Staff Development/Student Holiday',
+    color: Color.fromARGB(255, 243, 136, 14),
+    isAllDay: true,
+  ));
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 1, 5),
+    endTime: DateTime(2023, 1, 5),
+    subject: 'First Day of 2nd Semester',
+    color: Color.fromARGB(255, 14, 136, 243),
+    isAllDay: true,
+  ));
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 1, 16),
+    endTime: DateTime(2023, 1, 16),
+    subject: 'MLK Jr. Day',
+    color: Color.fromARGB(255, 110, 193, 110),
+    isAllDay: true,
+  ));
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 2, 3),
+    endTime: DateTime(2023, 2, 3),
+    subject: 'DLD Day',
+    color: Color.fromARGB(255, 158, 21, 21),
+    isAllDay: true,
+  ));
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 2, 16),
+    endTime: DateTime(2023, 2, 20),
+    subject: 'Student/Teacher Holiday',
+    color: Color.fromARGB(255, 110, 193, 110),
+    isAllDay: true,
+  ));
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 3, 17),
+    endTime: DateTime(2023, 3, 17),
+    subject: 'DLD Day',
+    color: Color.fromARGB(255, 158, 21, 21),
+    isAllDay: true,
+  ));
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 4, 3),
+    endTime: DateTime(2023, 4, 7),
+    subject: 'Spring Break',
+    color: Color.fromARGB(255, 110, 193, 110),
+    isAllDay: true,
+  ));
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 5, 24),
+    endTime: DateTime(2023, 5, 24),
+    subject: 'Last Day of School',
+    color: Color.fromARGB(255, 233, 201, 86),
+    isAllDay: true,
+  ));
+  appointments.add(Appointment(
+    startTime: DateTime(2023, 5, 22),
+    endTime: DateTime(2023, 5, 24),
+    subject: 'High School Early Release/ Final Exams',
+    color: Color.fromARGB(255, 184, 136, 246),
+    isAllDay: true,
+  ));
+
+  return _AppointmentDataSource(appointments);
+}
+
+class _AppointmentDataSource extends CalendarDataSource {
+  _AppointmentDataSource(List<Appointment> source) {
+    appointments = source;
+  }
+}
+
+// MeetingDataSource _getCalendarDataSource() {
+//   List<Meeting> meetings = <Meeting>[];
+//   meetings.add(Meeting(
+//       eventName: 'meeting',
+//       from: DateTime(2019, 12, 18, 10),
+//       to: DateTime(2019, 12, 18, 12),
+//       background: Colors.green,
+//       isAllDay: false));
+
+//   return MeetingDataSource(meetings);
+// }

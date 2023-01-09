@@ -94,7 +94,7 @@ class SettingsUI extends StatelessWidget {
             ListTile(
               title: NeumorphicText(
                 'settings.signOut'.tr,
-                style: NeumorphicStyle(color: Colors.white),
+                style: const NeumorphicStyle(color: Colors.white),
               ),
               trailing: NeumorphicButton(
                 style: NeumorphicStyle(
@@ -121,7 +121,7 @@ class SettingsUI extends StatelessWidget {
             ListTile(
                 title: NeumorphicText(
                   'settings.updateProfile'.tr,
-                  style: NeumorphicStyle(color: Colors.white),
+                  style: const NeumorphicStyle(color: Colors.white),
                 ),
                 trailing: NeumorphicButton(
                   style: NeumorphicStyle(
@@ -144,12 +144,11 @@ class SettingsUI extends StatelessWidget {
             const Divider(
               color: Colors.white,
             ),
-
-            // TODO
-            // languageListTile(context),
-            // Divider(
-            //   color: Colors.white,
-            // )
+            // TODO: Fix this
+            languageListTile(context),
+            Divider(
+              color: Colors.white,
+            )
           ],
         ));
   }

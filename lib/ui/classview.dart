@@ -81,7 +81,7 @@ class ClassViewUI extends StatelessWidget {
         if (snapshot.hasData) {
           ClassModel classInfo = snapshot.data as ClassModel;
           return Card(
-            color: Color.fromARGB(255, 66, 61, 127),
+            color: const Color.fromARGB(255, 66, 61, 127),
             child: Column(
               children: [
                 ListTile(
@@ -100,11 +100,23 @@ class ClassViewUI extends StatelessWidget {
                       children: [
                         Text('Teacher: ${classInfo.teacher}'),
                         Text('Code: ${classInfo.code}'),
+                        if (classInfo.uid ==
+                            authController.firebaseUser.value!.uid)
+                          const Text(
+                            'You own this class.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
                       ],
                     )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
+                    if (classInfo.uid == authController.firebaseUser.value!.uid)
+                      NeumorphicButton(
+                          onPressed: () {
+                            Get.snackbar("Edit class", "You own this class.");
+                          },
+                          child: const Text('Edit class')),
                     NeumorphicButton(
                       style: NeumorphicStyle(
                         intensity: 0.7,
@@ -114,7 +126,7 @@ class ClassViewUI extends StatelessWidget {
                             BorderRadius.circular(20)),
                         lightSource: LightSource.topLeft,
                         depth: 8, //customize depth here
-                        color: Color.fromARGB(
+                        color: const Color.fromARGB(
                             244, 57, 51, 237), //customize color here
                       ),
                       child: const Text('Leave class'),
@@ -124,7 +136,7 @@ class ClassViewUI extends StatelessWidget {
                             authController.firebaseUser.value!,
                             authController.firestoreUser.value!);
                         if (result == null) {
-                          Get.snackbar('Class', 'The class was removed.',
+                          Get.snackbar('Class', 'You left the class.',
                               backgroundColor:
                                   Get.theme.snackBarTheme.backgroundColor,
                               colorText:

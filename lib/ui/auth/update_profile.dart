@@ -75,7 +75,6 @@ class UpdateProfileUI extends StatelessWidget {
                             colorText: Get.theme.snackBarTheme.actionTextColor);
                       },
                       child: const Text("Update image")),
-                  // FormVerticalSpace(),
                   TextButton(
                       child: Text('auth.updateUser'.tr),
                       onPressed: () async {

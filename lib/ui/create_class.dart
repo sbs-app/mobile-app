@@ -5,8 +5,8 @@ import 'package:studentapp/ui/components/components.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class StudentJoinUI extends StatelessWidget {
-  StudentJoinUI({super.key});
+class CreateClassUI extends StatelessWidget {
+  CreateClassUI({super.key});
 
   final TextEditingController controller = TextEditingController();
 
@@ -27,7 +27,7 @@ class StudentJoinUI extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Join a Class'.tr,
+          'Create a class'.tr,
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.transparent,
@@ -48,7 +48,7 @@ class StudentJoinUI extends StatelessWidget {
       ),
       child: ListView(children: <Widget>[
         const Text(
-          "Add a Class",
+          "Create a Class",
           textAlign: TextAlign.right,
           style: TextStyle(color: Colors.white, fontSize: 25),
         ),
@@ -62,10 +62,14 @@ class StudentJoinUI extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.only(top: 40),
           child: Text(
-            "Class Code",
+            "Class name",
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 23),
           ),
+        ),
+        Text(
+          "Creating class as ${authController.firestoreUser.value!.name} (${authController.firestoreUser.value!.type}) \n TODO: Only show this if teacher.",
+          textAlign: TextAlign.center,
         ),
         Padding(
             padding: const EdgeInsets.only(left: 50, right: 50, top: 50),
@@ -77,7 +81,7 @@ class StudentJoinUI extends StatelessWidget {
                 fontSize: 20,
               ),
               decoration: InputDecoration(
-                hintText: "Enter your class code",
+                hintText: "Enter your class name",
                 filled: true,
                 fillColor: Colors.grey[600],
                 border: OutlineInputBorder(
@@ -93,22 +97,29 @@ class StudentJoinUI extends StatelessWidget {
           child: RoundedLoadingButton(
             color: const Color.fromARGB(255, 26, 20, 95),
             controller: _btnController,
-            onPressed: _joinClass,
+            onPressed: _createClass,
             successColor: Colors.green,
-            child: const Text('Join', style: TextStyle(color: Colors.white)),
+            child: const Text('Create', style: TextStyle(color: Colors.white)),
           ),
-        ),
+        )
       ]),
     );
   }
 
-  void _joinClass() async {
+  void _createClass() async {
+    // Create class
+    String? classCode = classController.createNewClass(
+        authController.firebaseUser.value!,
+        authController.firestoreUser.value!,
+        controller.text);
+
+    // Make teacher join class as owner
     String? result = await classController.addClassToUser(
-        controller.text,
+        classCode,
         authController.firebaseUser.value!,
         authController.firestoreUser.value!);
     if (result == null) {
-      Get.snackbar('Class', 'The class was added!',
+      Get.snackbar('Class', 'Created new class: $classCode',
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
       _btnController.success();

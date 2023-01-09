@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:slide_digital_clock/slide_digital_clock.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/ui/ui.dart';
-import 'package:get/get.dart';
-import 'package:slide_digital_clock/slide_digital_clock.dart';
 import 'package:intl/intl.dart';
-import 'calendar.dart';
+import 'package:get/get.dart';
 
 class HomeUI extends StatelessWidget {
   HomeUI({super.key});
@@ -101,7 +100,7 @@ class HomeUI extends StatelessWidget {
                         Stack(
                           children: [
                             Align(
-                                alignment: Alignment(0, 0),
+                                alignment: const Alignment(0, 0),
                                 child: IconButton(
                                     icon: const Icon(
                                       Icons.settings,
@@ -116,7 +115,7 @@ class HomeUI extends StatelessWidget {
                                       Get.to(() => SettingsUI());
                                     })),
                             Align(
-                                alignment: Alignment(1, 0),
+                                alignment: const Alignment(1, 0),
                                 child: IconButton(
                                     icon: const Icon(
                                       Icons.calendar_month_rounded,
@@ -128,10 +127,10 @@ class HomeUI extends StatelessWidget {
                                       ],
                                     ),
                                     onPressed: () {
-                                      Get.to(() => CalendarUI());
+                                      Get.to(() => const CalendarUI());
                                     })),
                             Align(
-                                alignment: Alignment(-0.5, 0),
+                                alignment: const Alignment(-0.5, 0),
                                 child: IconButton(
                                     icon: const Icon(
                                       Icons.mail,
@@ -146,7 +145,7 @@ class HomeUI extends StatelessWidget {
                                       Get.to(() => SettingsUI());
                                     })),
                             Align(
-                                alignment: Alignment(0.5, 0),
+                                alignment: const Alignment(0.5, 0),
                                 child: IconButton(
                                     icon: const Icon(
                                       Icons.list_alt,
@@ -176,7 +175,7 @@ class HomeUI extends StatelessWidget {
                                       Get.to(() => StudentJoinUI());
                                     })),
                             Align(
-                                alignment: Alignment(0, 0),
+                                alignment: const Alignment(0, 0),
                                 child: IconButton(
                                     icon: const Icon(
                                       Icons.settings,

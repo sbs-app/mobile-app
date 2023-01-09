@@ -11,6 +11,15 @@ SpeedDial getActions() {
     children: [
       SpeedDialChild(
           child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onTap: () async {
+            Get.to(() => CreateClassUI());
+          },
+          backgroundColor: const Color(0xff302b63)),
+      SpeedDialChild(
+          child: const Icon(
             Icons.list,
             color: Colors.white,
           ),

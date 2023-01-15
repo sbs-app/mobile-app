@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:studentapp/controllers/controllers.dart';
 import 'package:studentapp/models/models.dart';
@@ -112,25 +113,41 @@ class ClassViewUI extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     if (classInfo.uid == authController.firebaseUser.value!.uid)
-                      NeumorphicButton(
-                          onPressed: () {
-                            Get.snackbar("Edit class", "You own this class.");
-                          },
-                          child: const Text('Edit class')),
-                    NeumorphicButton(
-                      style: NeumorphicStyle(
-                        intensity: 0.7,
-                        surfaceIntensity: 0,
-                        shape: NeumorphicShape.convex,
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(20)),
-                        lightSource: LightSource.topLeft,
-                        depth: 8, //customize depth here
-                        color: const Color.fromARGB(
-                            244, 57, 51, 237), //customize color here
+                      AnimatedButton(
+                        onPress: () {
+                          Get.snackbar("Edit class", "You own this class.");
+                        },
+                        text: ('Edit class'),
+                        height: 30,
+                        width: 80,
+                        isReverse: true,
+                        borderRadius: 20,
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300),
+                        animationDuration: Duration(milliseconds: 10),
                       ),
-                      child: const Text('Leave class'),
-                      onPressed: () {
+                    Container(margin: EdgeInsets.only(right: 126)),
+                    AnimatedButton(
+                      height: 30,
+                      width: 150,
+                      animationDuration: Duration(milliseconds: 10),
+                      text: ("Leave Class"),
+                      textStyle: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w300),
+                      gradient:
+                          LinearGradient(colors: [Colors.black, Colors.blue]),
+                      selectedGradientColor: LinearGradient(
+                          colors: [Colors.yellow, Colors.purple]),
+                      selectedTextColor: Colors.white,
+                      transitionType: TransitionType.LEFT_TO_RIGHT,
+                      isReverse: true,
+                      borderColor: Colors.white,
+                      borderRadius: 20,
+                      onPress: () {
                         String? result = classController.removeClassFromUser(
                             classInfo.code,
                             authController.firebaseUser.value!,

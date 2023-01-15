@@ -55,6 +55,8 @@ dependencies:
   neumorphic: any
   syncfusion_flutter_calendar: ^20.4.38
   provider: ^6.0.5
+  flutter_animated_button: ^2.0.2
+  awesome_drawer_bar: ^1.1.0
 
 dev_dependencies:
   flutter_test:

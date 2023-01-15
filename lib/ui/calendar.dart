@@ -39,12 +39,12 @@ class CalendarUI extends StatelessWidget {
         headerStyle: const CalendarHeaderStyle(
             textStyle: TextStyle(
                 fontFamily: 'SyneTactile',
-                color: Color.fromARGB(255, 255, 155, 119))),
+                color: Color.fromARGB(255, 125, 150, 242))),
         viewHeaderStyle: const ViewHeaderStyle(
             dayTextStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'SyneTactile',
-                color: Color.fromARGB(255, 242, 242, 125)),
+                color: Color.fromARGB(255, 125, 150, 242)),
             dateTextStyle:
                 TextStyle(fontFamily: 'SyneTactile', color: Colors.white)),
         appointmentTextStyle:
@@ -72,7 +72,7 @@ class CalendarUI extends StatelessWidget {
                     fontFamily: 'SyneTactile',
                     color: Color.fromARGB(255, 243, 238, 238)))),
         initialSelectedDate: DateTime.now(),
-        todayHighlightColor: const Color.fromARGB(255, 11, 216, 165),
+        todayHighlightColor: Color.fromARGB(255, 253, 198, 121),
         showNavigationArrow: true,
       ),
     );

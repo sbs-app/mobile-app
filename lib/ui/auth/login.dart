@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 import 'package:studentapp/ui/auth/auth.dart';
@@ -46,8 +47,8 @@ class LoginUI extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(right: 40, top: 20),
-                        alignment: Alignment.bottomRight,
+                        margin: const EdgeInsets.only(left: 2, top: 20),
+                        alignment: Alignment.bottomCenter,
                         child: const Text(
                           "Login",
                           style: TextStyle(fontSize: 20, color: Colors.white),
@@ -82,25 +83,27 @@ class LoginUI extends StatelessWidget {
                   height: 54,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: Colors.grey[200],
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(0, 10),
-                        blurRadius: 25,
-                      ),
-                    ],
+                    color: Colors.white,
+                    // boxShadow: const [
+                    //   BoxShadow(
+                    //     offset: Offset(0, 10),
+                    //     blurRadius: 0,
+                    //   ),
+                    // ],
                   ),
                   child: TextFormField(
                     controller: authController.emailController,
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,
-                    cursorColor: const Color(0xffF5591F),
+                    cursorColor: const Color(0xffc31432),
+                    style: TextStyle(color: Color(0xff240b36)),
                     decoration: const InputDecoration(
                       icon: Icon(
                         Icons.email,
-                        color: Color(0xffF5591F),
+                        color: Color(0xffc31432),
                       ),
                       hintText: "Enter Email",
+                      hintStyle: TextStyle(color: Color(0xff240b36)),
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),
@@ -114,25 +117,27 @@ class LoginUI extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(0, 10),
-                        blurRadius: 25,
-                      ),
-                    ],
+                    // boxShadow: const [
+                    //   BoxShadow(
+                    //     offset: Offset(0, 10),
+                    //     blurRadius: 25,
+                    //   ),
+                    // ],
                   ),
                   child: TextFormField(
                     controller: authController.passwordController,
                     validator: Validator().password,
                     obscureText: true,
-                    cursorColor: const Color(0xffF5591F),
+                    cursorColor: const Color(0xffc31432),
+                    style: TextStyle(color: Color(0xff240b36)),
                     decoration: const InputDecoration(
                       focusColor: Color(0xffF5591F),
                       icon: Icon(
                         Icons.key,
-                        color: Color(0xffF5591F),
+                        color: Color(0xffc31432),
                       ),
                       hintText: "Enter Password",
+                      hintStyle: TextStyle(color: Color(0xff240b36)),
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),
@@ -150,36 +155,31 @@ class LoginUI extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () async {
+                AnimatedButton(
+                  onPress: () async {
                     if (_formKey.currentState!.validate()) {
                       authController.signInWithEmailAndPassword(context);
                     }
                   },
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(left: 20, right: 20, top: 15),
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    height: 54,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                          colors: [(Color(0xff810541)), Color(0xff810541)],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight),
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.grey[200],
-                      boxShadow: const [
-                        BoxShadow(
-                          offset: Offset(0, 10),
-                          blurRadius: 25,
-                        ),
-                      ],
-                    ),
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  text: 'Login',
+                  textStyle: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300),
+                  gradient: LinearGradient(
+                    colors: [Color(0xffc31432), Color(0xff240b36)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
+                  selectedGradientColor:
+                      LinearGradient(colors: [Colors.yellow, Colors.purple]),
+                  selectedTextColor: Colors.white,
+                  transitionType: TransitionType.LEFT_TO_RIGHT,
+                  isReverse: true,
+                  borderColor: Colors.white,
+                  borderRadius: 20,
+                  height: 54,
+                  width: 350,
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 10),

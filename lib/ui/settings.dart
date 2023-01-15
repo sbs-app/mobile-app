@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 import 'package:studentapp/controllers/controllers.dart';
@@ -92,54 +93,59 @@ class SettingsUI extends StatelessWidget {
               color: Colors.white,
             ),
             ListTile(
-              title: NeumorphicText(
+              title: Text(
                 'settings.signOut'.tr,
-                style: const NeumorphicStyle(color: Colors.white),
               ),
-              trailing: NeumorphicButton(
-                style: NeumorphicStyle(
-                  intensity: 0.7,
-                  surfaceIntensity: 0,
-                  shape: NeumorphicShape.convex,
-                  boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
-                  lightSource: LightSource.topLeft,
-                  depth: 3, //customize depth here
-                  color: Colors.transparent,
-                ),
-                onPressed: () {
+              trailing: AnimatedButton(
+                height: 30,
+                width: 150,
+                animationDuration: Duration(milliseconds: 60),
+                textStyle: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w300),
+                gradient: LinearGradient(colors: [Colors.black, Colors.blue]),
+                selectedGradientColor:
+                    LinearGradient(colors: [Colors.yellow, Colors.purple]),
+                selectedTextColor: Colors.white,
+                transitionType: TransitionType.LEFT_TO_RIGHT,
+                isReverse: true,
+                borderColor: Colors.white,
+                borderRadius: 20,
+                onPress: () {
                   AuthController.to.signOut();
                 },
-                child: Text(
-                  'settings.signOut'.tr,
-                ),
+                text: ('settings.signOut'.tr),
               ),
             ),
             const Divider(
               color: Colors.white,
             ),
             ListTile(
-                title: NeumorphicText(
+                title: Text(
                   'settings.updateProfile'.tr,
-                  style: const NeumorphicStyle(color: Colors.white),
                 ),
-                trailing: NeumorphicButton(
-                  style: NeumorphicStyle(
-                    intensity: 0.7,
-                    surfaceIntensity: 0,
-                    shape: NeumorphicShape.convex,
-                    boxShape:
-                        NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
-                    lightSource: LightSource.topLeft,
-                    depth: 3, //customize depth here
-                    color: Colors.transparent,
-                  ), //customize color here
-                  onPressed: () async {
+                trailing: AnimatedButton(
+                  height: 30,
+                  width: 150,
+                  animationDuration: Duration(milliseconds: 10),
+                  text: ('settings.updateProfile'.tr),
+                  textStyle: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300),
+                  gradient: LinearGradient(colors: [Colors.black, Colors.blue]),
+                  selectedGradientColor:
+                      LinearGradient(colors: [Colors.yellow, Colors.purple]),
+                  selectedTextColor: Colors.white,
+                  transitionType: TransitionType.LEFT_TO_RIGHT,
+                  isReverse: true,
+                  borderColor: Colors.white,
+                  borderRadius: 20,
+                  onPress: () {
                     Get.to(() => UpdateProfileUI());
+                    Duration(seconds: 60);
                   },
-                  child: Text(
-                    'settings.updateProfile'.tr,
-                  ),
                 )),
             const Divider(
               color: Colors.white,

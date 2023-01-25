@@ -99,20 +99,21 @@ class SettingsUI extends StatelessWidget {
               trailing: AnimatedButton(
                 height: 30,
                 width: 150,
-                animationDuration: Duration(milliseconds: 60),
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     fontSize: 12,
                     color: Colors.white,
                     fontWeight: FontWeight.w300),
-                gradient: LinearGradient(colors: [Colors.black, Colors.blue]),
-                selectedGradientColor:
-                    LinearGradient(colors: [Colors.yellow, Colors.purple]),
+                gradient:
+                    const LinearGradient(colors: [Colors.black, Colors.blue]),
+                selectedGradientColor: const LinearGradient(
+                    colors: [Colors.yellow, Colors.purple]),
                 selectedTextColor: Colors.white,
                 transitionType: TransitionType.LEFT_TO_RIGHT,
                 isReverse: true,
                 borderColor: Colors.white,
                 borderRadius: 20,
-                onPress: () {
+                onPress: () async {
+                  await Future.delayed(const Duration(milliseconds: 500));
                   AuthController.to.signOut();
                 },
                 text: ('settings.signOut'.tr),
@@ -128,23 +129,23 @@ class SettingsUI extends StatelessWidget {
                 trailing: AnimatedButton(
                   height: 30,
                   width: 150,
-                  animationDuration: Duration(milliseconds: 10),
                   text: ('settings.updateProfile'.tr),
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontSize: 12,
                       color: Colors.white,
                       fontWeight: FontWeight.w300),
-                  gradient: LinearGradient(colors: [Colors.black, Colors.blue]),
-                  selectedGradientColor:
-                      LinearGradient(colors: [Colors.yellow, Colors.purple]),
+                  gradient:
+                      const LinearGradient(colors: [Colors.black, Colors.blue]),
+                  selectedGradientColor: const LinearGradient(
+                      colors: [Colors.yellow, Colors.purple]),
                   selectedTextColor: Colors.white,
                   transitionType: TransitionType.LEFT_TO_RIGHT,
                   isReverse: true,
                   borderColor: Colors.white,
                   borderRadius: 20,
-                  onPress: () {
+                  onPress: () async {
+                    await Future.delayed(const Duration(milliseconds: 500));
                     Get.to(() => UpdateProfileUI());
-                    Duration(seconds: 60);
                   },
                 )),
             const Divider(
@@ -152,7 +153,7 @@ class SettingsUI extends StatelessWidget {
             ),
             // TODO: Fix this
             languageListTile(context),
-            Divider(
+            const Divider(
               color: Colors.white,
             )
           ],

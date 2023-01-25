@@ -1,69 +1,26 @@
-// Student app
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:studentapp/controllers/controllers.dart';
-import 'package:studentapp/constants/constants.dart';
-import 'package:studentapp/helpers/splash_screen.dart';
-import 'package:studentapp/helpers/helpers.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:get/get.dart';
+import 'dart:io';
 
-void main() async {
+import 'package:classroom/core/strings.dart';
+import 'package:classroom/injection.dart';
+import 'package:classroom/models/auth/user_model.dart';
+import 'package:classroom/ui/core/app_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:hive/hive.dart';
+import 'package:injectable/injectable.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await GetStorage.init();
-  Get.put<AuthController>(AuthController());
-  Get.put<ClassController>(ClassController());
-  Get.put<ThemeController>(ThemeController());
-  Get.put<LanguageController>(LanguageController());
-  runApp(const SplashScreen());
-}
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    // FIXME: Should use GetMaterialApp but it breaks app.
-    return MaterialApp(
-        title: 'Student app',
-        home: AnimatedSplashScreen(
-            duration: 1000,
-            splash: 'assets/app_logo.png',
-            nextScreen: const App(),
-            splashTransition: SplashTransition.scaleTransition,
-            pageTransitionType: PageTransitionType.fade,
-            gradient: const LinearGradient(
-              colors: [(Color(0xffc31432)), Color(0xff240b36)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            )));
-  }
-}
+  final Directory directory =
+      await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter(UserModelAdapter());
+  await Hive.openBox<UserModel>(HiveBoxNames.user);
+  configureInjection(Environment.prod);
 
-class App extends StatelessWidget {
-  const App({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    ThemeController.to.getThemeModeFromStore();
-    return GetBuilder<LanguageController>(
-      builder: (languageController) => Loading(
-        child: GetMaterialApp(
-          translations: Localization(),
-          locale: languageController.getLocale, // <- Current locale
-          debugShowCheckedModeBanner: false,
-          defaultTransition: Transition.fade,
-          theme: AppThemes.lightTheme,
-          darkTheme: AppThemes.darkTheme,
-          themeMode: ThemeMode.system,
-          initialRoute: FirebaseAuth.instance.currentUser?.uid == null
-              ? "/login"
-              : "/home",
-          getPages: AppRoutes.routes,
-        ),
-      ),
-    );
-  }
+  runApp(Phoenix(child: AppWidget()));
 }

@@ -22,6 +22,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
   static void addEventWithoutContext(CourseEvent e) =>
       BlocProvider.of<CourseBloc>(context).add(e);
 
+  @override
   Stream<CourseState> mapEventToState(
     CourseEvent event,
   ) async* {
@@ -36,11 +37,12 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       },
       createCourse: (e) async* {
         yield state.copyWith(createCourseOption: const None());
-        final failureOrSuccess = await _coursesRepo.createCourse(e.name);
+        final failureOrSuccess =
+            await _coursesRepo.createCourse(e.name, e.id, e.teacherName);
         yield failureOrSuccess.fold(
           (l) => state.copyWith(createCourseOption: Some(Left(l))),
           (r) {
-            state.courses.insert(0, r);
+            state.courses.insert(0, r.copyWith());
             return state.copyWith(createCourseOption: const Some(Right(unit)));
           },
         );
@@ -48,8 +50,8 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       addStudentToCourse: (e) async* {
         yield state.copyWith(sendInvitationOption: const None());
         final failureOrSuccess = await _coursesRepo.addStudentToCourse(
-          courseId: e.courseId,
-          studentEmail: e.studentEmail,
+          courseCode: e.courseCode,
+          studentId: e.studentId,
         );
         yield failureOrSuccess.fold(
           (l) => state.copyWith(sendInvitationOption: Some(Left(l))),
@@ -71,13 +73,15 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       },
       updateCourse: (e) async* {
         yield state.copyWith(updateCourseOption: const None());
-        final failureOrSuccess =
-            await _coursesRepo.updateCourse(courseId: e.courseId, name: e.name);
+        final failureOrSuccess = await _coursesRepo.updateCourse(
+          courseCode: e.courseCode,
+          name: e.name,
+        );
         yield failureOrSuccess.fold(
           (l) => state.copyWith(updateCourseOption: Some(Left(l))),
           (r) {
-            final index =
-                state.courses.indexWhere((element) => element.id == e.courseId);
+            final index = state.courses
+                .indexWhere((element) => element.code == e.courseCode);
             final updatedCourse = state.courses[index].copyWith(name: e.name);
             state.courses.removeAt(index);
             state.courses.insert(index, updatedCourse);
@@ -88,20 +92,52 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
           },
         );
       },
+      addPostToCourse: (e) async* {
+        yield state.copyWith(addPostOption: const None());
+        final failureOrSuccess = await _coursesRepo.addPostToCourse(
+          courseCode: e.courseCode,
+          post: e.post,
+          remove: e.remove,
+        );
+        yield failureOrSuccess.fold(
+          (l) => state.copyWith(addPostOption: Some(Left(l))),
+          (r) {
+            final index = state.courses
+                .indexWhere((element) => element.code == e.courseCode);
+
+            CourseModel updatedCourse;
+            if (!e.remove) {
+              updatedCourse = state.courses[index]
+                  .copyWith(posts: [...state.courses[index].posts!, e.post]);
+            } else {
+              final List<String> newPosts = state.courses[index].posts!
+                  .where((c) => c != e.post)
+                  .toList();
+              updatedCourse = state.courses[index].copyWith(posts: newPosts);
+            }
+
+            state.courses.removeAt(index);
+            state.courses.insert(index, updatedCourse);
+            return state.copyWith(
+              addPostOption: Some(Right(r)),
+            );
+          },
+        );
+      },
       removeStudentFromCourse: (e) async* {
         yield state.copyWith(removeStudentOption: const None());
         final failureOrSuccess = await _coursesRepo.removeStudentFromCourse(
-          courseId: e.courseId,
-          studentEmail: e.studentEmail,
+          courseCode: e.courseCode,
+          studentId: e.studentId,
         );
         yield failureOrSuccess.fold(
           (l) => state.copyWith(removeStudentOption: Some(Left(l))),
           (r) {
             state.courses
-                .firstWhere((element) => element.id == e.courseId)
+                .firstWhere((element) => element.code == e.courseCode)
                 .students!
                 .removeWhere(
-                  (element) => element == e.studentEmail,
+                  (element) => element == e.studentId,
                 );
 
             return state.copyWith(removeStudentOption: Some(Right(r)));

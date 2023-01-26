@@ -19,7 +19,7 @@ class _LoadingPageState extends State<LoadingPage>
   @override
   void initState() {
     Fluttertoast.showToast(
-      msg: "Loading classes (warning: Google Classroom API error)",
+      msg: "Loading classes",
       textColor: Colors.black87,
       backgroundColor: Colors.white,
       toastLength: Toast.LENGTH_LONG,

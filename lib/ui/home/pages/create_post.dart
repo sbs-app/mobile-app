@@ -9,27 +9,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 
-class CreateCoursePage extends StatefulWidget {
-  const CreateCoursePage({Key? key, this.name, this.courseCode})
+class CreatePostPage extends StatefulWidget {
+  const CreatePostPage({Key? key, this.post, this.courseCode})
       : super(key: key);
 
-  final String? name;
+  final String? post;
   final String? courseCode;
 
   @override
-  _CreateCoursePageState createState() => _CreateCoursePageState();
+  _CreatePostPageState createState() => _CreatePostPageState();
 }
 
-class _CreateCoursePageState extends State<CreateCoursePage>
+class _CreatePostPageState extends State<CreatePostPage>
     with TickerProviderStateMixin {
   bool showErrors = false;
   bool isLoading = false;
 
-  late TextEditingController classNameController;
+  late TextEditingController postController;
 
   @override
   void initState() {
-    classNameController = TextEditingController(text: widget.name)
+    postController = TextEditingController(text: widget.post)
       ..addListener(() {
         setState(() {});
       });
@@ -39,26 +39,26 @@ class _CreateCoursePageState extends State<CreateCoursePage>
 
   @override
   void dispose() {
-    classNameController.dispose();
+    postController.dispose();
     super.dispose();
   }
 
   Widget nameErrorWidget() {
-    final bool isValidName = cleanString(classNameController.text).isNotEmpty;
+    final bool isValidName = cleanString(postController.text).isNotEmpty;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 400),
       child: showErrors
           ? isValidName
               ? const SizedBox.shrink()
               : const Text(
-                  "Class name should have atleast one character",
+                  "Post should have atleast one character",
                   style: TextStyle(color: Colors.white24),
                 )
           : const SizedBox.shrink(),
     );
   }
 
-  bool get isValid => cleanString(classNameController.text).isNotEmpty;
+  bool get isValid => cleanString(postController.text).isNotEmpty;
 
   UserModel getUserModel() {
     if (getIt<Box>().get(HiveBoxNames.user) != null) {
@@ -73,7 +73,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
   Widget build(BuildContext context) {
     return BlocConsumer<CourseBloc, CourseState>(
       listener: (context, state) {
-        state.createCourseOption.fold(
+        state.addPostOption.fold(
           () => null,
           (some) => some.fold(
             (l) {
@@ -82,27 +82,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
               Fluttertoast.showToast(
                 msg: l.maybeMap(
                   orElse: () => "",
-                  serverFailure: (_) =>
-                      "Oops! Server down. Please try again after sometime",
-                ),
-                textColor: Colors.black87,
-                backgroundColor: Colors.white,
-                toastLength: Toast.LENGTH_LONG,
-                fontSize: 12,
-              );
-            },
-            (r) => Navigator.pop(context),
-          ),
-        );
-        state.updateCourseOption.fold(
-          () => null,
-          (some) => some.fold(
-            (l) {
-              isLoading = false;
-              setState(() {});
-              Fluttertoast.showToast(
-                msg: l.maybeMap(
-                  orElse: () => "",
+                  clientFailure: (_) => "Oops! Invalid post",
                   serverFailure: (_) =>
                       "Oops! Server down. Please try again after sometime",
                 ),
@@ -144,8 +124,8 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FancyTextReveal(
-                      properties: const Properties(
+                    const FancyTextReveal(
+                      properties: Properties(
                         milliseconds: 400,
                         // horizontalSpacing: 100,
                         decoration: BoxDecoration(
@@ -153,8 +133,8 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                         ),
                       ),
                       child: Text(
-                        widget.name == null ? "Create Course" : "Update Course",
-                        style: const TextStyle(
+                        "New Post",
+                        style: TextStyle(
                           fontSize: 26,
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -173,7 +153,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                     SizedBox(
                       height: 50,
                       child: TextFormField(
-                        controller: classNameController,
+                        controller: postController,
                         decoration: InputDecoration(
                           prefixIcon: const Padding(
                             padding: EdgeInsets.only(bottom: 3),
@@ -185,7 +165,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                           ),
                           focusColor: Colors.black,
                           contentPadding: const EdgeInsets.all(10),
-                          hintText: "Class name",
+                          hintText: "Enter your message here",
                           fillColor: Colors.white,
                           filled: true,
                           border: OutlineInputBorder(
@@ -209,22 +189,13 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                           showErrors = true;
                           if (isValid) {
                             isLoading = true;
-                            if (widget.name == null) {
-                              CourseBloc.addEventWithoutContext(
-                                CourseEvent.createCourse(
-                                  classNameController.text,
-                                  getUserModel().id,
-                                  getUserModel().userName,
-                                ),
-                              );
-                            } else {
-                              CourseBloc.addEventWithoutContext(
-                                CourseEvent.updateCourse(
-                                  courseCode: widget.courseCode!,
-                                  name: classNameController.text,
-                                ),
-                              );
-                            }
+                            CourseBloc.addEventWithoutContext(
+                              CourseEvent.addPostToCourse(
+                                courseCode: widget.courseCode!,
+                                post: postController.text,
+                                remove: false,
+                              ),
+                            );
                           }
                           setState(() {});
                         },
@@ -245,9 +216,9 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                                   color: Colors.black,
                                 ),
                               )
-                            : Text(
-                                widget.name == null ? "CREATE" : "UPDATE",
-                                style: const TextStyle(
+                            : const Text(
+                                "POST",
+                                style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),

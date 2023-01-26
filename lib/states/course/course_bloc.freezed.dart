@@ -19,12 +19,15 @@ mixin _$CourseEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
@@ -33,11 +36,13 @@ mixin _$CourseEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
@@ -46,11 +51,13 @@ mixin _$CourseEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
@@ -63,6 +70,7 @@ mixin _$CourseEvent {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -77,6 +85,7 @@ mixin _$CourseEvent {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -89,6 +98,7 @@ mixin _$CourseEvent {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -155,12 +165,15 @@ class _$_GetCourses implements _GetCourses {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
@@ -172,11 +185,13 @@ class _$_GetCourses implements _GetCourses {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
@@ -188,11 +203,13 @@ class _$_GetCourses implements _GetCourses {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
@@ -211,6 +228,7 @@ class _$_GetCourses implements _GetCourses {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -228,6 +246,7 @@ class _$_GetCourses implements _GetCourses {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -243,6 +262,7 @@ class _$_GetCourses implements _GetCourses {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -266,7 +286,7 @@ abstract class _$$_CreateCourseCopyWith<$Res> {
           _$_CreateCourse value, $Res Function(_$_CreateCourse) then) =
       __$$_CreateCourseCopyWithImpl<$Res>;
   @useResult
-  $Res call({String name});
+  $Res call({String name, String id, String teacherName});
 }
 
 /// @nodoc
@@ -281,11 +301,21 @@ class __$$_CreateCourseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? id = null,
+    Object? teacherName = null,
   }) {
     return _then(_$_CreateCourse(
       null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == teacherName
+          ? _value.teacherName
+          : teacherName // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -294,14 +324,18 @@ class __$$_CreateCourseCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_CreateCourse implements _CreateCourse {
-  const _$_CreateCourse(this.name);
+  const _$_CreateCourse(this.name, this.id, this.teacherName);
 
   @override
   final String name;
+  @override
+  final String id;
+  @override
+  final String teacherName;
 
   @override
   String toString() {
-    return 'CourseEvent.createCourse(name: $name)';
+    return 'CourseEvent.createCourse(name: $name, id: $id, teacherName: $teacherName)';
   }
 
   @override
@@ -309,11 +343,14 @@ class _$_CreateCourse implements _CreateCourse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CreateCourse &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.teacherName, teacherName) ||
+                other.teacherName == teacherName));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name);
+  int get hashCode => Object.hash(runtimeType, name, id, teacherName);
 
   @JsonKey(ignore: true)
   @override
@@ -325,51 +362,58 @@ class _$_CreateCourse implements _CreateCourse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
   }) {
-    return createCourse(name);
+    return createCourse(name, id, teacherName);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
   }) {
-    return createCourse?.call(name);
+    return createCourse?.call(name, id, teacherName);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
     if (createCourse != null) {
-      return createCourse(name);
+      return createCourse(name, id, teacherName);
     }
     return orElse();
   }
@@ -381,6 +425,7 @@ class _$_CreateCourse implements _CreateCourse {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -398,6 +443,7 @@ class _$_CreateCourse implements _CreateCourse {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -413,6 +459,7 @@ class _$_CreateCourse implements _CreateCourse {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -427,9 +474,13 @@ class _$_CreateCourse implements _CreateCourse {
 }
 
 abstract class _CreateCourse implements CourseEvent {
-  const factory _CreateCourse(final String name) = _$_CreateCourse;
+  const factory _CreateCourse(
+          final String name, final String id, final String teacherName) =
+      _$_CreateCourse;
 
   String get name;
+  String get id;
+  String get teacherName;
   @JsonKey(ignore: true)
   _$$_CreateCourseCopyWith<_$_CreateCourse> get copyWith =>
       throw _privateConstructorUsedError;
@@ -501,12 +552,15 @@ class _$_DeleteCourse implements _DeleteCourse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
@@ -518,11 +572,13 @@ class _$_DeleteCourse implements _DeleteCourse {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
@@ -534,11 +590,13 @@ class _$_DeleteCourse implements _DeleteCourse {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
@@ -557,6 +615,7 @@ class _$_DeleteCourse implements _DeleteCourse {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -574,6 +633,7 @@ class _$_DeleteCourse implements _DeleteCourse {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -589,6 +649,7 @@ class _$_DeleteCourse implements _DeleteCourse {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -617,7 +678,7 @@ abstract class _$$_UpdateCourseCopyWith<$Res> {
           _$_UpdateCourse value, $Res Function(_$_UpdateCourse) then) =
       __$$_UpdateCourseCopyWithImpl<$Res>;
   @useResult
-  $Res call({String courseId, String name});
+  $Res call({String courseCode, String name});
 }
 
 /// @nodoc
@@ -631,13 +692,13 @@ class __$$_UpdateCourseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? courseId = null,
+    Object? courseCode = null,
     Object? name = null,
   }) {
     return _then(_$_UpdateCourse(
-      courseId: null == courseId
-          ? _value.courseId
-          : courseId // ignore: cast_nullable_to_non_nullable
+      courseCode: null == courseCode
+          ? _value.courseCode
+          : courseCode // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -650,16 +711,16 @@ class __$$_UpdateCourseCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_UpdateCourse implements _UpdateCourse {
-  const _$_UpdateCourse({required this.courseId, required this.name});
+  const _$_UpdateCourse({required this.courseCode, required this.name});
 
   @override
-  final String courseId;
+  final String courseCode;
   @override
   final String name;
 
   @override
   String toString() {
-    return 'CourseEvent.updateCourse(courseId: $courseId, name: $name)';
+    return 'CourseEvent.updateCourse(courseCode: $courseCode, name: $name)';
   }
 
   @override
@@ -667,13 +728,13 @@ class _$_UpdateCourse implements _UpdateCourse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UpdateCourse &&
-            (identical(other.courseId, courseId) ||
-                other.courseId == courseId) &&
+            (identical(other.courseCode, courseCode) ||
+                other.courseCode == courseCode) &&
             (identical(other.name, name) || other.name == name));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, courseId, name);
+  int get hashCode => Object.hash(runtimeType, courseCode, name);
 
   @JsonKey(ignore: true)
   @override
@@ -685,51 +746,58 @@ class _$_UpdateCourse implements _UpdateCourse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
   }) {
-    return updateCourse(courseId, name);
+    return updateCourse(courseCode, name);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
   }) {
-    return updateCourse?.call(courseId, name);
+    return updateCourse?.call(courseCode, name);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
     if (updateCourse != null) {
-      return updateCourse(courseId, name);
+      return updateCourse(courseCode, name);
     }
     return orElse();
   }
@@ -741,6 +809,7 @@ class _$_UpdateCourse implements _UpdateCourse {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -758,6 +827,7 @@ class _$_UpdateCourse implements _UpdateCourse {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -773,6 +843,7 @@ class _$_UpdateCourse implements _UpdateCourse {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -788,13 +859,221 @@ class _$_UpdateCourse implements _UpdateCourse {
 
 abstract class _UpdateCourse implements CourseEvent {
   const factory _UpdateCourse(
-      {required final String courseId,
+      {required final String courseCode,
       required final String name}) = _$_UpdateCourse;
 
-  String get courseId;
+  String get courseCode;
   String get name;
   @JsonKey(ignore: true)
   _$$_UpdateCourseCopyWith<_$_UpdateCourse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_AddPostToCourseCopyWith<$Res> {
+  factory _$$_AddPostToCourseCopyWith(
+          _$_AddPostToCourse value, $Res Function(_$_AddPostToCourse) then) =
+      __$$_AddPostToCourseCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String courseCode, String post, bool remove});
+}
+
+/// @nodoc
+class __$$_AddPostToCourseCopyWithImpl<$Res>
+    extends _$CourseEventCopyWithImpl<$Res, _$_AddPostToCourse>
+    implements _$$_AddPostToCourseCopyWith<$Res> {
+  __$$_AddPostToCourseCopyWithImpl(
+      _$_AddPostToCourse _value, $Res Function(_$_AddPostToCourse) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? courseCode = null,
+    Object? post = null,
+    Object? remove = null,
+  }) {
+    return _then(_$_AddPostToCourse(
+      courseCode: null == courseCode
+          ? _value.courseCode
+          : courseCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      post: null == post
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as String,
+      remove: null == remove
+          ? _value.remove
+          : remove // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_AddPostToCourse implements _AddPostToCourse {
+  const _$_AddPostToCourse(
+      {required this.courseCode, required this.post, required this.remove});
+
+  @override
+  final String courseCode;
+  @override
+  final String post;
+  @override
+  final bool remove;
+
+  @override
+  String toString() {
+    return 'CourseEvent.addPostToCourse(courseCode: $courseCode, post: $post, remove: $remove)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_AddPostToCourse &&
+            (identical(other.courseCode, courseCode) ||
+                other.courseCode == courseCode) &&
+            (identical(other.post, post) || other.post == post) &&
+            (identical(other.remove, remove) || other.remove == remove));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, courseCode, post, remove);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AddPostToCourseCopyWith<_$_AddPostToCourse> get copyWith =>
+      __$$_AddPostToCourseCopyWithImpl<_$_AddPostToCourse>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getCourses,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
+    required TResult Function(String courseId) deleteCourse,
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
+        addStudentToCourse,
+    required TResult Function(String courseCode, String studentId)
+        removeStudentFromCourse,
+    required TResult Function() removedUpdatedCourseName,
+    required TResult Function() reset,
+  }) {
+    return addPostToCourse(courseCode, post, remove);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getCourses,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
+    TResult? Function(String courseId)? deleteCourse,
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
+        removeStudentFromCourse,
+    TResult? Function()? removedUpdatedCourseName,
+    TResult? Function()? reset,
+  }) {
+    return addPostToCourse?.call(courseCode, post, remove);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getCourses,
+    TResult Function(String name, String id, String teacherName)? createCourse,
+    TResult Function(String courseId)? deleteCourse,
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
+        removeStudentFromCourse,
+    TResult Function()? removedUpdatedCourseName,
+    TResult Function()? reset,
+    required TResult orElse(),
+  }) {
+    if (addPostToCourse != null) {
+      return addPostToCourse(courseCode, post, remove);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_GetCourses value) getCourses,
+    required TResult Function(_CreateCourse value) createCourse,
+    required TResult Function(_DeleteCourse value) deleteCourse,
+    required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
+    required TResult Function(_AddStudentToCourse value) addStudentToCourse,
+    required TResult Function(_RemoveStudentFromCourse value)
+        removeStudentFromCourse,
+    required TResult Function(_RemoveUpdatedCourseName value)
+        removedUpdatedCourseName,
+    required TResult Function(_Reset value) reset,
+  }) {
+    return addPostToCourse(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_GetCourses value)? getCourses,
+    TResult? Function(_CreateCourse value)? createCourse,
+    TResult? Function(_DeleteCourse value)? deleteCourse,
+    TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
+    TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
+    TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
+    TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
+    TResult? Function(_Reset value)? reset,
+  }) {
+    return addPostToCourse?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_GetCourses value)? getCourses,
+    TResult Function(_CreateCourse value)? createCourse,
+    TResult Function(_DeleteCourse value)? deleteCourse,
+    TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
+    TResult Function(_AddStudentToCourse value)? addStudentToCourse,
+    TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
+    TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
+    TResult Function(_Reset value)? reset,
+    required TResult orElse(),
+  }) {
+    if (addPostToCourse != null) {
+      return addPostToCourse(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _AddPostToCourse implements CourseEvent {
+  const factory _AddPostToCourse(
+      {required final String courseCode,
+      required final String post,
+      required final bool remove}) = _$_AddPostToCourse;
+
+  String get courseCode;
+  String get post;
+  bool get remove;
+  @JsonKey(ignore: true)
+  _$$_AddPostToCourseCopyWith<_$_AddPostToCourse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -804,7 +1083,7 @@ abstract class _$$_AddStudentToCourseCopyWith<$Res> {
           $Res Function(_$_AddStudentToCourse) then) =
       __$$_AddStudentToCourseCopyWithImpl<$Res>;
   @useResult
-  $Res call({String courseId, String studentEmail});
+  $Res call({String courseCode, String studentId});
 }
 
 /// @nodoc
@@ -818,17 +1097,17 @@ class __$$_AddStudentToCourseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? courseId = null,
-    Object? studentEmail = null,
+    Object? courseCode = null,
+    Object? studentId = null,
   }) {
     return _then(_$_AddStudentToCourse(
-      courseId: null == courseId
-          ? _value.courseId
-          : courseId // ignore: cast_nullable_to_non_nullable
+      courseCode: null == courseCode
+          ? _value.courseCode
+          : courseCode // ignore: cast_nullable_to_non_nullable
               as String,
-      studentEmail: null == studentEmail
-          ? _value.studentEmail
-          : studentEmail // ignore: cast_nullable_to_non_nullable
+      studentId: null == studentId
+          ? _value.studentId
+          : studentId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -838,16 +1117,16 @@ class __$$_AddStudentToCourseCopyWithImpl<$Res>
 
 class _$_AddStudentToCourse implements _AddStudentToCourse {
   const _$_AddStudentToCourse(
-      {required this.courseId, required this.studentEmail});
+      {required this.courseCode, required this.studentId});
 
   @override
-  final String courseId;
+  final String courseCode;
   @override
-  final String studentEmail;
+  final String studentId;
 
   @override
   String toString() {
-    return 'CourseEvent.addStudentToCourse(courseId: $courseId, studentEmail: $studentEmail)';
+    return 'CourseEvent.addStudentToCourse(courseCode: $courseCode, studentId: $studentId)';
   }
 
   @override
@@ -855,14 +1134,14 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AddStudentToCourse &&
-            (identical(other.courseId, courseId) ||
-                other.courseId == courseId) &&
-            (identical(other.studentEmail, studentEmail) ||
-                other.studentEmail == studentEmail));
+            (identical(other.courseCode, courseCode) ||
+                other.courseCode == courseCode) &&
+            (identical(other.studentId, studentId) ||
+                other.studentId == studentId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, courseId, studentEmail);
+  int get hashCode => Object.hash(runtimeType, courseCode, studentId);
 
   @JsonKey(ignore: true)
   @override
@@ -875,51 +1154,58 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
   }) {
-    return addStudentToCourse(courseId, studentEmail);
+    return addStudentToCourse(courseCode, studentId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
   }) {
-    return addStudentToCourse?.call(courseId, studentEmail);
+    return addStudentToCourse?.call(courseCode, studentId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
     if (addStudentToCourse != null) {
-      return addStudentToCourse(courseId, studentEmail);
+      return addStudentToCourse(courseCode, studentId);
     }
     return orElse();
   }
@@ -931,6 +1217,7 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -948,6 +1235,7 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -963,6 +1251,7 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -978,11 +1267,11 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
 
 abstract class _AddStudentToCourse implements CourseEvent {
   const factory _AddStudentToCourse(
-      {required final String courseId,
-      required final String studentEmail}) = _$_AddStudentToCourse;
+      {required final String courseCode,
+      required final String studentId}) = _$_AddStudentToCourse;
 
-  String get courseId;
-  String get studentEmail;
+  String get courseCode;
+  String get studentId;
   @JsonKey(ignore: true)
   _$$_AddStudentToCourseCopyWith<_$_AddStudentToCourse> get copyWith =>
       throw _privateConstructorUsedError;
@@ -994,7 +1283,7 @@ abstract class _$$_RemoveStudentFromCourseCopyWith<$Res> {
           $Res Function(_$_RemoveStudentFromCourse) then) =
       __$$_RemoveStudentFromCourseCopyWithImpl<$Res>;
   @useResult
-  $Res call({String courseId, String studentEmail});
+  $Res call({String courseCode, String studentId});
 }
 
 /// @nodoc
@@ -1008,17 +1297,17 @@ class __$$_RemoveStudentFromCourseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? courseId = null,
-    Object? studentEmail = null,
+    Object? courseCode = null,
+    Object? studentId = null,
   }) {
     return _then(_$_RemoveStudentFromCourse(
-      courseId: null == courseId
-          ? _value.courseId
-          : courseId // ignore: cast_nullable_to_non_nullable
+      courseCode: null == courseCode
+          ? _value.courseCode
+          : courseCode // ignore: cast_nullable_to_non_nullable
               as String,
-      studentEmail: null == studentEmail
-          ? _value.studentEmail
-          : studentEmail // ignore: cast_nullable_to_non_nullable
+      studentId: null == studentId
+          ? _value.studentId
+          : studentId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -1028,16 +1317,16 @@ class __$$_RemoveStudentFromCourseCopyWithImpl<$Res>
 
 class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
   const _$_RemoveStudentFromCourse(
-      {required this.courseId, required this.studentEmail});
+      {required this.courseCode, required this.studentId});
 
   @override
-  final String courseId;
+  final String courseCode;
   @override
-  final String studentEmail;
+  final String studentId;
 
   @override
   String toString() {
-    return 'CourseEvent.removeStudentFromCourse(courseId: $courseId, studentEmail: $studentEmail)';
+    return 'CourseEvent.removeStudentFromCourse(courseCode: $courseCode, studentId: $studentId)';
   }
 
   @override
@@ -1045,14 +1334,14 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RemoveStudentFromCourse &&
-            (identical(other.courseId, courseId) ||
-                other.courseId == courseId) &&
-            (identical(other.studentEmail, studentEmail) ||
-                other.studentEmail == studentEmail));
+            (identical(other.courseCode, courseCode) ||
+                other.courseCode == courseCode) &&
+            (identical(other.studentId, studentId) ||
+                other.studentId == studentId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, courseId, studentEmail);
+  int get hashCode => Object.hash(runtimeType, courseCode, studentId);
 
   @JsonKey(ignore: true)
   @override
@@ -1066,51 +1355,58 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
   }) {
-    return removeStudentFromCourse(courseId, studentEmail);
+    return removeStudentFromCourse(courseCode, studentId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
   }) {
-    return removeStudentFromCourse?.call(courseId, studentEmail);
+    return removeStudentFromCourse?.call(courseCode, studentId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
     if (removeStudentFromCourse != null) {
-      return removeStudentFromCourse(courseId, studentEmail);
+      return removeStudentFromCourse(courseCode, studentId);
     }
     return orElse();
   }
@@ -1122,6 +1418,7 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -1139,6 +1436,7 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -1154,6 +1452,7 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -1169,11 +1468,11 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
 
 abstract class _RemoveStudentFromCourse implements CourseEvent {
   const factory _RemoveStudentFromCourse(
-      {required final String courseId,
-      required final String studentEmail}) = _$_RemoveStudentFromCourse;
+      {required final String courseCode,
+      required final String studentId}) = _$_RemoveStudentFromCourse;
 
-  String get courseId;
-  String get studentEmail;
+  String get courseCode;
+  String get studentId;
   @JsonKey(ignore: true)
   _$$_RemoveStudentFromCourseCopyWith<_$_RemoveStudentFromCourse>
       get copyWith => throw _privateConstructorUsedError;
@@ -1219,12 +1518,15 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
@@ -1236,11 +1538,13 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
@@ -1252,11 +1556,13 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
@@ -1275,6 +1581,7 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -1292,6 +1599,7 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -1307,6 +1615,7 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -1361,12 +1670,15 @@ class _$_Reset implements _Reset {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getCourses,
-    required TResult Function(String name) createCourse,
+    required TResult Function(String name, String id, String teacherName)
+        createCourse,
     required TResult Function(String courseId) deleteCourse,
-    required TResult Function(String courseId, String name) updateCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String name) updateCourse,
+    required TResult Function(String courseCode, String post, bool remove)
+        addPostToCourse,
+    required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
-    required TResult Function(String courseId, String studentEmail)
+    required TResult Function(String courseCode, String studentId)
         removeStudentFromCourse,
     required TResult Function() removedUpdatedCourseName,
     required TResult Function() reset,
@@ -1378,11 +1690,13 @@ class _$_Reset implements _Reset {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getCourses,
-    TResult? Function(String name)? createCourse,
+    TResult? Function(String name, String id, String teacherName)? createCourse,
     TResult? Function(String courseId)? deleteCourse,
-    TResult? Function(String courseId, String name)? updateCourse,
-    TResult? Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult? Function(String courseId, String studentEmail)?
+    TResult? Function(String courseCode, String name)? updateCourse,
+    TResult? Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult? Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult? Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult? Function()? removedUpdatedCourseName,
     TResult? Function()? reset,
@@ -1394,11 +1708,13 @@ class _$_Reset implements _Reset {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getCourses,
-    TResult Function(String name)? createCourse,
+    TResult Function(String name, String id, String teacherName)? createCourse,
     TResult Function(String courseId)? deleteCourse,
-    TResult Function(String courseId, String name)? updateCourse,
-    TResult Function(String courseId, String studentEmail)? addStudentToCourse,
-    TResult Function(String courseId, String studentEmail)?
+    TResult Function(String courseCode, String name)? updateCourse,
+    TResult Function(String courseCode, String post, bool remove)?
+        addPostToCourse,
+    TResult Function(String courseCode, String studentId)? addStudentToCourse,
+    TResult Function(String courseCode, String studentId)?
         removeStudentFromCourse,
     TResult Function()? removedUpdatedCourseName,
     TResult Function()? reset,
@@ -1417,6 +1733,7 @@ class _$_Reset implements _Reset {
     required TResult Function(_CreateCourse value) createCourse,
     required TResult Function(_DeleteCourse value) deleteCourse,
     required TResult Function(_UpdateCourse value) updateCourse,
+    required TResult Function(_AddPostToCourse value) addPostToCourse,
     required TResult Function(_AddStudentToCourse value) addStudentToCourse,
     required TResult Function(_RemoveStudentFromCourse value)
         removeStudentFromCourse,
@@ -1434,6 +1751,7 @@ class _$_Reset implements _Reset {
     TResult? Function(_CreateCourse value)? createCourse,
     TResult? Function(_DeleteCourse value)? deleteCourse,
     TResult? Function(_UpdateCourse value)? updateCourse,
+    TResult? Function(_AddPostToCourse value)? addPostToCourse,
     TResult? Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult? Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult? Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -1449,6 +1767,7 @@ class _$_Reset implements _Reset {
     TResult Function(_CreateCourse value)? createCourse,
     TResult Function(_DeleteCourse value)? deleteCourse,
     TResult Function(_UpdateCourse value)? updateCourse,
+    TResult Function(_AddPostToCourse value)? addPostToCourse,
     TResult Function(_AddStudentToCourse value)? addStudentToCourse,
     TResult Function(_RemoveStudentFromCourse value)? removeStudentFromCourse,
     TResult Function(_RemoveUpdatedCourseName value)? removedUpdatedCourseName,
@@ -1478,6 +1797,8 @@ mixin _$CourseState {
       throw _privateConstructorUsedError;
   Option<Either<CourseFailure, Unit>> get updateCourseOption =>
       throw _privateConstructorUsedError;
+  Option<Either<CourseFailure, Unit>> get addPostOption =>
+      throw _privateConstructorUsedError;
   Option<Either<CourseFailure, Unit>> get sendInvitationOption =>
       throw _privateConstructorUsedError;
   Option<Either<CourseFailure, Unit>> get removeStudentOption =>
@@ -1501,6 +1822,7 @@ abstract class $CourseStateCopyWith<$Res> {
       Option<Either<CourseFailure, Unit>> createCourseOption,
       Option<Either<CourseFailure, Unit>> deleteCourseOption,
       Option<Either<CourseFailure, Unit>> updateCourseOption,
+      Option<Either<CourseFailure, Unit>> addPostOption,
       Option<Either<CourseFailure, Unit>> sendInvitationOption,
       Option<Either<CourseFailure, Unit>> removeStudentOption});
 }
@@ -1524,6 +1846,7 @@ class _$CourseStateCopyWithImpl<$Res, $Val extends CourseState>
     Object? createCourseOption = null,
     Object? deleteCourseOption = null,
     Object? updateCourseOption = null,
+    Object? addPostOption = null,
     Object? sendInvitationOption = null,
     Object? removeStudentOption = null,
   }) {
@@ -1552,6 +1875,10 @@ class _$CourseStateCopyWithImpl<$Res, $Val extends CourseState>
           ? _value.updateCourseOption
           : updateCourseOption // ignore: cast_nullable_to_non_nullable
               as Option<Either<CourseFailure, Unit>>,
+      addPostOption: null == addPostOption
+          ? _value.addPostOption
+          : addPostOption // ignore: cast_nullable_to_non_nullable
+              as Option<Either<CourseFailure, Unit>>,
       sendInvitationOption: null == sendInvitationOption
           ? _value.sendInvitationOption
           : sendInvitationOption // ignore: cast_nullable_to_non_nullable
@@ -1579,6 +1906,7 @@ abstract class _$$_CourseStateCopyWith<$Res>
       Option<Either<CourseFailure, Unit>> createCourseOption,
       Option<Either<CourseFailure, Unit>> deleteCourseOption,
       Option<Either<CourseFailure, Unit>> updateCourseOption,
+      Option<Either<CourseFailure, Unit>> addPostOption,
       Option<Either<CourseFailure, Unit>> sendInvitationOption,
       Option<Either<CourseFailure, Unit>> removeStudentOption});
 }
@@ -1600,6 +1928,7 @@ class __$$_CourseStateCopyWithImpl<$Res>
     Object? createCourseOption = null,
     Object? deleteCourseOption = null,
     Object? updateCourseOption = null,
+    Object? addPostOption = null,
     Object? sendInvitationOption = null,
     Object? removeStudentOption = null,
   }) {
@@ -1628,6 +1957,10 @@ class __$$_CourseStateCopyWithImpl<$Res>
           ? _value.updateCourseOption
           : updateCourseOption // ignore: cast_nullable_to_non_nullable
               as Option<Either<CourseFailure, Unit>>,
+      addPostOption: null == addPostOption
+          ? _value.addPostOption
+          : addPostOption // ignore: cast_nullable_to_non_nullable
+              as Option<Either<CourseFailure, Unit>>,
       sendInvitationOption: null == sendInvitationOption
           ? _value.sendInvitationOption
           : sendInvitationOption // ignore: cast_nullable_to_non_nullable
@@ -1650,6 +1983,7 @@ class _$_CourseState implements _CourseState {
       required this.createCourseOption,
       required this.deleteCourseOption,
       required this.updateCourseOption,
+      required this.addPostOption,
       required this.sendInvitationOption,
       required this.removeStudentOption})
       : _courses = courses;
@@ -1673,13 +2007,15 @@ class _$_CourseState implements _CourseState {
   @override
   final Option<Either<CourseFailure, Unit>> updateCourseOption;
   @override
+  final Option<Either<CourseFailure, Unit>> addPostOption;
+  @override
   final Option<Either<CourseFailure, Unit>> sendInvitationOption;
   @override
   final Option<Either<CourseFailure, Unit>> removeStudentOption;
 
   @override
   String toString() {
-    return 'CourseState(courses: $courses, updatedCourseName: $updatedCourseName, getCoursesOption: $getCoursesOption, createCourseOption: $createCourseOption, deleteCourseOption: $deleteCourseOption, updateCourseOption: $updateCourseOption, sendInvitationOption: $sendInvitationOption, removeStudentOption: $removeStudentOption)';
+    return 'CourseState(courses: $courses, updatedCourseName: $updatedCourseName, getCoursesOption: $getCoursesOption, createCourseOption: $createCourseOption, deleteCourseOption: $deleteCourseOption, updateCourseOption: $updateCourseOption, addPostOption: $addPostOption, sendInvitationOption: $sendInvitationOption, removeStudentOption: $removeStudentOption)';
   }
 
   @override
@@ -1698,6 +2034,8 @@ class _$_CourseState implements _CourseState {
                 other.deleteCourseOption == deleteCourseOption) &&
             (identical(other.updateCourseOption, updateCourseOption) ||
                 other.updateCourseOption == updateCourseOption) &&
+            (identical(other.addPostOption, addPostOption) ||
+                other.addPostOption == addPostOption) &&
             (identical(other.sendInvitationOption, sendInvitationOption) ||
                 other.sendInvitationOption == sendInvitationOption) &&
             (identical(other.removeStudentOption, removeStudentOption) ||
@@ -1713,6 +2051,7 @@ class _$_CourseState implements _CourseState {
       createCourseOption,
       deleteCourseOption,
       updateCourseOption,
+      addPostOption,
       sendInvitationOption,
       removeStudentOption);
 
@@ -1732,6 +2071,7 @@ abstract class _CourseState implements CourseState {
       required final Option<Either<CourseFailure, Unit>> createCourseOption,
       required final Option<Either<CourseFailure, Unit>> deleteCourseOption,
       required final Option<Either<CourseFailure, Unit>> updateCourseOption,
+      required final Option<Either<CourseFailure, Unit>> addPostOption,
       required final Option<Either<CourseFailure, Unit>> sendInvitationOption,
       required final Option<Either<CourseFailure, Unit>>
           removeStudentOption}) = _$_CourseState;
@@ -1748,6 +2088,8 @@ abstract class _CourseState implements CourseState {
   Option<Either<CourseFailure, Unit>> get deleteCourseOption;
   @override
   Option<Either<CourseFailure, Unit>> get updateCourseOption;
+  @override
+  Option<Either<CourseFailure, Unit>> get addPostOption;
   @override
   Option<Either<CourseFailure, Unit>> get sendInvitationOption;
   @override

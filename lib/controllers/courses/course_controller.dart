@@ -1,18 +1,16 @@
+import 'dart:math';
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/models/courses/courses_failure.dart';
 import 'package:classroom/models/courses/i_courses_repo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:googleapis/classroom/v1.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:injectable/injectable.dart';
-
-// TODO: FIX THIS (GOOGLE CLASSROOM API USAGE)
 
 @prod
 @Injectable(as: ICoursesController)
@@ -27,6 +25,29 @@ class CourseController extends ICoursesController {
           (documentSnapshot) =>
               CourseModel.fromFirestore(documentSnapshot.data()!),
         );
+  }
+
+  final Random _rnd = Random();
+
+  String getRandomCode() {
+    const int length = 8;
+    const chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return String.fromCharCodes(
+      Iterable.generate(
+        length,
+        (_) => chars.codeUnitAt(_rnd.nextInt(chars.length)),
+      ),
+    );
+  }
+
+  UserModel getUserModel() {
+    if (getIt<Box>().get(HiveBoxNames.user) != null) {
+      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
+    } else {
+      // Invalid UserModel
+      return UserModel(email: "", id: "", userName: "", classes: []);
+    }
   }
 
   final Box box;
@@ -44,168 +65,125 @@ class CourseController extends ICoursesController {
   }
 
   @override
-  Future<Either<CourseFailure, CourseModel>> createCourse(String name) async {
-    // TODO: FIX CREATING CLASS
-    // try {
-    //   final GoogleSignInAccount? googleUser = await GoogleSignIn(
-    //     scopes: [ClassroomApi.classroomCoursesScope],
-    //   ).signIn();
+  Future<Either<CourseFailure, CourseModel>> createCourse(
+    String name,
+    String id,
+    String teacherName,
+  ) async {
+    final String code = getRandomCode();
+    final CourseModel newClass = CourseModel(
+      id: id,
+      code: code,
+      name: name,
+      description: "",
+      teacher: teacherName,
+      students: <String>[],
+      posts: <String>[],
+    );
 
-    //   final GoogleAPIClient httpClient =
-    //       GoogleAPIClient(await googleUser!.authHeaders);
+    firebaseFirestore.doc('/classes/$code').set(newClass.toJson());
 
-    //   final api = ClassroomApi(httpClient);
+    await addStudentToCourse(courseCode: code, studentId: id);
 
-    //   final Course request = Course(ownerId: googleUser.id, name: name);
-
-    //   final newCourse = await api.courses.create(request);
-
-    //   final List<Teacher> teachers = [];
-    //   final List<Student> students = [];
-
-    //   final teachersResponse = await api.courses.teachers.list(newCourse.id!);
-    //   final studentsResponse = await api.courses.students.list(newCourse.id!);
-
-    //   if (teachersResponse.teachers != null) {
-    //     for (final teacher in teachersResponse.teachers!) {
-    //       teachers.add(teacher);
-    //     }
-    //   }
-
-    //   if (studentsResponse.students != null) {
-    //     for (final student in studentsResponse.students!) {
-    //       students.add(student);
-    //     }
-    //   }
-
-    //   final CourseModel courseModel = CourseModel(
-    //     id: newCourse.id!,
-    //     name: newCourse.name!,
-    //     teachers: teachers,
-    //     students: students,
-    //   );
-
-    //   return Right(courseModel);
-    // } catch (e) {
-    //   return const Left(CourseFailure.clientFailure());
-    // }
-    return const Left(CourseFailure.clientFailure());
+    return Right(newClass);
   }
 
   @override
   Future<Either<CourseFailure, Unit>> addStudentToCourse({
-    required String courseId,
-    required String studentEmail,
+    required String courseCode,
+    required String studentId,
   }) async {
-    // TODO: FIX ADDING STUDENT TO CLASS
-    // try {
-    //   final GoogleSignInAccount? googleUser = await GoogleSignIn(
-    //     scopes: [
-    //       ClassroomApi.classroomRostersScope,
-    //     ],
-    //   ).signIn();
+    // Check if null or empty
+    if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
 
-    //   final GoogleAPIClient httpClient =
-    //       GoogleAPIClient(await googleUser!.authHeaders);
+    // Check if class exists
+    final classDoc = await firebaseFirestore.doc('/classes/$courseCode').get();
+    if (!classDoc.exists) return const Left(CourseFailure.clientFailure());
 
-    //   final api = ClassroomApi(httpClient);
+    // Check if user has class already
+    if (getUserModel().classes.contains(courseCode)) {
+      return const Left(CourseFailure.studentAlreadyExist());
+    }
 
-    //   final request = Invitation(
-    //     courseId: courseId,
-    //     role: "STUDENT",
-    //     userId: studentEmail,
-    //   );
+    // Add class to user
+    final UserModel current = getUserModel();
+    current.classes.add(courseCode);
+    firebaseFirestore.doc('/users/$studentId').update(current.toJson());
 
-    //   await api.invitations.create(request);
-    //   return const Right(unit);
-    // } catch (e) {
-    //   if (e is DetailedApiRequestError) {
-    //     if (e.status == 409) {
-    //       return const Left(CourseFailure.studentAlreadyInvited());
-    //     } else if (e.status == 403) {
-    //       return const Left(CourseFailure.studentAlreadyExist());
-    //     } else {
-    //       return const Left(CourseFailure.clientFailure());
-    //     }
-    //   } else {
-    //     return const Left(CourseFailure.clientFailure());
-    //   }
-    // }
-    return const Left(CourseFailure.clientFailure());
+    await box.put(HiveBoxNames.user, current.copyWith());
+
+    return const Right(unit);
   }
 
   @override
-  Future<Either<CourseFailure, Unit>> deleteCourse(String courseId) async {
-    // TODO: FIX DELETING COURSE
-    // try {
-    //   final GoogleSignInAccount? googleUser = await GoogleSignIn(
-    //     scopes: [
-    //       ClassroomApi.classroomCoursesScope,
-    //     ],
-    //   ).signIn();
+  Future<Either<CourseFailure, Unit>> deleteCourse(String courseCode) async {
+    // Check if null or empty
+    if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
 
-    //   final GoogleAPIClient httpClient =
-    //       GoogleAPIClient(await googleUser!.authHeaders);
+    // Remove course
+    firebaseFirestore.doc('/classes/$courseCode').delete();
 
-    //   final api = ClassroomApi(httpClient);
-    //   await api.courses.delete(courseId);
-    //   return const Right(unit);
-    // } catch (e) {
-    //   return const Left(CourseFailure.serverFailure());
-    // }
-    return const Left(CourseFailure.clientFailure());
+    return const Right(unit);
   }
 
   @override
   Future<Either<CourseFailure, Unit>> removeStudentFromCourse({
-    required String courseId,
-    required String studentEmail,
+    required String courseCode,
+    required String studentId,
   }) async {
-    // TODO: FIX REMOVE STUDENT FROM CLASS
-    // try {
-    //   final GoogleSignInAccount? googleUser = await GoogleSignIn(
-    //     scopes: [
-    //       ClassroomApi.classroomRostersScope,
-    //     ],
-    //   ).signIn();
+    // Check if null or empty
+    if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
 
-    //   final GoogleAPIClient httpClient =
-    //       GoogleAPIClient(await googleUser!.authHeaders);
+    // Remove class from user
+    final UserModel current = getUserModel();
+    current.classes.remove(courseCode);
+    firebaseFirestore.doc('/users/$studentId').update(current.toJson());
 
-    //   final api = ClassroomApi(httpClient);
-    //   await api.courses.students.delete(courseId, studentEmail);
-    //   return const Right(unit);
-    // } catch (e) {
-    //   return const Left(CourseFailure.serverFailure());
-    // }
-    return const Left(CourseFailure.clientFailure());
+    await box.put(HiveBoxNames.user, current.copyWith());
+
+    return const Right(unit);
   }
 
   @override
   Future<Either<CourseFailure, Unit>> updateCourse({
+    required String courseCode,
     required String name,
-    required String courseId,
   }) async {
-    // TODO: FIX UPDATE COURSE
-    // try {
-    //   final GoogleSignInAccount? googleUser = await GoogleSignIn(
-    //     scopes: [
-    //       ClassroomApi.classroomCoursesScope,
-    //     ],
-    //   ).signIn();
+    // Check if null or empty
+    if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
 
-    //   final GoogleAPIClient httpClient =
-    //       GoogleAPIClient(await googleUser!.authHeaders);
+    // Remove class from user
+    final CourseModel updatedCourse =
+        (await getFirestoreClass(courseCode)).copyWith(name: name);
+    firebaseFirestore
+        .doc('/classes/$courseCode')
+        .update(updatedCourse.toJson());
 
-    //   final api = ClassroomApi(httpClient);
-    //   final Course request = Course(ownerId: googleUser.id, name: name);
+    return const Right(unit);
+  }
 
-    //   await api.courses.update(request, courseId);
-    //   return const Right(unit);
-    // } catch (e) {
-    //   return const Left(CourseFailure.serverFailure());
-    // }
-    return const Left(CourseFailure.clientFailure());
+  @override
+  Future<Either<CourseFailure, Unit>> addPostToCourse({
+    required String courseCode,
+    required String post,
+    required bool remove,
+  }) async {
+    // TODO: Use a document for this?
+    // Check if null or empty
+    if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
+
+    final CourseModel currentCourse = await getFirestoreClass(courseCode);
+    final List<String> currentPosts = currentCourse.posts!;
+
+    remove ? currentPosts.remove(post) : currentPosts.add(post);
+
+    final CourseModel updatedCourse =
+        currentCourse.copyWith(posts: currentPosts);
+    firebaseFirestore
+        .doc('/classes/$courseCode')
+        .update(updatedCourse.toJson());
+
+    return const Right(unit);
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 class CourseModel {
   const CourseModel({
     required this.id,
+    required this.code,
     required this.name,
     this.description,
     this.teacher,
@@ -14,6 +15,7 @@ class CourseModel {
   });
 
   final String id;
+  final String code;
   final String name;
   final String? description;
   final String? teacher;
@@ -30,6 +32,7 @@ class CourseModel {
 
     return CourseModel(
       id: data['id']! as String,
+      code: data['code']! as String,
       name: data['name']! as String,
       description: data['description']! as String,
       teacher: data['teacher']! as String,
@@ -40,6 +43,7 @@ class CourseModel {
 
   CourseModel copyWith({
     String? id,
+    String? code,
     String? name,
     String? description,
     String? teacher,
@@ -48,10 +52,21 @@ class CourseModel {
   }) =>
       CourseModel(
         id: id ?? this.id,
+        code: code ?? this.code,
         name: name ?? this.name,
         description: description ?? this.description,
         students: students ?? this.students,
         teacher: teacher ?? this.teacher,
         posts: posts ?? this.posts,
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "code": code,
+        "name": name,
+        "description": description,
+        "teacher": teacher,
+        "students": students,
+        "posts": posts
+      };
 }

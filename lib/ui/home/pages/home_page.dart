@@ -8,6 +8,7 @@ import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/auth/pages/login_page.dart';
 import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
+import 'package:classroom/ui/home/pages/join_course_page.dart';
 import 'package:classroom/ui/home/pages/settings_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
@@ -69,7 +70,18 @@ class _HomePageState extends State<HomePage> {
           child: Scaffold(
             backgroundColor: Colors.black,
             floatingActionButton: isUserStudent
-                ? null
+                ? FloatingActionButton(
+                    backgroundColor: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const JoinCoursePage(),
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.add, color: Colors.black),
+                  )
                 : FloatingActionButton(
                     backgroundColor: Colors.white,
                     onPressed: () {
@@ -395,7 +407,7 @@ class _HomePageState extends State<HomePage> {
                                   fit: StackFit.expand,
                                   children: [
                                     Hero(
-                                      tag: course.id,
+                                      tag: course.code,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
                                         child: CachedNetworkImage(

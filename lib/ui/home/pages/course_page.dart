@@ -5,6 +5,7 @@ import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
+import 'package:classroom/ui/home/pages/create_post.dart';
 import 'package:classroom/ui/home/pages/invite_student_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
@@ -34,6 +35,15 @@ class _CoursePageState extends State<CoursePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  UserModel getUserModel() {
+    if (getIt<Box>().get(HiveBoxNames.user) != null) {
+      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
+    } else {
+      // Invalid UserModel
+      return UserModel(email: "", id: "", userName: "", classes: []);
+    }
   }
 
   @override
@@ -86,8 +96,27 @@ class _CoursePageState extends State<CoursePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
+                                    builder: (_) => CreatePostPage(
+                                      courseCode: widget.course.code,
+                                      post: "",
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.black,
+                              ),
+                              label: "Add post",
+                            ),
+                            SpeedDialChild(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
                                     builder: (_) => InviteStudentPage(
                                       courseId: widget.course.id,
+                                      courseCode: widget.course.code,
                                     ),
                                   ),
                                 );
@@ -96,7 +125,7 @@ class _CoursePageState extends State<CoursePage> {
                                 Icons.person_add_alt,
                                 color: Colors.black,
                               ),
-                              label: "Invite Student",
+                              label: "Invite Students",
                             ),
                             SpeedDialChild(
                               onTap: () {
@@ -104,7 +133,7 @@ class _CoursePageState extends State<CoursePage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => CreateCoursePage(
-                                      courseId: widget.course.id,
+                                      courseCode: widget.course.code,
                                       name: widget.course.name,
                                     ),
                                   ),
@@ -136,7 +165,38 @@ class _CoursePageState extends State<CoursePage> {
                             color: Colors.black,
                           ),
                         )
-                      : null,
+                      : SpeedDial(
+                          overlayColor: Colors.black12,
+                          spacing: 20,
+                          backgroundColor: Colors.white,
+                          activeChild: const Icon(
+                            Icons.close,
+                            color: Colors.black,
+                          ),
+                          children: [
+                            SpeedDialChild(
+                              backgroundColor: Colors.red.shade400,
+                              onTap: () {
+                                CourseBloc.addEventWithoutContext(
+                                  CourseEvent.removeStudentFromCourse(
+                                    courseCode: widget.course.code,
+                                    studentId: getUserModel().id,
+                                  ),
+                                );
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(
+                                Icons.delete,
+                                color: Colors.black54,
+                              ),
+                              label: "Leave Course",
+                            ),
+                          ],
+                          child: const Icon(
+                            Icons.menu,
+                            color: Colors.black,
+                          ),
+                        ),
               body: BlocBuilder<CourseBloc, CourseState>(
                 builder: (context, state) {
                   final String? updatedCourseName = state.updatedCourseName;
@@ -176,7 +236,7 @@ class _CoursePageState extends State<CoursePage> {
                           fit: StackFit.expand,
                           children: [
                             Hero(
-                              tag: widget.course.id,
+                              tag: widget.course.code,
                               transitionOnUserGestures: true,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
@@ -275,11 +335,25 @@ class _CoursePageState extends State<CoursePage> {
                                         ),
                                       ),
                                     ),
-                                    trailing: IconButton(
-                                      icon: const Icon(Icons.comment),
-                                      color: Colors.white,
-                                      onPressed: () {},
-                                    ),
+                                    trailing: widget.course.isCreatedByMe &&
+                                            !isUserStudent
+                                        ? IconButton(
+                                            icon:
+                                                const Icon(Icons.remove_circle),
+                                            color: Colors.red,
+                                            onPressed: () {
+                                              CourseBloc.addEventWithoutContext(
+                                                CourseEvent.addPostToCourse(
+                                                  courseCode:
+                                                      widget.course.code,
+                                                  post: widget
+                                                      .course.posts![index],
+                                                  remove: true,
+                                                ),
+                                              );
+                                            },
+                                          )
+                                        : null,
                                   ),
                                 );
                               },
@@ -310,9 +384,8 @@ class _CoursePageState extends State<CoursePage> {
                                             CourseBloc.addEventWithoutContext(
                                               CourseEvent
                                                   .removeStudentFromCourse(
-                                                courseId: "0",
-                                                studentEmail: student ??
-                                                    "student@fixme.com",
+                                                courseCode: widget.course.id,
+                                                studentId: getUserModel().id,
                                               ),
                                             );
                                           },

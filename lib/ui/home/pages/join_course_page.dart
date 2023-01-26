@@ -9,18 +9,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 
-class CreateCoursePage extends StatefulWidget {
-  const CreateCoursePage({Key? key, this.name, this.courseCode})
-      : super(key: key);
+class JoinCoursePage extends StatefulWidget {
+  const JoinCoursePage({Key? key, this.courseCode}) : super(key: key);
 
-  final String? name;
   final String? courseCode;
 
   @override
-  _CreateCoursePageState createState() => _CreateCoursePageState();
+  _JoinCoursePageState createState() => _JoinCoursePageState();
 }
 
-class _CreateCoursePageState extends State<CreateCoursePage>
+class _JoinCoursePageState extends State<JoinCoursePage>
     with TickerProviderStateMixin {
   bool showErrors = false;
   bool isLoading = false;
@@ -29,7 +27,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
 
   @override
   void initState() {
-    classNameController = TextEditingController(text: widget.name)
+    classNameController = TextEditingController()
       ..addListener(() {
         setState(() {});
       });
@@ -73,7 +71,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
   Widget build(BuildContext context) {
     return BlocConsumer<CourseBloc, CourseState>(
       listener: (context, state) {
-        state.createCourseOption.fold(
+        state.sendInvitationOption.fold(
           () => null,
           (some) => some.fold(
             (l) {
@@ -82,29 +80,12 @@ class _CreateCoursePageState extends State<CreateCoursePage>
               Fluttertoast.showToast(
                 msg: l.maybeMap(
                   orElse: () => "",
+                  clientFailure: (_) =>
+                      "Oops! Course code not found or invalid.",
+                  studentAlreadyExist: (_) =>
+                      "Oops! You are already part of this course.",
                   serverFailure: (_) =>
-                      "Oops! Server down. Please try again after sometime",
-                ),
-                textColor: Colors.black87,
-                backgroundColor: Colors.white,
-                toastLength: Toast.LENGTH_LONG,
-                fontSize: 12,
-              );
-            },
-            (r) => Navigator.pop(context),
-          ),
-        );
-        state.updateCourseOption.fold(
-          () => null,
-          (some) => some.fold(
-            (l) {
-              isLoading = false;
-              setState(() {});
-              Fluttertoast.showToast(
-                msg: l.maybeMap(
-                  orElse: () => "",
-                  serverFailure: (_) =>
-                      "Oops! Server down. Please try again after sometime",
+                      "Oops! Server down. Please try again after sometime.",
                 ),
                 textColor: Colors.black87,
                 backgroundColor: Colors.white,
@@ -144,8 +125,8 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FancyTextReveal(
-                      properties: const Properties(
+                    const FancyTextReveal(
+                      properties: Properties(
                         milliseconds: 400,
                         // horizontalSpacing: 100,
                         decoration: BoxDecoration(
@@ -153,8 +134,8 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                         ),
                       ),
                       child: Text(
-                        widget.name == null ? "Create Course" : "Update Course",
-                        style: const TextStyle(
+                        "Join Course",
+                        style: TextStyle(
                           fontSize: 26,
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -185,7 +166,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                           ),
                           focusColor: Colors.black,
                           contentPadding: const EdgeInsets.all(10),
-                          hintText: "Class name",
+                          hintText: "Class code",
                           fillColor: Colors.white,
                           filled: true,
                           border: OutlineInputBorder(
@@ -209,22 +190,12 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                           showErrors = true;
                           if (isValid) {
                             isLoading = true;
-                            if (widget.name == null) {
-                              CourseBloc.addEventWithoutContext(
-                                CourseEvent.createCourse(
-                                  classNameController.text,
-                                  getUserModel().id,
-                                  getUserModel().userName,
-                                ),
-                              );
-                            } else {
-                              CourseBloc.addEventWithoutContext(
-                                CourseEvent.updateCourse(
-                                  courseCode: widget.courseCode!,
-                                  name: classNameController.text,
-                                ),
-                              );
-                            }
+                            CourseBloc.addEventWithoutContext(
+                              CourseEvent.addStudentToCourse(
+                                courseCode: classNameController.text,
+                                studentId: getUserModel().id,
+                              ),
+                            );
                           }
                           setState(() {});
                         },
@@ -245,9 +216,9 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                                   color: Colors.black,
                                 ),
                               )
-                            : Text(
-                                widget.name == null ? "CREATE" : "UPDATE",
-                                style: const TextStyle(
+                            : const Text(
+                                "JOIN",
+                                style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),

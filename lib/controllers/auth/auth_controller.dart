@@ -47,7 +47,7 @@ class AuthController extends IAuthController {
         id: userCredential.user!.uid,
         roleId: 0,
         userName: userName,
-        classes: [],
+        classes: <String>[],
       );
 
       await box.put(HiveBoxNames.user, newUserModel.copyWith());

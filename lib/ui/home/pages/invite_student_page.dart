@@ -6,9 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class InviteStudentPage extends StatefulWidget {
-  const InviteStudentPage({Key? key, required this.courseId}) : super(key: key);
+  const InviteStudentPage(
+      {Key? key, required this.courseId, required this.courseCode})
+      : super(key: key);
 
   final String courseId;
+  final String courseCode;
 
   @override
   _InviteStudentPageState createState() => _InviteStudentPageState();
@@ -130,7 +133,7 @@ class _InviteStudentPageState extends State<InviteStudentPage>
                         ),
                       ),
                       child: Text(
-                        "Invite Student",
+                        "Invite Students",
                         style: TextStyle(
                           fontSize: 26,
                           color: Colors.white,
@@ -140,86 +143,23 @@ class _InviteStudentPageState extends State<InviteStudentPage>
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Please fill below details to continue",
+                      "Please give your students this code to join your class.",
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         color: Colors.white.withOpacity(0.5),
                       ),
                     ),
                     const SizedBox(height: 40),
-                    SizedBox(
-                      height: 50,
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          prefixIcon: const Padding(
-                            padding: EdgeInsets.only(bottom: 3),
-                            child: Icon(
-                              Icons.title,
-                              size: 18,
-                              color: Colors.black12,
-                            ),
-                          ),
-                          focusColor: Colors.black,
-                          contentPadding: const EdgeInsets.all(10),
-                          hintText: "Student email",
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(5),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          widget.courseCode,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            color: Colors.black,
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    AnimatedSize(
-                      duration: const Duration(milliseconds: 400),
-                      child: emailErrorWidget(),
-                    ),
-                    const SizedBox(height: 40),
-                    SizedBox(
-                      height: 60,
-                      width: double.maxFinite,
-                      child: TextButton(
-                        onPressed: () {
-                          showErrors = true;
-                          if (isValid) {
-                            isLoading = true;
-
-                            CourseBloc.addEventWithoutContext(
-                              CourseEvent.addStudentToCourse(
-                                courseId: widget.courseId,
-                                studentEmail: emailController.text,
-                              ),
-                            );
-                          }
-                          setState(() {});
-                        },
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all(Colors.white),
-                          backgroundColor: isValid
-                              ? MaterialStateProperty.all(
-                                  const Color(0xff0DF5E3),
-                                )
-                              : MaterialStateProperty.all(Colors.white10),
-                        ),
-                        child: isLoading
-                            ? const SizedBox(
-                                height: 15,
-                                width: 15,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.black,
-                                ),
-                              )
-                            : const Text(
-                                "INVITE",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
                       ),
                     ),
                   ],

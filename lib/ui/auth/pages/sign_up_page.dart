@@ -142,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
           child: Scaffold(
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: Colors.transparent,
+              backgroundColor: Color.fromARGB(0, 0, 0, 0),
               leading: IconButton(
                 splashColor: Colors.transparent,
                 onPressed: () {

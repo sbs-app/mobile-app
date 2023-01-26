@@ -139,9 +139,22 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       },
       builder: (context, state) {
         return SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.black,
-            body: SingleChildScrollView(
+            child: Scaffold(
+          backgroundColor: Colors.black,
+          body: SingleChildScrollView(
+            child: Container(
+              height: 300,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40)),
+                color: Color.fromARGB(235, 91, 2, 57),
+                gradient: LinearGradient(
+                  colors: [(Color(0xff00B4DB)), Color(0xff0083B0)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
               padding: const EdgeInsets.all(40.0),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.9,
@@ -172,6 +185,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         fontSize: 14,
                         color: Colors.white.withOpacity(0.5),
                       ),
+                    ),
+
+                    const SizedBox(height: 5),
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 400),
+                      child: passwordErrorWidget(),
                     ),
                     const SizedBox(height: 40),
                     SizedBox(
@@ -245,12 +264,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    AnimatedSize(
-                      duration: const Duration(milliseconds: 400),
-                      child: passwordErrorWidget(),
-                    ),
-                    const SizedBox(height: 40),
                     SizedBox(
                       height: 60,
                       width: double.maxFinite,
@@ -275,7 +288,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               ? MaterialStateProperty.all(
                                   const Color(0xff0DF5E3),
                                 )
-                              : MaterialStateProperty.all(Colors.white10),
+                              : MaterialStateProperty.all(
+                                  Color.fromARGB(240, 125, 115, 115)),
                         ),
                         child: isLoading
                             ? const SizedBox(
@@ -326,38 +340,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      height: 60,
-                      width: double.maxFinite,
-                      child: TextButton(
-                        onPressed: () {
-                          AuthBloc.addEventWithoutContext(
-                            const AuthEvent.signInUsingGoogle(),
-                          );
-                        },
-                        style: ButtonStyle(
-                          overlayColor:
-                              MaterialStateProperty.all(Colors.white10),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.black),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/auth/google.svg',
-                              height: 20,
-                            ),
-                            const SizedBox(width: 10),
-                            const Text(
-                              "Continue with Google",
-                              style: TextStyle(color: Colors.white30),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
+
+                    //const Spacer(),
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacement(
@@ -394,7 +378,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ),
             ),
           ),
-        );
+        ));
       },
     );
   }

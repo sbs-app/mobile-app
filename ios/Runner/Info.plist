@@ -51,5 +51,7 @@
 	<string>To upload profile image</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To upload profile image</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

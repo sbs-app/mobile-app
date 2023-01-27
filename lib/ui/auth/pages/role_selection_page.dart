@@ -38,7 +38,8 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
     super.initState();
   }
 
-  String get email => (getIt<Box>().get(HiveBoxNames.user) as UserModel).email;
+  String get username =>
+      (getIt<Box>().get(HiveBoxNames.user) as UserModel).userName;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +90,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        email,
+                        username,
                         style: const TextStyle(
                           color: Colors.white,
                           // fontWeight: FontWeight.w600,

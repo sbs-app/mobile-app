@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       },
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Color.fromARGB(255, 24, 29, 29),
+          backgroundColor: const Color.fromARGB(255, 24, 29, 29),
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 SizedBox(
                   height: 80,
                   child: DefaultTextStyle(
-                    style: TextStyle(fontSize: 45, color: Colors.white),
+                    style: const TextStyle(fontSize: 45, color: Colors.white),
                     child: Container(
                       margin: const EdgeInsets.only(top: 20),
                       alignment: Alignment.center,
@@ -182,8 +182,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           FadeAnimatedText('Welcome!'),
                         ],
                         repeatForever: true,
-                        //totalRepeatCount: 4,
-                        pause: const Duration(milliseconds: 1000),
                         displayFullTextOnTap: true,
                       ),
                     ),
@@ -300,7 +298,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(
+                              side: const BorderSide(
                                   color: Color.fromARGB(255, 54, 165, 244)))),
                       backgroundColor: isValid
                           ? MaterialStateProperty.all(

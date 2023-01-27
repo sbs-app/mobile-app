@@ -341,9 +341,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                     FocusScope.of(context).unfocus();
                     showErrors = true;
                     if (isValid) {
-                      child:
                       isLoading = true;
-
                       AuthBloc.addEventWithoutContext(
                         AuthEvent.signUpUsingUsername(
                           userName: userNameController.text,
@@ -352,54 +350,33 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                         ),
                       );
                     }
-                    
-                    
-                         setState(() {});
-                     
+                    setState(() {});
                   },
-                     style:
-                    ButtonStyle(
-                      overlayColor: MaterialStateProperty.all(Colors.white),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: const BorderSide(
-                                  color: Color.fromARGB(255, 54, 165, 244)))),
-                      backgroundColor: isValid
-                          ? MaterialStateProperty.all(
-                              const Color(0xff0DF5E3),
-                            )
-                          : MaterialStateProperty.all(
-                              const Color(0xff0083B0),
+                  child: isLoading
+                      ? const SizedBox(
+                          height: 15,
+                          width: 15,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        )
+                      : Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          height: 54,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [(Color(0xff00B4DB)), Color(0xff0083B0)],
                             ),
-                    );
-                  child:
-                    isLoading
-                        ? const SizedBox(
-                            height: 15,
-                            width: 15,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            ),
-                          );
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(left: 20, right: 20, top: 70),
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    height: 54,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [(Color(0xff00B4DB)), Color(0xff0083B0)],
-                      ),
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.grey[200],
-                    ),
-                    child: const Text(
-                      "REGISTER",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                            borderRadius: BorderRadius.circular(50),
+                            color: Colors.grey[200],
+                          ),
+                          child: const Text(
+                            "REGISTER",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 10),

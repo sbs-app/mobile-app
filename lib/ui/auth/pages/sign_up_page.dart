@@ -157,7 +157,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
       },
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: const Color(0xffCEBAC5),
+          backgroundColor: const Color.fromARGB(255, 24, 29, 29),
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -170,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                     ),
                     color: Color.fromARGB(235, 91, 2, 57),
                     gradient: LinearGradient(
-                      colors: [(Color(0xffc31432)), Color(0xff240b36)],
+                      colors: [(Color(0xff00B4DB)), Color(0xff0083B0)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -207,21 +207,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     color: Colors.grey[200],
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(0, 10),
-                        blurRadius: 50,
-                        color: Color(0xffEEEEEE),
-                      ),
-                    ],
                   ),
                   child: TextFormField(
                     controller: userNameController,
-                    cursorColor: const Color(0xffF5591F),
+                    cursorColor: const Color(0xff0083B0),
                     decoration: const InputDecoration(
                       icon: Icon(
                         Icons.person,
-                        color: Color(0xffF5591F),
+                        color: Color(0xff0083B0),
                       ),
                       hintText: "Full Name",
                       enabledBorder: InputBorder.none,
@@ -242,22 +235,15 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     color: Colors.grey[200],
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(0, 10),
-                        blurRadius: 50,
-                        color: Color(0xffEEEEEE),
-                      ),
-                    ],
                   ),
                   child: TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    cursorColor: const Color(0xffF5591F),
+                    cursorColor: const Color(0xff0083B0),
                     decoration: const InputDecoration(
                       icon: Icon(
                         Icons.email,
-                        color: Color(0xffF5591F),
+                        color: Color(0xff0083B0),
                       ),
                       hintText: "Email",
                       enabledBorder: InputBorder.none,
@@ -278,20 +264,13 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     color: const Color(0xffEEEEEE),
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(0, 20),
-                        blurRadius: 100,
-                        color: Color(0xffEEEEEE),
-                      ),
-                    ],
                   ),
                   child: TextFormField(
                     controller: passwordController,
                     obscureText: !showPassword,
-                    cursorColor: const Color(0xffF5591F),
+                    cursorColor: const Color(0xff0083B0),
                     decoration: InputDecoration(
-                      focusColor: const Color(0xffF5591F),
+                      focusColor: const Color(0xff0083B0),
                       suffixIcon: IconButton(
                         splashRadius: 25,
                         onPressed: () {
@@ -308,7 +287,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                       ),
                       icon: const Icon(
                         Icons.key,
-                        color: Color(0xffF5591F),
+                        color: Color(0xff0083B0),
                       ),
                       hintText: "Enter Password",
                       enabledBorder: InputBorder.none,
@@ -357,12 +336,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                 //     },
                 //   ),
                 // ),
-                GestureDetector(
-                  onTap: () {
+                TextButton(
+                  onPressed: () {
                     FocusScope.of(context).unfocus();
                     showErrors = true;
                     if (isValid) {
+                      child:
                       isLoading = true;
+
                       AuthBloc.addEventWithoutContext(
                         AuthEvent.signUpUsingUsername(
                           userName: userNameController.text,
@@ -371,8 +352,37 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                         ),
                       );
                     }
-                    setState(() {});
+                    
+                    
+                         setState(() {});
+                     
                   },
+                     style:
+                    ButtonStyle(
+                      overlayColor: MaterialStateProperty.all(Colors.white),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: const BorderSide(
+                                  color: Color.fromARGB(255, 54, 165, 244)))),
+                      backgroundColor: isValid
+                          ? MaterialStateProperty.all(
+                              const Color(0xff0DF5E3),
+                            )
+                          : MaterialStateProperty.all(
+                              const Color(0xff0083B0),
+                            ),
+                    );
+                  child:
+                    isLoading
+                        ? const SizedBox(
+                            height: 15,
+                            width: 15,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          );
                   child: Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.only(left: 20, right: 20, top: 70),
@@ -380,17 +390,10 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                     height: 54,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [(Color(0xffF5591F)), Color(0xffF2861E)],
+                        colors: [(Color(0xff00B4DB)), Color(0xff0083B0)],
                       ),
                       borderRadius: BorderRadius.circular(50),
                       color: Colors.grey[200],
-                      boxShadow: const [
-                        BoxShadow(
-                          offset: Offset(0, 10),
-                          blurRadius: 50,
-                          color: Color(0xffEEEEEE),
-                        ),
-                      ],
                     ),
                     child: const Text(
                       "REGISTER",
@@ -407,7 +410,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                       GestureDetector(
                         child: const Text(
                           "Login Now",
-                          style: TextStyle(color: Color(0xffF5591F)),
+                          style: TextStyle(color: Color(0xff0DF5E3)),
                         ),
                         onTap: () {
                           Navigator.pushReplacement(

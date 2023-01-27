@@ -297,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                                           style: ButtonStyle(
                                             backgroundColor:
                                                 MaterialStateProperty.all(
-                                              Colors.red.shade300,
+                                              Color(0xff00B4DB),
                                             ),
                                             overlayColor:
                                                 MaterialStateProperty.all(

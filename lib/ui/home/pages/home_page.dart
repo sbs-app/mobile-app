@@ -6,6 +6,7 @@ import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/auth/pages/login_page.dart';
+import 'package:classroom/ui/home/pages/calendarui.dart';
 import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
@@ -234,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                                             children: const [
                                               Icon(
                                                 Icons.settings,
-                                                color: Colors.black26,
+                                                color: Colors.black87,
                                                 size: 14,
                                               ),
                                               SizedBox(width: 10),
@@ -252,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                                           style: ButtonStyle(
                                             overlayColor:
                                                 MaterialStateProperty.all(
-                                              Colors.black12,
+                                              Colors.black87,
                                             ),
                                           ),
                                           onPressed: () async {
@@ -279,12 +280,57 @@ class _HomePageState extends State<HomePage> {
                                             children: const [
                                               Icon(
                                                 Icons.repeat,
-                                                color: Colors.black26,
+                                                color: Colors.black87,
                                                 size: 14,
                                               ),
                                               SizedBox(width: 10),
                                               Text(
                                                 "Switch role",
+                                                style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        TextButton(
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                              Colors.white,
+                                            ),
+                                            overlayColor:
+                                                MaterialStateProperty.all(
+                                              Colors.white10,
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            await Future.delayed(
+                                              const Duration(
+                                                milliseconds: 400,
+                                              ),
+                                            );
+                                            controller.hideMenu();
+
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const CalendarUI(),
+                                              ),
+                                            );
+                                          },
+                                          child: Row(
+                                            children: const [
+                                              Icon(
+                                                Icons.calendar_month,
+                                                color: Colors.black87,
+                                                size: 14,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Calendar",
                                                 style: TextStyle(
                                                   color: Colors.black87,
                                                   fontSize: 12,
@@ -326,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                                           child: Row(
                                             children: const [
                                               Icon(
-                                                Icons.logout_outlined,
+                                                Icons.logout_rounded,
                                                 color: Colors.white,
                                                 size: 14,
                                               ),

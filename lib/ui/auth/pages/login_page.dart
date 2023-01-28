@@ -296,10 +296,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     style: ButtonStyle(
                       overlayColor: MaterialStateProperty.all(Colors.white),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: const BorderSide(
-                                  color: Color.fromARGB(255, 54, 165, 244)))),
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(
+                            color: Color.fromARGB(255, 54, 165, 244),
+                          ),
+                        ),
+                      ),
                       backgroundColor: isValid
                           ? MaterialStateProperty.all(
                               const Color(0xff0DF5E3),
@@ -339,7 +342,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         child: const Text(
                           "Register Now",
                           style: TextStyle(
-                              color: Color.fromARGB(255, 2, 129, 240)),
+                            color: Color.fromARGB(255, 2, 129, 240),
+                          ),
                         ),
                         onTap: () {
                           Navigator.pushReplacement(

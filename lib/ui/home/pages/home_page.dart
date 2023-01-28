@@ -6,7 +6,9 @@ import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/auth/pages/login_page.dart';
-import 'package:classroom/ui/home/pages/calendarui.dart';
+import 'package:classroom/ui/home/pages/bug_report_page.dart';
+import 'package:classroom/ui/home/pages/calendar_page.dart';
+import 'package:classroom/ui/chat/chat_page.dart';
 import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
@@ -64,7 +66,6 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         final bool isUserStudent = getUserModel().roleId == 0;
-        final String userEmail = getUserModel().email;
         final String userName = getUserModel().userName;
 
         return SafeArea(
@@ -190,13 +191,6 @@ class _HomePageState extends State<HomePage> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              Text(
-                                                userEmail,
-                                                style: const TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
                                             ],
                                           ),
                                         ),
@@ -251,9 +245,13 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         TextButton(
                                           style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                              Colors.white,
+                                            ),
                                             overlayColor:
                                                 MaterialStateProperty.all(
-                                              Colors.black87,
+                                              Colors.white10,
                                             ),
                                           ),
                                           onPressed: () async {
@@ -262,30 +260,25 @@ class _HomePageState extends State<HomePage> {
                                                 milliseconds: 400,
                                               ),
                                             );
-                                            AuthBloc.addEventWithoutContext(
-                                              const AuthEvent.switchRole(),
-                                            );
                                             controller.hideMenu();
-                                            Fluttertoast.showToast(
-                                              msg: !isUserStudent
-                                                  ? "Logged in as Student"
-                                                  : "Logged in as Teacher",
-                                              textColor: Colors.black87,
-                                              backgroundColor: Colors.white,
-                                              toastLength: Toast.LENGTH_LONG,
-                                              fontSize: 12,
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const CalendarPage(),
+                                              ),
                                             );
                                           },
                                           child: Row(
                                             children: const [
                                               Icon(
-                                                Icons.repeat,
+                                                Icons.calendar_month,
                                                 color: Colors.black87,
                                                 size: 14,
                                               ),
                                               SizedBox(width: 10),
                                               Text(
-                                                "Switch role",
+                                                "Calendar",
                                                 style: TextStyle(
                                                   color: Colors.black87,
                                                   fontSize: 12,
@@ -312,25 +305,24 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                             );
                                             controller.hideMenu();
-
-                                            Navigator.pushReplacement(
+                                            Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (_) =>
-                                                    const CalendarUI(),
+                                                    const ChatPage(),
                                               ),
                                             );
                                           },
                                           child: Row(
                                             children: const [
                                               Icon(
-                                                Icons.calendar_month,
+                                                Icons.chat,
                                                 color: Colors.black87,
                                                 size: 14,
                                               ),
                                               SizedBox(width: 10),
                                               Text(
-                                                "Calendar",
+                                                "Chat",
                                                 style: TextStyle(
                                                   color: Colors.black87,
                                                   fontSize: 12,
@@ -343,7 +335,7 @@ class _HomePageState extends State<HomePage> {
                                           style: ButtonStyle(
                                             backgroundColor:
                                                 MaterialStateProperty.all(
-                                              Color(0xff00B4DB),
+                                              const Color(0xff00B4DB),
                                             ),
                                             overlayColor:
                                                 MaterialStateProperty.all(
@@ -393,7 +385,10 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               );
                             },
-                            child: const UserAvatar(),
+                            child: const UserAvatar(
+                              height: 35,
+                              width: 35,
+                            ),
                           )
                         ],
                       ),

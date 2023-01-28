@@ -8,6 +8,7 @@ class AuthState with _$AuthState {
     required Option<Either<AuthFailure, Unit>> signInUsingEmailOption,
     required Option<Either<AuthFailure, Unit>> signInUsingGoogleOption,
     required Option<Either<AuthFailure, Unit>> registerRoleOption,
+    required Option<Either<AuthFailure, Unit>> updateUserOption,
     required Option<Either<AuthFailure, Unit>> switchRoleOption,
     required Option<Either<AuthFailure, Unit>> signOutOption,
   }) = _AuthState;
@@ -18,6 +19,7 @@ class AuthState with _$AuthState {
         signInUsingEmailOption: none(),
         signInUsingGoogleOption: none(),
         registerRoleOption: none(),
+        updateUserOption: none(),
         signOutOption: none(),
         switchRoleOption: none(),
       );

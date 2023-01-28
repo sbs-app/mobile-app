@@ -21,6 +21,7 @@ abstract class IAuthController {
 
   /// Register user role:- [Student, Teacher]
   Future<Either<AuthFailure, Unit>> registerRole(int roleId);
+  Future<Either<AuthFailure, Unit>> updateUser(UserModel newUser);
   Future<Either<AuthFailure, Unit>> switchRole();
   Future<Either<AuthFailure, Unit>> signOut();
 }

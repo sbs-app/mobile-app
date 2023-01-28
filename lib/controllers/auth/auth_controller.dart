@@ -5,7 +5,6 @@ import 'package:classroom/models/auth/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
@@ -170,6 +169,28 @@ class AuthController extends IAuthController {
     //     return const Left(AuthFailure.googleSignInAccountRetrieve());
     //   }
     // }
+  }
+
+  @override
+  Future<Either<AuthFailure, Unit>> updateUser(UserModel newUser) async {
+    try {
+      final UserModel currentModel = box.get(HiveBoxNames.user) as UserModel;
+      final UserModel newModel = currentModel.copyWith(
+        roleId: newUser.roleId,
+        email: newUser.email,
+        userName: newUser.userName,
+        id: newUser.id,
+        classes: newUser.classes,
+      );
+
+      firebaseFirestore.doc('/users/${currentModel.id}').set(newModel.toJson());
+
+      box.put(HiveBoxNames.user, newModel.copyWith());
+
+      return const Right(unit);
+    } catch (e) {
+      return const Left(AuthFailure.clientAuthFailure());
+    }
   }
 
   @override

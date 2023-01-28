@@ -114,6 +114,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           },
         );
       },
+      updateUser: (e) async* {
+        yield state.copyWith(updateUserOption: none());
+        final failureOrSuccess = await AuthController.updateUser(e.newUser);
+
+        yield failureOrSuccess.fold(
+          (l) => state.copyWith(updateUserOption: Some(Left(l))),
+          (r) => state.copyWith(
+            updateUserOption: const Some(Right(unit)),
+            user: state.user?.copyWith(
+              roleId: e.newUser.roleId,
+              email: e.newUser.email,
+              userName: e.newUser.userName,
+              id: e.newUser.id,
+              classes: e.newUser.classes,
+            ),
+          ),
+        );
+      },
       signOut: (_) async* {
         yield state.copyWith(signOutOption: none());
         final failureOrSuccess = await AuthController.signOut();

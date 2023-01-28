@@ -1,52 +1,22 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
-import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
-import 'package:classroom/states/course/course_bloc.dart';
-import 'package:classroom/ui/auth/pages/login_page.dart';
-import 'package:classroom/ui/home/pages/course_page.dart';
-import 'package:classroom/ui/home/pages/create_course_page.dart';
+import 'package:classroom/ui/home/pages/bug_report_page.dart';
+import 'package:classroom/ui/home/pages/update_profile_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
-import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
-import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  List<Map<String, Color>> coverUrls = [
-    {"breakfast": const Color(0xffFF8A66)},
-    {"code": const Color(0xff566E7A)},
-    {"learnlanguage": const Color(0xff3367D5)},
-    {"cooking": const Color(0xff848484)},
-    {"mealfamily": const Color(0xff4FC2F8)},
-    {"read": const Color(0xff566E7A)},
-    {"handcraft": const Color(0xff8E22A9)},
-  ];
-  late CustomPopupMenuController controller;
-
-  @override
-  void initState() {
-    controller = CustomPopupMenuController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
   UserModel getUserModel() {
     if (getIt<Box>().get(HiveBoxNames.user) != null) {
       return getIt<Box>().get(HiveBoxNames.user) as UserModel;
@@ -58,12 +28,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final String userName = getUserModel().userName;
+    final String email = getUserModel().email;
+
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        final bool isUserStudent = getUserModel().roleId == 0;
-        final String userEmail = getUserModel().email;
-        final String userName = getUserModel().userName;
-
         return SafeArea(
           child: Scaffold(
             backgroundColor: Colors.black,
@@ -107,17 +76,111 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 Expanded(
-                    child: TextButton.icon(
-                        onPressed: () {
-                          //
-                        },
-                        icon: Icon(Icons.replay_outlined),
-                        label: Text("Reload data"))),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            tileColor: Colors.grey[900],
+                            leading: const UserAvatar(
+                              height: 35,
+                              width: 35,
+                            ),
+                            title: Text(
+                              userName,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  email,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Divider(),
+                          createSettingTitle(
+                            Icons.person,
+                            "Update profile",
+                            const UpdateProfilePage(),
+                          ),
+                          createSettingTitle(
+                            Icons.bug_report,
+                            "Report Bug",
+                            const ReportBugPage(),
+                          ),
+                          createSettingTitle(
+                            Icons.balance,
+                            "Licenses",
+                            const LicensePage(
+                              applicationName: "Classroom App",
+                              applicationIcon: Icon(Icons.class_),
+                              applicationLegalese:
+                                  "Copyright (c) 2023 Andrew, Shafil, Suraj",
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget createSettingTitle(IconData icon, String name, Widget page) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => page,
+          ),
+        ),
+        child: ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          tileColor: Colors.grey[900],
+          title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 35,
+                ),
+              ),
+              Text(
+                name,
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+              ),
+            ],
+          ),
+          trailing: const Icon(
+            Icons.arrow_forward,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

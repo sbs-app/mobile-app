@@ -312,7 +312,10 @@ class _CoursePageState extends State<CoursePage> {
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                     tileColor: Colors.grey[900],
-                                    leading: const UserAvatar(),
+                                    leading: const UserAvatar(
+                                      height: 35,
+                                      width: 35,
+                                    ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
@@ -367,7 +370,10 @@ class _CoursePageState extends State<CoursePage> {
                                 return ListTile(
                                   leading: const Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: UserAvatar(),
+                                    child: UserAvatar(
+                                      height: 35,
+                                      width: 35,
+                                    ),
                                   ),
                                   title: Text(
                                     student ?? "student@fixme.com",
@@ -431,7 +437,10 @@ class _CoursePageState extends State<CoursePage> {
                                 return ListTile(
                                   leading: const Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: UserAvatar(),
+                                    child: UserAvatar(
+                                      height: 35,
+                                      width: 35,
+                                    ),
                                   ),
                                   title: Text(
                                     teacher ?? "teacher@fixme.com",

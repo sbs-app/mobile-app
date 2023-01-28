@@ -48,7 +48,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To upload profile image</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>To upload profile image</string>
+	<string>Used by Flutter</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To upload profile image</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

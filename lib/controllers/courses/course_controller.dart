@@ -110,6 +110,19 @@ class CourseController extends ICoursesController {
     current.classes.add(courseCode);
     firebaseFirestore.doc('/users/$studentId').update(current.toJson());
 
+    // Add user to class
+    final CourseModel currentCourse = await getFirestoreClass(courseCode);
+
+    final List<String> updatedStudents = currentCourse.students!;
+    updatedStudents.add(getUserModel().userName);
+
+    final CourseModel updatedCourse =
+        currentCourse.copyWith(students: updatedStudents);
+
+    firebaseFirestore
+        .doc('/classes/$courseCode')
+        .update(updatedCourse.toJson());
+
     await box.put(HiveBoxNames.user, current.copyWith());
 
     return const Right(unit);
@@ -152,7 +165,6 @@ class CourseController extends ICoursesController {
     // Check if null or empty
     if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
 
-    // Remove class from user
     final CourseModel updatedCourse =
         (await getFirestoreClass(courseCode)).copyWith(name: name);
     firebaseFirestore

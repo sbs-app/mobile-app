@@ -378,15 +378,25 @@ class _CoursePageState extends State<CoursePage> {
                                 final String student =
                                     widget.course.students![index];
                                 return ListTile(
-                                  leading: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: UserAvatar(
+                                  leading: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
                                       height: 35,
                                       width: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white10,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.asset(
+                                          "assets/auth/man.png",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   title: Text(
-                                    student ?? "student@fixme.com",
+                                    student,
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.white60,
@@ -445,15 +455,25 @@ class _CoursePageState extends State<CoursePage> {
                               itemBuilder: (BuildContext context, int index) {
                                 final String teacher = widget.course.teacher!;
                                 return ListTile(
-                                  leading: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: UserAvatar(
+                                  leading: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
                                       height: 35,
                                       width: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white10,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.asset(
+                                          "assets/auth/man.png",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   title: Text(
-                                    teacher ?? "teacher@fixme.com",
+                                    teacher,
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.white60,

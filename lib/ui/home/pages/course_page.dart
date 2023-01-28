@@ -312,9 +312,19 @@ class _CoursePageState extends State<CoursePage> {
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                     tileColor: Colors.grey[900],
-                                    leading: const UserAvatar(
+                                    leading: Container(
                                       height: 35,
                                       width: 35,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white10,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.asset(
+                                          "assets/auth/man.png",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 8.0),

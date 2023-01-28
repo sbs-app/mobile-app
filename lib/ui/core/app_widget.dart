@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppWidget extends StatelessWidget {
-  AppWidget({Key? key}) : super(key: key);
+  AppWidget({super.key});
 
   final NavigationService _navigationService = getIt<NavigationService>();
 
@@ -37,6 +37,7 @@ class AppWidget extends StatelessWidget {
         key: _navigationService.navigationKey,
         theme: ThemeData.light().copyWith(
           textTheme: GoogleFonts.montserratTextTheme(),
+          appBarTheme: const AppBarTheme(color: Colors.black),
           splashFactory: InkRipple.splashFactory,
           pageTransitionsTheme: const PageTransitionsTheme(
             builders: <TargetPlatform, PageTransitionsBuilder>{

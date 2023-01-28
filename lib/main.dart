@@ -1,3 +1,8 @@
+/*
+ Main entry point for classroom app.
+ Copyright (c) 2023 Andrew, Shafil, Suraj 
+*/
+
 import 'dart:io';
 
 import 'package:classroom/core/strings.dart';
@@ -13,14 +18,19 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Connect to Firebase backend
   await Firebase.initializeApp();
 
+  // Set up folder to cache user data
   final Directory directory =
       await path_provider.getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(UserModelAdapter());
   await Hive.openBox<UserModel>(HiveBoxNames.user);
+
+  // Use production code and inject Auth + Course controllers
   configureInjection(Environment.prod);
 
+  // Run app
   runApp(Phoenix(child: AppWidget()));
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
@@ -5,10 +7,12 @@ import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/auth/pages/role_selection_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({super.key});
@@ -135,6 +139,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                      ),
                                       title: const Text('Change name'),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
@@ -198,18 +207,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                               },
                             ),
                             createSettingTitle(
-                              Icons.person_pin_circle,
-                              "Change profile image",
-                              () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const UpdateProfilePage(),
-                                  ),
-                                );
-                              },
-                            ),
-                            createSettingTitle(
                               Icons.email,
                               "Change email",
                               () {
@@ -221,6 +218,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                      ),
                                       title: const Text('Change email'),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
@@ -332,6 +334,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                      ),
                                       title: const Text('Change password'),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
@@ -397,6 +404,129 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                             }
                                             Fluttertoast.showToast(
                                               msg: "Password updated!",
+                                              textColor: Colors.black87,
+                                              backgroundColor: Colors.white,
+                                              toastLength: Toast.LENGTH_LONG,
+                                              fontSize: 12,
+                                            );
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            textStyle: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge,
+                                          ),
+                                          child: const Text('Cancel'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            createSettingTitle(
+                              Icons.person_pin_circle,
+                              "Change profile image",
+                              () {
+                                final TextEditingController oldPass =
+                                    TextEditingController();
+                                return showDialog<void>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                      ),
+                                      title: const Text('Change profile image'),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          TextFormField(
+                                            controller: oldPass,
+                                            obscureText: true,
+                                            decoration: const InputDecoration(
+                                              icon: Icon(
+                                                Icons.password,
+                                                color: Colors.black,
+                                              ),
+                                              hintText:
+                                                  "Enter current password",
+                                              hintStyle:
+                                                  TextStyle(color: Colors.grey),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            textStyle: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge,
+                                          ),
+                                          child: const Text('Choose image'),
+                                          onPressed: () async {
+                                            final ImagePicker picker =
+                                                ImagePicker();
+                                            final XFile? image =
+                                                await picker.pickImage(
+                                              source: ImageSource.gallery,
+                                            );
+
+                                            if (image == null) {
+                                              Fluttertoast.showToast(
+                                                msg:
+                                                    "No photo was selected or invalid",
+                                                textColor: Colors.black87,
+                                                backgroundColor: Colors.white,
+                                                toastLength: Toast.LENGTH_LONG,
+                                                fontSize: 12,
+                                              );
+                                              return;
+                                            }
+
+                                            final Reference ref =
+                                                FirebaseStorage.instance
+                                                    .ref()
+                                                    .child(
+                                                      "profile-images/${getUserModel().id}.png",
+                                                    );
+                                            final TaskSnapshot uploadTask =
+                                                await ref
+                                                    .putFile(File(image.path));
+                                            String imageURL = "";
+                                            imageURL = await uploadTask.ref
+                                                .getDownloadURL();
+
+                                            try {
+                                              await FirebaseAuth.instance
+                                                  .signInWithEmailAndPassword(
+                                                email: getUserModel().email,
+                                                password: oldPass.text,
+                                              )
+                                                  .then((firebaseUser) async {
+                                                await firebaseUser.user!
+                                                    .updatePhotoURL(imageURL);
+                                              });
+                                            } catch (err) {
+                                              Fluttertoast.showToast(
+                                                msg: "Error: $err",
+                                                textColor: Colors.black87,
+                                                backgroundColor: Colors.white,
+                                                toastLength: Toast.LENGTH_LONG,
+                                                fontSize: 12,
+                                              );
+                                              return;
+                                            }
+                                            Fluttertoast.showToast(
+                                              msg: "Profile updated!",
                                               textColor: Colors.black87,
                                               backgroundColor: Colors.white,
                                               toastLength: Toast.LENGTH_LONG,

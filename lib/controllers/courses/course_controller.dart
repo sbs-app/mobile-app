@@ -57,12 +57,12 @@ class CourseController extends ICoursesController {
     final UserModel cacheUser = await box.get(HiveBoxNames.user) as UserModel;
     final List<CourseModel> courses = [];
 
-    // for (final String classCode in cacheUser.classes) {
-    //   if (classCode != "") {
-    //     final CourseModel course = await getFirestoreClass(classCode);
-    //     courses.add(course);
-    //   }
-    // }
+    for (final String classCode in cacheUser.classes) {
+      if (classCode != "") {
+        final CourseModel course = await getFirestoreClass(classCode);
+        courses.add(course);
+      }
+    }
 
     return Right(courses);
   }

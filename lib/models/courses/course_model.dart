@@ -1,6 +1,7 @@
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 
 class CourseModel {
@@ -18,15 +19,32 @@ class CourseModel {
   final String code;
   final String name;
   final String? description;
-  final String? teacher;
-  final List<String>? students;
+  final UserModel? teacher;
+  final List<UserModel>? students;
   final List<String>? posts;
 
   bool get isCreatedByMe =>
       (getIt<Box>().get(HiveBoxNames.user) as UserModel).id == id;
 
-  factory CourseModel.fromFirestore(Map data) {
-    final List<String> students = List<String>.from(data['students']! as List);
+  static Future<UserModel> getFirestoreUser(String userId) async {
+    return FirebaseFirestore.instance.doc('/users/$userId').get().then(
+          (documentSnapshot) =>
+              UserModel.fromFirestore(documentSnapshot.data()!),
+        );
+  }
+
+  static Future<CourseModel> fromFirestore(Map data) async {
+    final List<String> studentIds =
+        List<String>.from(data['students']! as List);
+
+    final List<UserModel> students = <UserModel>[];
+
+    for (final String id in studentIds) {
+      students.add(await getFirestoreUser(id));
+    }
+
+    final UserModel teacher =
+        await getFirestoreUser(data['teacher']! as String);
 
     final List<String> posts = List<String>.from(data['posts']! as List);
 
@@ -35,7 +53,7 @@ class CourseModel {
       code: data['code']! as String,
       name: data['name']! as String,
       description: data['description']! as String,
-      teacher: data['teacher']! as String,
+      teacher: teacher,
       students: students,
       posts: posts,
     );
@@ -46,8 +64,8 @@ class CourseModel {
     String? code,
     String? name,
     String? description,
-    String? teacher,
-    List<String>? students,
+    UserModel? teacher,
+    List<UserModel>? students,
     List<String>? posts,
   }) =>
       CourseModel(
@@ -65,7 +83,7 @@ class CourseModel {
         "code": code,
         "name": name,
         "description": description,
-        "teacher": teacher,
+        "teacher": teacher!.id,
         "students": students,
         "posts": posts
       };

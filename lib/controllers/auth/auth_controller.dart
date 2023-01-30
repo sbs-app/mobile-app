@@ -46,7 +46,7 @@ class AuthController extends IAuthController {
         id: userCredential.user!.uid,
         roleId: 0,
         userName: userName,
-        classes: <String>[],
+        classes: <String>[""],
       );
 
       await box.put(HiveBoxNames.user, newUserModel.copyWith());
@@ -77,13 +77,10 @@ class AuthController extends IAuthController {
     }
   }
 
-  Future<UserModel> getFirestoreUser(UserCredential userCredential) async {
-    return firebaseFirestore
-        .doc('/users/${userCredential.user!.uid}')
-        .get()
-        .then(
+  Future<UserModel> getFirestoreUser(String userId) async {
+    return firebaseFirestore.doc('/users/$userId').get().then(
           (documentSnapshot) =>
-              UserModel.fromFirestore(documentSnapshot.data()!, userCredential),
+              UserModel.fromFirestore(documentSnapshot.data()!),
         );
   }
 
@@ -96,7 +93,8 @@ class AuthController extends IAuthController {
       final UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
 
-      final UserModel userModel = await getFirestoreUser(userCredential);
+      final UserModel userModel =
+          await getFirestoreUser(userCredential.user!.uid);
 
       await box.put(HiveBoxNames.user, userModel.copyWith());
 
@@ -222,10 +220,12 @@ class AuthController extends IAuthController {
     try {
       final userModel = box.get(HiveBoxNames.user) as UserModel;
 
-      if (userModel.roleId == 0) {
-        await box.put(HiveBoxNames.user, userModel.copyWith(roleId: 1));
+      if (userModel.roleId == UserTypes.student) {
+        await box.put(
+            HiveBoxNames.user, userModel.copyWith(roleId: UserTypes.teacher));
       } else {
-        await box.put(HiveBoxNames.user, userModel.copyWith(roleId: 0));
+        await box.put(
+            HiveBoxNames.user, userModel.copyWith(roleId: UserTypes.student));
       }
 
       return const Right(unit);

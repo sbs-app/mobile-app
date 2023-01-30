@@ -214,7 +214,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                                 CourseEvent.createCourse(
                                   classNameController.text,
                                   getUserModel().id,
-                                  getUserModel().userName,
+                                  getUserModel(),
                                 ),
                               );
                             } else {

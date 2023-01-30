@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        final bool isUserStudent = getUserModel().roleId == 0;
+        final bool isUserStudent = getUserModel().roleId == UserTypes.student;
         final String userName = getUserModel().userName;
 
         return SafeArea(
@@ -435,7 +435,7 @@ class _HomePageState extends State<HomePage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => CoursePage(
-                                        course: course,
+                                        courseCode: course.code,
                                         courseCoverImageUrl:
                                             "https://www.gstatic.com/classroom/themes/img_${coverUrls[index % 7].entries.first.key}.jpg",
                                         primaryColor:
@@ -474,8 +474,7 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ),
                                           Text(
-                                            course.teacher ??
-                                                "teacher@fixme.com",
+                                            course.teacher!.userName,
                                             style: const TextStyle(
                                               color: Colors.white54,
                                             ),

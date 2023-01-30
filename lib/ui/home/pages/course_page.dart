@@ -18,16 +18,17 @@ import 'package:hive/hive.dart';
 
 class CoursePage extends StatefulWidget {
   const CoursePage({
-    Key? key,
-    required this.course,
+    super.key,
+    required this.courseCode,
     required this.primaryColor,
     required this.courseCoverImageUrl,
-  }) : super(key: key);
-  final CourseModel course;
+  });
+  final String courseCode;
   final String courseCoverImageUrl;
   final Color primaryColor;
 
   @override
+  // ignore: no_logic_in_create_state
   _CoursePageState createState() => _CoursePageState();
 }
 
@@ -74,136 +75,142 @@ class _CoursePageState extends State<CoursePage> {
                 },
               ),
             );
+            // Force update
+            setState(() {});
           },
           builder: (context, state) {
             final isUserStudent =
-                (getIt<Box>().get(HiveBoxNames.user) as UserModel).roleId == 0;
+                (getIt<Box>().get(HiveBoxNames.user) as UserModel).roleId ==
+                    UserTypes.student;
+
+            final index = state.courses
+                .indexWhere((course) => widget.courseCode == course.code);
+            if (index <= -1) Navigator.pop(context);
+            final course = state.courses[index];
+
             return Scaffold(
               backgroundColor: Colors.black,
-              floatingActionButton:
-                  widget.course.isCreatedByMe && !isUserStudent
-                      ? SpeedDial(
-                          overlayColor: Colors.black12,
-                          spacing: 20,
-                          backgroundColor: Colors.white,
-                          activeChild: const Icon(
-                            Icons.close,
-                            color: Colors.black,
-                          ),
-                          children: [
-                            SpeedDialChild(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => CreatePostPage(
-                                      courseCode: widget.course.code,
-                                      post: "",
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Icon(
-                                Icons.add,
-                                color: Colors.black,
+              floatingActionButton: course.isCreatedByMe && !isUserStudent
+                  ? SpeedDial(
+                      overlayColor: Colors.black12,
+                      spacing: 20,
+                      backgroundColor: Colors.white,
+                      activeChild: const Icon(
+                        Icons.close,
+                        color: Colors.black,
+                      ),
+                      children: [
+                        SpeedDialChild(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => CreatePostPage(
+                                  courseCode: course.code,
+                                  post: "",
+                                ),
                               ),
-                              label: "Add post",
-                            ),
-                            SpeedDialChild(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => InviteStudentPage(
-                                      courseId: widget.course.id,
-                                      courseCode: widget.course.code,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Icon(
-                                Icons.person_add_alt,
-                                color: Colors.black,
-                              ),
-                              label: "Invite Students",
-                            ),
-                            SpeedDialChild(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => CreateCoursePage(
-                                      courseCode: widget.course.code,
-                                      name: widget.course.name,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Icon(
-                                Icons.edit_outlined,
-                                color: Colors.black,
-                              ),
-                              label: "Edit Course",
-                            ),
-                            SpeedDialChild(
-                              backgroundColor: Colors.red.shade400,
-                              onTap: () {
-                                CourseBloc.addEventWithoutContext(
-                                  CourseEvent.deleteCourse(widget.course.id),
-                                );
-                                Navigator.pop(context);
-                              },
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.black54,
-                              ),
-                              label: "Delete Course",
-                            ),
-                          ],
+                            );
+                          },
                           child: const Icon(
-                            Icons.menu,
+                            Icons.add,
                             color: Colors.black,
                           ),
-                        )
-                      : SpeedDial(
-                          overlayColor: Colors.black12,
-                          spacing: 20,
-                          backgroundColor: Colors.white,
-                          activeChild: const Icon(
-                            Icons.close,
-                            color: Colors.black,
-                          ),
-                          children: [
-                            SpeedDialChild(
-                              backgroundColor: Colors.red.shade400,
-                              onTap: () {
-                                CourseBloc.addEventWithoutContext(
-                                  CourseEvent.removeStudentFromCourse(
-                                    courseCode: widget.course.code,
-                                    studentId: getUserModel().id,
-                                  ),
-                                );
-                                Navigator.pop(context);
-                              },
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.black54,
-                              ),
-                              label: "Leave Course",
-                            ),
-                          ],
-                          child: const Icon(
-                            Icons.menu,
-                            color: Colors.black,
-                          ),
+                          label: "Add post",
                         ),
+                        SpeedDialChild(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => InviteStudentPage(
+                                  courseId: course.id,
+                                  courseCode: course.code,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.person_add_alt,
+                            color: Colors.black,
+                          ),
+                          label: "Invite Students",
+                        ),
+                        SpeedDialChild(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => CreateCoursePage(
+                                  courseCode: course.code,
+                                  name: course.name,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.edit_outlined,
+                            color: Colors.black,
+                          ),
+                          label: "Edit Course",
+                        ),
+                        SpeedDialChild(
+                          backgroundColor: Colors.red.shade400,
+                          onTap: () {
+                            CourseBloc.addEventWithoutContext(
+                              CourseEvent.deleteCourse(course.code),
+                            );
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.delete,
+                            color: Colors.black54,
+                          ),
+                          label: "Delete Course",
+                        ),
+                      ],
+                      child: const Icon(
+                        Icons.menu,
+                        color: Colors.black,
+                      ),
+                    )
+                  : SpeedDial(
+                      overlayColor: Colors.black12,
+                      spacing: 20,
+                      backgroundColor: Colors.white,
+                      activeChild: const Icon(
+                        Icons.close,
+                        color: Colors.black,
+                      ),
+                      children: [
+                        SpeedDialChild(
+                          backgroundColor: Colors.red.shade400,
+                          onTap: () {
+                            CourseBloc.addEventWithoutContext(
+                              CourseEvent.removeStudentFromCourse(
+                                courseCode: course.code,
+                                studentId: getUserModel().id,
+                              ),
+                            );
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.delete,
+                            color: Colors.black54,
+                          ),
+                          label: "Leave Course",
+                        ),
+                      ],
+                      child: const Icon(
+                        Icons.menu,
+                        color: Colors.black,
+                      ),
+                    ),
               body: BlocBuilder<CourseBloc, CourseState>(
                 builder: (context, state) {
                   final String? updatedCourseName = state.updatedCourseName;
-                  final String courseName =
-                      updatedCourseName ?? widget.course.name;
-                  final String teacherEmail =
-                      widget.course.teacher ?? "teacher@fixme.com";
+                  final String courseName = updatedCourseName ?? course.name;
+                  final String teacherEmail = course.teacher!.email;
                   final String myEmail =
                       (getIt<Box>().get(HiveBoxNames.user) as UserModel).email;
                   return Column(
@@ -236,7 +243,7 @@ class _CoursePageState extends State<CoursePage> {
                           fit: StackFit.expand,
                           children: [
                             Hero(
-                              tag: widget.course.code,
+                              tag: course.code,
                               transitionOnUserGestures: true,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
@@ -261,8 +268,7 @@ class _CoursePageState extends State<CoursePage> {
                                     ),
                                   ),
                                   Text(
-                                    widget.course.teacher ??
-                                        "teacher@fixme.com",
+                                    course.teacher!.userName,
                                     style: const TextStyle(
                                       color: Colors.white54,
                                     ),
@@ -303,7 +309,7 @@ class _CoursePageState extends State<CoursePage> {
                           views: [
                             ListView.builder(
                               padding: const EdgeInsets.all(10),
-                              itemCount: widget.course.posts!.length,
+                              itemCount: course.posts!.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -329,7 +335,7 @@ class _CoursePageState extends State<CoursePage> {
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
-                                        widget.course.teacher ?? "Teacher",
+                                        course.teacher!.userName,
                                         style: const TextStyle(
                                           fontSize: 16,
                                           color: Colors.white,
@@ -341,14 +347,14 @@ class _CoursePageState extends State<CoursePage> {
                                       padding:
                                           const EdgeInsets.only(bottom: 8.0),
                                       child: Text(
-                                        widget.course.posts![index],
+                                        course.posts![index],
                                         style: const TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,
                                         ),
                                       ),
                                     ),
-                                    trailing: widget.course.isCreatedByMe &&
+                                    trailing: course.isCreatedByMe &&
                                             !isUserStudent
                                         ? IconButton(
                                             icon:
@@ -357,10 +363,8 @@ class _CoursePageState extends State<CoursePage> {
                                             onPressed: () {
                                               CourseBloc.addEventWithoutContext(
                                                 CourseEvent.addPostToCourse(
-                                                  courseCode:
-                                                      widget.course.code,
-                                                  post: widget
-                                                      .course.posts![index],
+                                                  courseCode: course.code,
+                                                  post: course.posts![index],
                                                   remove: true,
                                                 ),
                                               );
@@ -373,10 +377,10 @@ class _CoursePageState extends State<CoursePage> {
                             ),
                             ListView.builder(
                               padding: const EdgeInsets.symmetric(vertical: 10),
-                              itemCount: widget.course.students!.length,
+                              itemCount: course.students!.length,
                               itemBuilder: (BuildContext context, int index) {
-                                final String student =
-                                    widget.course.students![index];
+                                final UserModel student =
+                                    course.students![index];
                                 return ListTile(
                                   leading: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -396,7 +400,7 @@ class _CoursePageState extends State<CoursePage> {
                                     ),
                                   ),
                                   title: Text(
-                                    student,
+                                    student.userName,
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.white60,
@@ -410,7 +414,7 @@ class _CoursePageState extends State<CoursePage> {
                                             CourseBloc.addEventWithoutContext(
                                               CourseEvent
                                                   .removeStudentFromCourse(
-                                                courseCode: widget.course.id,
+                                                courseCode: course.id,
                                                 studentId: getUserModel().id,
                                               ),
                                             );
@@ -453,7 +457,7 @@ class _CoursePageState extends State<CoursePage> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               itemCount: 1,
                               itemBuilder: (BuildContext context, int index) {
-                                final String teacher = widget.course.teacher!;
+                                final UserModel teacher = course.teacher!;
                                 return ListTile(
                                   leading: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -473,7 +477,7 @@ class _CoursePageState extends State<CoursePage> {
                                     ),
                                   ),
                                   title: Text(
-                                    teacher,
+                                    teacher.userName,
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.white60,

@@ -111,7 +111,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                       ),
                                     ),
                                     Text(
-                                      roleId == 0 ? "Student" : "Teacher",
+                                      roleId == UserTypes.student
+                                          ? "Student"
+                                          : "Teacher",
                                       style: const TextStyle(
                                         fontSize: 16,
                                         color: Colors.white,
@@ -554,7 +556,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                             ),
                             createSettingTitle(
                               Icons.repeat,
-                              roleId == 0
+                              roleId == UserTypes.student
                                   ? "Change to Teacher"
                                   : "Change to Student",
                               () {

@@ -24,11 +24,11 @@ class UserModel {
   @HiveField(4)
   final List<String> classes;
 
-  factory UserModel.fromFirestore(Map data, UserCredential userCredential) {
+  factory UserModel.fromFirestore(Map data) {
     final List<String> classes = List<String>.from(data['classes']! as List);
     return UserModel(
-      email: userCredential.user!.email!,
-      id: userCredential.user!.uid,
+      email: data['email']! as String,
+      id: data['id']! as String,
       roleId: data['roleId']! as int,
       userName: data['userName']! as String,
       classes: classes,

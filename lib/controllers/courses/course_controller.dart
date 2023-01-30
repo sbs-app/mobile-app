@@ -7,6 +7,7 @@ import 'package:classroom/models/courses/courses_failure.dart';
 import 'package:classroom/models/courses/i_courses_repo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
@@ -57,8 +58,10 @@ class CourseController extends ICoursesController {
     final List<CourseModel> courses = [];
 
     for (final String classCode in cacheUser.classes) {
-      final CourseModel course = await getFirestoreClass(classCode);
-      courses.add(course);
+      if (classCode != "") {
+        final CourseModel course = await getFirestoreClass(classCode);
+        courses.add(course);
+      }
     }
 
     return Right(courses);
@@ -68,7 +71,7 @@ class CourseController extends ICoursesController {
   Future<Either<CourseFailure, CourseModel>> createCourse(
     String name,
     String id,
-    String teacherName,
+    UserModel teacher,
   ) async {
     final String code = getRandomCode();
     final CourseModel newClass = CourseModel(
@@ -76,14 +79,14 @@ class CourseController extends ICoursesController {
       code: code,
       name: name,
       description: "",
-      teacher: teacherName,
-      students: <String>[],
+      teacher: teacher,
+      students: <UserModel>[],
       posts: <String>[],
     );
 
     firebaseFirestore.doc('/classes/$code').set(newClass.toJson());
 
-    await addStudentToCourse(courseCode: code, studentId: id);
+    await addStudentToCourse(courseCode: code, studentId: id, isTeacher: true);
 
     return Right(newClass);
   }
@@ -92,6 +95,7 @@ class CourseController extends ICoursesController {
   Future<Either<CourseFailure, Unit>> addStudentToCourse({
     required String courseCode,
     required String studentId,
+    bool isTeacher = false,
   }) async {
     // Check if null or empty
     if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
@@ -113,11 +117,14 @@ class CourseController extends ICoursesController {
     // Add user to class
     final CourseModel currentCourse = await getFirestoreClass(courseCode);
 
-    final List<String> updatedStudents = currentCourse.students!;
-    updatedStudents.add(getUserModel().userName);
-
-    final CourseModel updatedCourse =
-        currentCourse.copyWith(students: updatedStudents);
+    final CourseModel updatedCourse;
+    if (!isTeacher) {
+      final List<UserModel> updatedStudents = currentCourse.students!;
+      updatedStudents.add(getUserModel());
+      updatedCourse = currentCourse.copyWith(students: updatedStudents);
+    } else {
+      updatedCourse = currentCourse;
+    }
 
     firebaseFirestore
         .doc('/classes/$courseCode')
@@ -135,6 +142,11 @@ class CourseController extends ICoursesController {
 
     // Remove course
     firebaseFirestore.doc('/classes/$courseCode').delete();
+
+    removeStudentFromCourse(
+      courseCode: courseCode,
+      studentId: FirebaseAuth.instance.currentUser!.uid,
+    );
 
     return const Right(unit);
   }

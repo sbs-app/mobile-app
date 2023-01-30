@@ -1,3 +1,4 @@
+import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/models/courses/courses_failure.dart';
 import 'package:dartz/dartz.dart';
@@ -7,7 +8,7 @@ abstract class ICoursesController {
   Future<Either<CourseFailure, CourseModel>> createCourse(
     String name,
     String id,
-    String teacherName,
+    UserModel teacher,
   );
   Future<Either<CourseFailure, Unit>> deleteCourse(String courseCode);
   Future<Either<CourseFailure, Unit>> updateCourse({

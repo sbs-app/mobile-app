@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:classroom/core/utils/custom_build_context.dart';
+import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/models/courses/courses_failure.dart';
 import 'package:classroom/models/courses/i_courses_repo.dart';
@@ -38,12 +39,16 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       createCourse: (e) async* {
         yield state.copyWith(createCourseOption: const None());
         final failureOrSuccess =
-            await _coursesRepo.createCourse(e.name, e.id, e.teacherName);
+            await _coursesRepo.createCourse(e.name, e.id, e.teacher);
         yield failureOrSuccess.fold(
           (l) => state.copyWith(createCourseOption: Some(Left(l))),
           (r) {
-            state.courses.insert(0, r.copyWith());
-            return state.copyWith(createCourseOption: const Some(Right(unit)));
+            final newCourses = state.courses.toList();
+            newCourses.add(r.copyWith());
+            return state.copyWith(
+              createCourseOption: const Some(Right(unit)),
+              courses: newCourses,
+            );
           },
         );
       },
@@ -60,14 +65,18 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       },
       deleteCourse: (e) async* {
         yield state.copyWith(deleteCourseOption: const None());
-        final failureOrSuccess = await _coursesRepo.deleteCourse(e.courseId);
+        final failureOrSuccess = await _coursesRepo.deleteCourse(e.courseCode);
         yield failureOrSuccess.fold(
           (l) => state.copyWith(deleteCourseOption: Some(Left(l))),
           (r) {
-            final index =
-                state.courses.indexWhere((element) => element.id == e.courseId);
-            state.courses.removeAt(index);
-            return state.copyWith(deleteCourseOption: Some(Right(r)));
+            final newCourses = state.courses.toList();
+            final index = newCourses
+                .indexWhere((element) => element.code == e.courseCode);
+            newCourses.removeAt(index);
+            return state.copyWith(
+              deleteCourseOption: Some(Right(r)),
+              courses: newCourses,
+            );
           },
         );
       },
@@ -80,14 +89,17 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         yield failureOrSuccess.fold(
           (l) => state.copyWith(updateCourseOption: Some(Left(l))),
           (r) {
-            final index = state.courses
+            final newCourses = state.courses.toList();
+
+            final index = newCourses
                 .indexWhere((element) => element.code == e.courseCode);
-            final updatedCourse = state.courses[index].copyWith(name: e.name);
-            state.courses.removeAt(index);
-            state.courses.insert(index, updatedCourse);
+            final updatedCourse = newCourses[index].copyWith(name: e.name);
+            newCourses.removeAt(index);
+            newCourses.insert(index, updatedCourse);
             return state.copyWith(
               updateCourseOption: Some(Right(r)),
               updatedCourseName: e.name,
+              courses: newCourses,
             );
           },
         );
@@ -102,24 +114,26 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         yield failureOrSuccess.fold(
           (l) => state.copyWith(addPostOption: Some(Left(l))),
           (r) {
-            final index = state.courses
+            final newCourses = state.courses.toList();
+
+            final index = newCourses
                 .indexWhere((element) => element.code == e.courseCode);
 
             CourseModel updatedCourse;
             if (!e.remove) {
               updatedCourse = state.courses[index]
-                  .copyWith(posts: [...state.courses[index].posts!, e.post]);
+                  .copyWith(posts: [...newCourses[index].posts!, e.post]);
             } else {
-              final List<String> newPosts = state.courses[index].posts!
-                  .where((c) => c != e.post)
-                  .toList();
-              updatedCourse = state.courses[index].copyWith(posts: newPosts);
+              final List<String> newPosts =
+                  newCourses[index].posts!.where((c) => c != e.post).toList();
+              updatedCourse = newCourses[index].copyWith(posts: newPosts);
             }
 
-            state.courses.removeAt(index);
-            state.courses.insert(index, updatedCourse);
+            newCourses.removeAt(index);
+            newCourses.insert(index, updatedCourse);
             return state.copyWith(
               addPostOption: Some(Right(r)),
+              courses: newCourses,
             );
           },
         );
@@ -133,14 +147,16 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         yield failureOrSuccess.fold(
           (l) => state.copyWith(removeStudentOption: Some(Left(l))),
           (r) {
-            state.courses
+            final newCourses = state.courses.toList();
+            newCourses
                 .firstWhere((element) => element.code == e.courseCode)
                 .students!
                 .removeWhere(
-                  (element) => element == e.studentId,
+                  (element) => element.id == e.studentId,
                 );
 
-            return state.copyWith(removeStudentOption: Some(Right(r)));
+            return state.copyWith(
+                removeStudentOption: Some(Right(r)), courses: newCourses);
           },
         );
       },

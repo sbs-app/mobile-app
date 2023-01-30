@@ -6,9 +6,9 @@ class CourseEvent with _$CourseEvent {
   const factory CourseEvent.createCourse(
     String name,
     String id,
-    String teacherName,
+    UserModel teacher,
   ) = _CreateCourse;
-  const factory CourseEvent.deleteCourse(String courseId) = _DeleteCourse;
+  const factory CourseEvent.deleteCourse(String courseCode) = _DeleteCourse;
   const factory CourseEvent.updateCourse({
     required String courseCode,
     required String name,

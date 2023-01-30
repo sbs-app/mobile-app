@@ -35,7 +35,7 @@ class AppWidget extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         key: _navigationService.navigationKey,
-        theme: ThemeData.light().copyWith(
+        theme: ThemeData.dark().copyWith(
           textTheme: GoogleFonts.montserratTextTheme(),
           appBarTheme: const AppBarTheme(color: Colors.black),
           splashFactory: InkRipple.splashFactory,

@@ -1,14 +1,35 @@
+import 'package:classroom/ui/home/pages/event_editing_page.dart';
+import 'package:classroom/ui/home/pages/event_provider.dart';
 import 'package:classroom/ui/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'TaskWidgets.dart';
+import 'event.dart';
+import 'event_editing_page.dart';
 
 class CalendarPage extends StatelessWidget {
   const CalendarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final events = Provider.of<EventProvider>(context).events;
+
+    if (!events.contains(_getCalendarDataSource()[0])) {
+      events.addAll(_getCalendarDataSource());
+    }
+
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xff00B4DB),
+          onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => EventEditingPage())),
+        ),
         backgroundColor: Colors.black,
         body: Column(
           children: [
@@ -55,8 +76,18 @@ class CalendarPage extends StatelessWidget {
                 child: SfCalendar(
                   backgroundColor: Colors.black,
                   view: CalendarView.month,
-                  dataSource: _getCalendarDataSource(),
+                  dataSource: EventDataSource(events),
                   cellBorderColor: const Color.fromARGB(0, 87, 15, 15),
+                  onLongPress: (details) {
+                    final provider =
+                        Provider.of<EventProvider>(context, listen: false);
+
+                    provider.setDate(details.date!);
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => TasksWidget(),
+                    );
+                  },
                   allowedViews: const <CalendarView>[
                     CalendarView.day,
                     CalendarView.week,
@@ -123,7 +154,27 @@ class CalendarPage extends StatelessWidget {
   }
 }
 
-_AppointmentDataSource _getCalendarDataSource() {
+class EventDataSource extends CalendarDataSource {
+  EventDataSource(List<Appointment> appointments) {
+    this.appointments = appointments;
+    // appointments.addAll(_getCalendarDataSource());
+    Event getEvent(int index) => appointments[index] as Event;
+
+    @override
+    DateTime getStartTime(int index) => getEvent(index).from;
+    @override
+    DateTime getEndTime(int index) => getEvent(index).to;
+    @override
+    String getSubject(int index) => getEvent(index).title;
+
+    @override
+    Color getColor(int index) => getEvent(index).backgroundColor;
+    @override
+    bool isAllDay(int index) => getEvent(index).isAllDay;
+  }
+}
+
+List<Appointment> _getCalendarDataSource() {
   final List<Appointment> appointments = <Appointment>[];
   appointments.add(
     Appointment(
@@ -207,7 +258,7 @@ _AppointmentDataSource _getCalendarDataSource() {
     ),
   );
 
-  return _AppointmentDataSource(appointments);
+  return appointments;
 }
 
 class _AppointmentDataSource extends CalendarDataSource {

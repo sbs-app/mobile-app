@@ -39,7 +39,7 @@ class _TasksWidgetState extends State<TasksWidget> {
     BuildContext context,
     CalendarAppointmentDetails details,
   ) {
-    final event = details.appointments.first;
+    final event = details.appointments.first as Appointment;
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,

@@ -9,8 +9,8 @@ class CourseState with _$CourseState {
     required Option<Either<CourseFailure, Unit>> createCourseOption,
     required Option<Either<CourseFailure, Unit>> deleteCourseOption,
     required Option<Either<CourseFailure, Unit>> updateCourseOption,
-    required Option<Either<CourseFailure, Unit>> addPostOption,
-    required Option<Either<CourseFailure, Unit>> sendInvitationOption,
+    required Option<Either<CourseFailure, PostModel>> addPostOption,
+    required Option<Either<CourseFailure, CourseModel>> sendInvitationOption,
     required Option<Either<CourseFailure, Unit>> removeStudentOption,
   }) = _CourseState;
 

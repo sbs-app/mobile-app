@@ -111,7 +111,7 @@ class _InviteStudentPageState extends State<InviteStudentPage>
                   padding: EdgeInsets.all(20.0),
                   child: Icon(
                     Icons.keyboard_backspace_outlined,
-                    color: Colors.white30,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -151,6 +151,7 @@ class _InviteStudentPageState extends State<InviteStudentPage>
                     ),
                     const SizedBox(height: 40),
                     Card(
+                      color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text(

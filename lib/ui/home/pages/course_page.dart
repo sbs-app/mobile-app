@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/core/user.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 class CoursePage extends StatefulWidget {
   const CoursePage({
@@ -36,15 +38,6 @@ class _CoursePageState extends State<CoursePage> {
   @override
   void initState() {
     super.initState();
-  }
-
-  UserModel getUserModel() {
-    if (getIt<Box>().get(HiveBoxNames.user) != null) {
-      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
-    } else {
-      // Invalid UserModel
-      return UserModel(email: "", id: "", userName: "", classes: []);
-    }
   }
 
   @override
@@ -114,9 +107,10 @@ class _CoursePageState extends State<CoursePage> {
                           },
                           child: const Icon(
                             Icons.add,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                           label: "Add post",
+                          labelStyle: const TextStyle(color: Colors.white),
                         ),
                         SpeedDialChild(
                           onTap: () {
@@ -132,9 +126,10 @@ class _CoursePageState extends State<CoursePage> {
                           },
                           child: const Icon(
                             Icons.person_add_alt,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                           label: "Invite Students",
+                          labelStyle: const TextStyle(color: Colors.white),
                         ),
                         SpeedDialChild(
                           onTap: () {
@@ -150,9 +145,10 @@ class _CoursePageState extends State<CoursePage> {
                           },
                           child: const Icon(
                             Icons.edit_outlined,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                           label: "Edit Course",
+                          labelStyle: const TextStyle(color: Colors.white),
                         ),
                         SpeedDialChild(
                           backgroundColor: Colors.red.shade400,
@@ -164,9 +160,10 @@ class _CoursePageState extends State<CoursePage> {
                           },
                           child: const Icon(
                             Icons.delete,
-                            color: Colors.black54,
+                            color: Colors.white,
                           ),
                           label: "Delete Course",
+                          labelStyle: const TextStyle(color: Colors.white),
                         ),
                       ],
                       child: const Icon(
@@ -196,9 +193,10 @@ class _CoursePageState extends State<CoursePage> {
                           },
                           child: const Icon(
                             Icons.delete,
-                            color: Colors.black54,
+                            color: Colors.white,
                           ),
                           label: "Leave Course",
+                          labelStyle: const TextStyle(color: Colors.white),
                         ),
                       ],
                       child: const Icon(
@@ -294,17 +292,11 @@ class _CoursePageState extends State<CoursePage> {
                               ),
                             ),
                             Text(
-                              "Students",
+                              "Attendees",
                               style: TextStyle(
                                 fontFamily: GoogleFonts.montserrat().fontFamily,
                               ),
-                            ),
-                            Text(
-                              "Teachers",
-                              style: TextStyle(
-                                fontFamily: GoogleFonts.montserrat().fontFamily,
-                              ),
-                            ),
+                            )
                           ],
                           views: [
                             ListView.builder(
@@ -318,41 +310,57 @@ class _CoursePageState extends State<CoursePage> {
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                     tileColor: Colors.grey[900],
-                                    leading: Container(
+                                    leading: UserAvatar(
+                                      userModel: course.teacher!,
                                       height: 35,
                                       width: 35,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white10,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: ClipOval(
-                                        child: Image.asset(
-                                          "assets/auth/man.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        course.teacher!.userName,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            course.teacher!.userName,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            DateFormat.yMMMd().add_jm().format(
+                                                  course.posts![index].timestamp
+                                                      .toDate(),
+                                                ),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                     subtitle: Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 8.0),
-                                      child: Text(
-                                        course.posts![index],
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      child: course.posts![index].type ==
+                                              PostTypes.text
+                                          ? Text(
+                                              course.posts![index].post,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Image.network(
+                                                course.posts![index].post,
+                                              ),
+                                            ),
                                     ),
                                     trailing: course.isCreatedByMe &&
                                             !isUserStudent
@@ -375,116 +383,144 @@ class _CoursePageState extends State<CoursePage> {
                                 );
                               },
                             ),
-                            ListView.builder(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              itemCount: course.students!.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final UserModel student =
-                                    course.students![index];
-                                return ListTile(
-                                  leading: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      height: 35,
-                                      width: 35,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white10,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: ClipOval(
-                                        child: Image.asset(
-                                          "assets/auth/man.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, left: 15.0),
+                                  child: Text(
+                                    "Teachers",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  title: Text(
-                                    student.userName,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white60,
+                                ),
+                                const Divider(),
+                                Flexible(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
                                     ),
-                                  ),
-                                  trailing: isUserStudent ||
-                                          myEmail != teacherEmail
-                                      ? null
-                                      : PopupMenuButton(
-                                          onSelected: (value) {
-                                            CourseBloc.addEventWithoutContext(
-                                              CourseEvent
-                                                  .removeStudentFromCourse(
-                                                courseCode: course.id,
-                                                studentId: getUserModel().id,
-                                              ),
-                                            );
-                                          },
-                                          child: const Icon(
-                                            Icons.more_vert_outlined,
-                                            color: Colors.white30,
+                                    itemCount: 1,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final UserModel teacher = course.teacher!;
+                                      return ListTile(
+                                        leading: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: UserAvatar(
+                                            userModel: teacher,
+                                            height: 35,
+                                            width: 35,
                                           ),
-                                          itemBuilder: (context) {
-                                            return [
-                                              PopupMenuItem(
-                                                height: 20,
-                                                value: "Remove",
-                                                child: Row(
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.delete_outline,
-                                                      // color: Colors.black38,
-                                                      size: 14,
+                                        ),
+                                        title: Text(
+                                          teacher.userName,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, left: 15.0),
+                                  child: Text(
+                                    "Students",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const Divider(),
+                                Flexible(
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                    ),
+                                    itemCount: course.students!.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final UserModel student =
+                                          course.students![index];
+                                      return ListTile(
+                                        leading: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: UserAvatar(
+                                            userModel: student,
+                                            height: 35,
+                                            width: 35,
+                                          ),
+                                        ),
+                                        title: Text(
+                                          student.userName,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        trailing: isUserStudent ||
+                                                myEmail != teacherEmail
+                                            ? null
+                                            : PopupMenuButton(
+                                                onSelected: (value) {
+                                                  CourseBloc
+                                                      .addEventWithoutContext(
+                                                    CourseEvent
+                                                        .removeStudentFromCourse(
+                                                      courseCode: course.id,
+                                                      studentId:
+                                                          getUserModel().id,
                                                     ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "Remove Student",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ],
+                                                  );
+                                                },
+                                                child: const Icon(
+                                                  Icons.more_vert_outlined,
+                                                  color: Colors.white,
                                                 ),
-                                              )
-                                            ];
-                                          },
-                                        ),
-                                );
-                              },
-                            ),
-                            ListView.builder(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              itemCount: 1,
-                              itemBuilder: (BuildContext context, int index) {
-                                final UserModel teacher = course.teacher!;
-                                return ListTile(
-                                  leading: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      height: 35,
-                                      width: 35,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white10,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: ClipOval(
-                                        child: Image.asset(
-                                          "assets/auth/man.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
+                                                itemBuilder: (context) {
+                                                  return [
+                                                    PopupMenuItem(
+                                                      height: 20,
+                                                      value: "Remove",
+                                                      child: Row(
+                                                        children: const [
+                                                          Icon(
+                                                            Icons
+                                                                .delete_outline,
+                                                            size: 14,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            "Remove Student",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 12,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ];
+                                                },
+                                              ),
+                                      );
+                                    },
                                   ),
-                                  title: Text(
-                                    teacher.userName,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white60,
-                                    ),
-                                  ),
-                                );
-                              },
+                                ),
+                              ],
                             ),
                           ],
                         ),

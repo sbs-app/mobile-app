@@ -44,7 +44,8 @@ class AuthController extends IAuthController {
       final UserModel newUserModel = UserModel(
         email: email,
         id: userCredential.user!.uid,
-        roleId: 0,
+        photoURL: "",
+        roleId: UserTypes.student,
         userName: userName,
         classes: <String>[""],
       );
@@ -222,10 +223,14 @@ class AuthController extends IAuthController {
 
       if (userModel.roleId == UserTypes.student) {
         await box.put(
-            HiveBoxNames.user, userModel.copyWith(roleId: UserTypes.teacher));
+          HiveBoxNames.user,
+          userModel.copyWith(roleId: UserTypes.teacher),
+        );
       } else {
         await box.put(
-            HiveBoxNames.user, userModel.copyWith(roleId: UserTypes.student));
+          HiveBoxNames.user,
+          userModel.copyWith(roleId: UserTypes.student),
+        );
       }
 
       return const Right(unit);

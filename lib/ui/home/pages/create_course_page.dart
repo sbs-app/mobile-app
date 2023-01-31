@@ -1,4 +1,5 @@
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/core/user.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/course/course_bloc.dart';
@@ -59,15 +60,6 @@ class _CreateCoursePageState extends State<CreateCoursePage>
   }
 
   bool get isValid => cleanString(classNameController.text).isNotEmpty;
-
-  UserModel getUserModel() {
-    if (getIt<Box>().get(HiveBoxNames.user) != null) {
-      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
-    } else {
-      // Invalid UserModel
-      return UserModel(email: "", id: "", userName: "", classes: []);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

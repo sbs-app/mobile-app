@@ -15,7 +15,7 @@ class CourseEvent with _$CourseEvent {
   }) = _UpdateCourse;
   const factory CourseEvent.addPostToCourse({
     required String courseCode,
-    required String post,
+    required PostModel post,
     required bool remove,
   }) = _AddPostToCourse;
 

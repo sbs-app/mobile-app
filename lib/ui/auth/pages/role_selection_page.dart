@@ -25,7 +25,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       Future f = Future(() {});
-      for (final element in [1, 2, 3, 4, 5]) {
+      for (final element in [1, 2, 3, 4, 5, 6]) {
         f = f.then(
           (value) => Future.delayed(const Duration(milliseconds: 300), () {
             _list.add(element);
@@ -126,7 +126,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                           child: TextButton(
                             onPressed: () {
                               AuthBloc.addEventWithoutContext(
-                                const AuthEvent.registerRole(0),
+                                const AuthEvent.registerRole(UserTypes.student),
                               );
                             },
                             style: ButtonStyle(
@@ -137,6 +137,39 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                             ),
                             child: const Text(
                               "STUDENT",
+                              style: TextStyle(
+                                color: Colors.white38,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  );
+                } else if (index == 4) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FadeFromUpAnimation(
+                        child: SizedBox(
+                          height: 50,
+                          width: double.maxFinite,
+                          child: TextButton(
+                            onPressed: () {
+                              AuthBloc.addEventWithoutContext(
+                                const AuthEvent.registerRole(UserTypes.teacher),
+                              );
+                            },
+                            style: ButtonStyle(
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white10),
+                            ),
+                            child: const Text(
+                              "TEACHER",
                               style: TextStyle(
                                 color: Colors.white38,
                                 fontWeight: FontWeight.w600,
@@ -159,7 +192,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                           child: TextButton(
                             onPressed: () {
                               AuthBloc.addEventWithoutContext(
-                                const AuthEvent.registerRole(1),
+                                const AuthEvent.registerRole(UserTypes.parent),
                               );
                             },
                             style: ButtonStyle(
@@ -169,7 +202,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                                   MaterialStateProperty.all(Colors.white10),
                             ),
                             child: const Text(
-                              "TEACHER",
+                              "PARENT",
                               style: TextStyle(
                                 color: Colors.white38,
                                 fontWeight: FontWeight.w600,

@@ -5,6 +5,7 @@ import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/models/courses/courses_failure.dart';
 import 'package:classroom/models/courses/i_courses_repo.dart';
+import 'package:classroom/models/courses/post_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -60,7 +61,14 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         );
         yield failureOrSuccess.fold(
           (l) => state.copyWith(sendInvitationOption: Some(Left(l))),
-          (r) => state.copyWith(sendInvitationOption: Some(Right(r))),
+          (r) {
+            final newCourses = state.courses.toList();
+            newCourses.add(r);
+            return state.copyWith(
+              sendInvitationOption: Some(Right(r)),
+              courses: newCourses,
+            );
+          },
         );
       },
       deleteCourse: (e) async* {
@@ -122,10 +130,12 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
             CourseModel updatedCourse;
             if (!e.remove) {
               updatedCourse = state.courses[index]
-                  .copyWith(posts: [...newCourses[index].posts!, e.post]);
+                  .copyWith(posts: [...newCourses[index].posts!, r]);
             } else {
-              final List<String> newPosts =
-                  newCourses[index].posts!.where((c) => c != e.post).toList();
+              final List<PostModel> newPosts = newCourses[index]
+                  .posts!
+                  .where((c) => c.post != r.post)
+                  .toList();
               updatedCourse = newCourses[index].copyWith(posts: newPosts);
             }
 
@@ -148,15 +158,13 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
           (l) => state.copyWith(removeStudentOption: Some(Left(l))),
           (r) {
             final newCourses = state.courses.toList();
-            newCourses
-                .firstWhere((element) => element.code == e.courseCode)
-                .students!
-                .removeWhere(
-                  (element) => element.id == e.studentId,
-                );
-
+            final index = newCourses
+                .indexWhere((element) => element.code == e.courseCode);
+            newCourses.removeAt(index);
             return state.copyWith(
-                removeStudentOption: Some(Right(r)), courses: newCourses);
+              removeStudentOption: Some(Right(r)),
+              courses: newCourses,
+            );
           },
         );
       },

@@ -1,10 +1,12 @@
 import 'dart:math';
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/core/user.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/models/courses/courses_failure.dart';
 import 'package:classroom/models/courses/i_courses_repo.dart';
+import 'package:classroom/models/courses/post_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +26,7 @@ class CourseController extends ICoursesController {
   Future<CourseModel> getFirestoreClass(String classCode) {
     return firebaseFirestore.doc('/classes/$classCode').get().then(
           (documentSnapshot) =>
-              CourseModel.fromFirestore(documentSnapshot.data()!),
+              CourseModel.fromFirestore(documentSnapshot.data()),
         );
   }
 
@@ -42,15 +44,6 @@ class CourseController extends ICoursesController {
     );
   }
 
-  UserModel getUserModel() {
-    if (getIt<Box>().get(HiveBoxNames.user) != null) {
-      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
-    } else {
-      // Invalid UserModel
-      return UserModel(email: "", id: "", userName: "", classes: []);
-    }
-  }
-
   final Box box;
   @override
   Future<Either<CourseFailure, List<CourseModel>>> getCourses() async {
@@ -60,7 +53,7 @@ class CourseController extends ICoursesController {
     for (final String classCode in cacheUser.classes) {
       if (classCode != "") {
         final CourseModel course = await getFirestoreClass(classCode);
-        courses.add(course);
+        if (course.isValid) courses.add(course);
       }
     }
 
@@ -81,7 +74,7 @@ class CourseController extends ICoursesController {
       description: "",
       teacher: teacher,
       students: <UserModel>[],
-      posts: <String>[],
+      posts: <PostModel>[],
     );
 
     firebaseFirestore.doc('/classes/$code').set(newClass.toJson());
@@ -92,7 +85,7 @@ class CourseController extends ICoursesController {
   }
 
   @override
-  Future<Either<CourseFailure, Unit>> addStudentToCourse({
+  Future<Either<CourseFailure, CourseModel>> addStudentToCourse({
     required String courseCode,
     required String studentId,
     bool isTeacher = false,
@@ -103,6 +96,12 @@ class CourseController extends ICoursesController {
     // Check if class exists
     final classDoc = await firebaseFirestore.doc('/classes/$courseCode').get();
     if (!classDoc.exists) return const Left(CourseFailure.clientFailure());
+
+    // Check if class is valid
+    final CourseModel currentCourse = await getFirestoreClass(courseCode);
+    if (!currentCourse.isValid) {
+      return const Left(CourseFailure.clientFailure());
+    }
 
     // Check if user has class already
     if (getUserModel().classes.contains(courseCode)) {
@@ -115,8 +114,6 @@ class CourseController extends ICoursesController {
     firebaseFirestore.doc('/users/$studentId').update(current.toJson());
 
     // Add user to class
-    final CourseModel currentCourse = await getFirestoreClass(courseCode);
-
     final CourseModel updatedCourse;
     if (!isTeacher) {
       final List<UserModel> updatedStudents = currentCourse.students!;
@@ -132,13 +129,19 @@ class CourseController extends ICoursesController {
 
     await box.put(HiveBoxNames.user, current.copyWith());
 
-    return const Right(unit);
+    return Right(updatedCourse);
   }
 
   @override
   Future<Either<CourseFailure, Unit>> deleteCourse(String courseCode) async {
     // Check if null or empty
     if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
+
+    final CourseModel course = await getFirestoreClass(courseCode);
+
+    if (!course.isCreatedByMe) {
+      return const Left(CourseFailure.serverFailure());
+    }
 
     // Remove course
     firebaseFirestore.doc('/classes/$courseCode').delete();
@@ -164,6 +167,18 @@ class CourseController extends ICoursesController {
     current.classes.remove(courseCode);
     firebaseFirestore.doc('/users/$studentId').update(current.toJson());
 
+    // Remove user from class
+    final CourseModel currentCourse = await getFirestoreClass(courseCode);
+
+    final CourseModel updatedCourse;
+    final List<UserModel> updatedStudents = currentCourse.students!;
+    updatedStudents.remove(getUserModel());
+    updatedCourse = currentCourse.copyWith(students: updatedStudents);
+
+    firebaseFirestore
+        .doc('/classes/$courseCode')
+        .update(updatedCourse.toJson());
+
     await box.put(HiveBoxNames.user, current.copyWith());
 
     return const Right(unit);
@@ -187,27 +202,32 @@ class CourseController extends ICoursesController {
   }
 
   @override
-  Future<Either<CourseFailure, Unit>> addPostToCourse({
+  Future<Either<CourseFailure, PostModel>> addPostToCourse({
     required String courseCode,
-    required String post,
+    required PostModel post,
     required bool remove,
   }) async {
-    // TODO: Use a document for this?
     // Check if null or empty
     if (courseCode.isEmpty) return const Left(CourseFailure.clientFailure());
 
     final CourseModel currentCourse = await getFirestoreClass(courseCode);
-    final List<String> currentPosts = currentCourse.posts!;
 
-    remove ? currentPosts.remove(post) : currentPosts.add(post);
+    if (currentCourse.id != post.id) {
+      return const Left(CourseFailure.serverFailure());
+    }
 
-    final CourseModel updatedCourse =
-        currentCourse.copyWith(posts: currentPosts);
-    firebaseFirestore
-        .doc('/classes/$courseCode')
-        .update(updatedCourse.toJson());
+    if (remove) {
+      firebaseFirestore
+          .doc('/classes/$courseCode/posts/${post.docid}')
+          .delete();
+      return Right(post);
+    }
 
-    return const Right(unit);
+    final postDocRef =
+        firebaseFirestore.collection('/classes/$courseCode/posts').doc();
+    postDocRef.set(post.copyWith(docid: postDocRef.id).toJson());
+
+    return Right(post.copyWith(docid: postDocRef.id));
   }
 }
 

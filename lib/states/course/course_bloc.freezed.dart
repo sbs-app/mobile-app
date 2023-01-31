@@ -23,7 +23,7 @@ mixin _$CourseEvent {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -39,7 +39,7 @@ mixin _$CourseEvent {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -54,7 +54,7 @@ mixin _$CourseEvent {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -169,7 +169,7 @@ class _$_GetCourses implements _GetCourses {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -188,7 +188,7 @@ class _$_GetCourses implements _GetCourses {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -206,7 +206,7 @@ class _$_GetCourses implements _GetCourses {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -365,7 +365,7 @@ class _$_CreateCourse implements _CreateCourse {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -384,7 +384,7 @@ class _$_CreateCourse implements _CreateCourse {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -402,7 +402,7 @@ class _$_CreateCourse implements _CreateCourse {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -555,7 +555,7 @@ class _$_DeleteCourse implements _DeleteCourse {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -574,7 +574,7 @@ class _$_DeleteCourse implements _DeleteCourse {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -592,7 +592,7 @@ class _$_DeleteCourse implements _DeleteCourse {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -749,7 +749,7 @@ class _$_UpdateCourse implements _UpdateCourse {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -768,7 +768,7 @@ class _$_UpdateCourse implements _UpdateCourse {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -786,7 +786,7 @@ class _$_UpdateCourse implements _UpdateCourse {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -874,7 +874,7 @@ abstract class _$$_AddPostToCourseCopyWith<$Res> {
           _$_AddPostToCourse value, $Res Function(_$_AddPostToCourse) then) =
       __$$_AddPostToCourseCopyWithImpl<$Res>;
   @useResult
-  $Res call({String courseCode, String post, bool remove});
+  $Res call({String courseCode, PostModel post, bool remove});
 }
 
 /// @nodoc
@@ -900,7 +900,7 @@ class __$$_AddPostToCourseCopyWithImpl<$Res>
       post: null == post
           ? _value.post
           : post // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PostModel,
       remove: null == remove
           ? _value.remove
           : remove // ignore: cast_nullable_to_non_nullable
@@ -918,7 +918,7 @@ class _$_AddPostToCourse implements _AddPostToCourse {
   @override
   final String courseCode;
   @override
-  final String post;
+  final PostModel post;
   @override
   final bool remove;
 
@@ -955,7 +955,7 @@ class _$_AddPostToCourse implements _AddPostToCourse {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -974,7 +974,7 @@ class _$_AddPostToCourse implements _AddPostToCourse {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -992,7 +992,7 @@ class _$_AddPostToCourse implements _AddPostToCourse {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -1065,11 +1065,11 @@ class _$_AddPostToCourse implements _AddPostToCourse {
 abstract class _AddPostToCourse implements CourseEvent {
   const factory _AddPostToCourse(
       {required final String courseCode,
-      required final String post,
+      required final PostModel post,
       required final bool remove}) = _$_AddPostToCourse;
 
   String get courseCode;
-  String get post;
+  PostModel get post;
   bool get remove;
   @JsonKey(ignore: true)
   _$$_AddPostToCourseCopyWith<_$_AddPostToCourse> get copyWith =>
@@ -1157,7 +1157,7 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -1176,7 +1176,7 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -1194,7 +1194,7 @@ class _$_AddStudentToCourse implements _AddStudentToCourse {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -1358,7 +1358,7 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -1377,7 +1377,7 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -1395,7 +1395,7 @@ class _$_RemoveStudentFromCourse implements _RemoveStudentFromCourse {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -1521,7 +1521,7 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -1540,7 +1540,7 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -1558,7 +1558,7 @@ class _$_RemoveUpdatedCourseName implements _RemoveUpdatedCourseName {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -1673,7 +1673,7 @@ class _$_Reset implements _Reset {
         createCourse,
     required TResult Function(String courseCode) deleteCourse,
     required TResult Function(String courseCode, String name) updateCourse,
-    required TResult Function(String courseCode, String post, bool remove)
+    required TResult Function(String courseCode, PostModel post, bool remove)
         addPostToCourse,
     required TResult Function(String courseCode, String studentId)
         addStudentToCourse,
@@ -1692,7 +1692,7 @@ class _$_Reset implements _Reset {
     TResult? Function(String name, String id, UserModel teacher)? createCourse,
     TResult? Function(String courseCode)? deleteCourse,
     TResult? Function(String courseCode, String name)? updateCourse,
-    TResult? Function(String courseCode, String post, bool remove)?
+    TResult? Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult? Function(String courseCode, String studentId)? addStudentToCourse,
     TResult? Function(String courseCode, String studentId)?
@@ -1710,7 +1710,7 @@ class _$_Reset implements _Reset {
     TResult Function(String name, String id, UserModel teacher)? createCourse,
     TResult Function(String courseCode)? deleteCourse,
     TResult Function(String courseCode, String name)? updateCourse,
-    TResult Function(String courseCode, String post, bool remove)?
+    TResult Function(String courseCode, PostModel post, bool remove)?
         addPostToCourse,
     TResult Function(String courseCode, String studentId)? addStudentToCourse,
     TResult Function(String courseCode, String studentId)?
@@ -1796,9 +1796,9 @@ mixin _$CourseState {
       throw _privateConstructorUsedError;
   Option<Either<CourseFailure, Unit>> get updateCourseOption =>
       throw _privateConstructorUsedError;
-  Option<Either<CourseFailure, Unit>> get addPostOption =>
+  Option<Either<CourseFailure, PostModel>> get addPostOption =>
       throw _privateConstructorUsedError;
-  Option<Either<CourseFailure, Unit>> get sendInvitationOption =>
+  Option<Either<CourseFailure, CourseModel>> get sendInvitationOption =>
       throw _privateConstructorUsedError;
   Option<Either<CourseFailure, Unit>> get removeStudentOption =>
       throw _privateConstructorUsedError;
@@ -1821,8 +1821,8 @@ abstract class $CourseStateCopyWith<$Res> {
       Option<Either<CourseFailure, Unit>> createCourseOption,
       Option<Either<CourseFailure, Unit>> deleteCourseOption,
       Option<Either<CourseFailure, Unit>> updateCourseOption,
-      Option<Either<CourseFailure, Unit>> addPostOption,
-      Option<Either<CourseFailure, Unit>> sendInvitationOption,
+      Option<Either<CourseFailure, PostModel>> addPostOption,
+      Option<Either<CourseFailure, CourseModel>> sendInvitationOption,
       Option<Either<CourseFailure, Unit>> removeStudentOption});
 }
 
@@ -1877,11 +1877,11 @@ class _$CourseStateCopyWithImpl<$Res, $Val extends CourseState>
       addPostOption: null == addPostOption
           ? _value.addPostOption
           : addPostOption // ignore: cast_nullable_to_non_nullable
-              as Option<Either<CourseFailure, Unit>>,
+              as Option<Either<CourseFailure, PostModel>>,
       sendInvitationOption: null == sendInvitationOption
           ? _value.sendInvitationOption
           : sendInvitationOption // ignore: cast_nullable_to_non_nullable
-              as Option<Either<CourseFailure, Unit>>,
+              as Option<Either<CourseFailure, CourseModel>>,
       removeStudentOption: null == removeStudentOption
           ? _value.removeStudentOption
           : removeStudentOption // ignore: cast_nullable_to_non_nullable
@@ -1905,8 +1905,8 @@ abstract class _$$_CourseStateCopyWith<$Res>
       Option<Either<CourseFailure, Unit>> createCourseOption,
       Option<Either<CourseFailure, Unit>> deleteCourseOption,
       Option<Either<CourseFailure, Unit>> updateCourseOption,
-      Option<Either<CourseFailure, Unit>> addPostOption,
-      Option<Either<CourseFailure, Unit>> sendInvitationOption,
+      Option<Either<CourseFailure, PostModel>> addPostOption,
+      Option<Either<CourseFailure, CourseModel>> sendInvitationOption,
       Option<Either<CourseFailure, Unit>> removeStudentOption});
 }
 
@@ -1959,11 +1959,11 @@ class __$$_CourseStateCopyWithImpl<$Res>
       addPostOption: null == addPostOption
           ? _value.addPostOption
           : addPostOption // ignore: cast_nullable_to_non_nullable
-              as Option<Either<CourseFailure, Unit>>,
+              as Option<Either<CourseFailure, PostModel>>,
       sendInvitationOption: null == sendInvitationOption
           ? _value.sendInvitationOption
           : sendInvitationOption // ignore: cast_nullable_to_non_nullable
-              as Option<Either<CourseFailure, Unit>>,
+              as Option<Either<CourseFailure, CourseModel>>,
       removeStudentOption: null == removeStudentOption
           ? _value.removeStudentOption
           : removeStudentOption // ignore: cast_nullable_to_non_nullable
@@ -2006,9 +2006,9 @@ class _$_CourseState implements _CourseState {
   @override
   final Option<Either<CourseFailure, Unit>> updateCourseOption;
   @override
-  final Option<Either<CourseFailure, Unit>> addPostOption;
+  final Option<Either<CourseFailure, PostModel>> addPostOption;
   @override
-  final Option<Either<CourseFailure, Unit>> sendInvitationOption;
+  final Option<Either<CourseFailure, CourseModel>> sendInvitationOption;
   @override
   final Option<Either<CourseFailure, Unit>> removeStudentOption;
 
@@ -2070,8 +2070,9 @@ abstract class _CourseState implements CourseState {
       required final Option<Either<CourseFailure, Unit>> createCourseOption,
       required final Option<Either<CourseFailure, Unit>> deleteCourseOption,
       required final Option<Either<CourseFailure, Unit>> updateCourseOption,
-      required final Option<Either<CourseFailure, Unit>> addPostOption,
-      required final Option<Either<CourseFailure, Unit>> sendInvitationOption,
+      required final Option<Either<CourseFailure, PostModel>> addPostOption,
+      required final Option<Either<CourseFailure, CourseModel>>
+          sendInvitationOption,
       required final Option<Either<CourseFailure, Unit>>
           removeStudentOption}) = _$_CourseState;
 
@@ -2088,9 +2089,9 @@ abstract class _CourseState implements CourseState {
   @override
   Option<Either<CourseFailure, Unit>> get updateCourseOption;
   @override
-  Option<Either<CourseFailure, Unit>> get addPostOption;
+  Option<Either<CourseFailure, PostModel>> get addPostOption;
   @override
-  Option<Either<CourseFailure, Unit>> get sendInvitationOption;
+  Option<Either<CourseFailure, CourseModel>> get sendInvitationOption;
   @override
   Option<Either<CourseFailure, Unit>> get removeStudentOption;
   @override

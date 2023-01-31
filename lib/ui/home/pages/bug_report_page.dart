@@ -1,4 +1,5 @@
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/core/user.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
@@ -16,15 +17,6 @@ class ReportBugPage extends StatefulWidget {
 }
 
 class _ReportBugPageState extends State<ReportBugPage> {
-  UserModel getUserModel() {
-    if (getIt<Box>().get(HiveBoxNames.user) != null) {
-      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
-    } else {
-      // Invalid UserModel
-      return UserModel(email: "", id: "", userName: "", classes: []);
-    }
-  }
-
   TextEditingController controller = TextEditingController();
 
   @override

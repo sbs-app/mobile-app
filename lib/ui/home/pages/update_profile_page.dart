@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/core/user.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
@@ -11,7 +12,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hive/hive.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdateProfilePage extends StatefulWidget {
@@ -22,15 +23,6 @@ class UpdateProfilePage extends StatefulWidget {
 }
 
 class _UpdateProfilePageState extends State<UpdateProfilePage> {
-  UserModel getUserModel() {
-    if (getIt<Box>().get(HiveBoxNames.user) != null) {
-      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
-    } else {
-      // Invalid UserModel
-      return UserModel(email: "", id: "", userName: "", classes: []);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final String userName = getUserModel().userName;
@@ -97,7 +89,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Column(
                                   children: [
-                                    const UserAvatar(
+                                    UserAvatar(
+                                      userModel: getUserModel(),
                                       height: 60,
                                       width: 60,
                                     ),
@@ -146,20 +139,23 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           Radius.circular(25.0),
                                         ),
                                       ),
-                                      title: const Text('Change name'),
+                                      title: const Text(
+                                        'Change name',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           TextFormField(
                                             controller: newName,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
                                             decoration: const InputDecoration(
                                               icon: Icon(
                                                 Icons.person_search,
-                                                color: Colors.black,
                                               ),
                                               hintText: "Enter new name",
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
                                             ),
                                           ),
                                         ],
@@ -172,24 +168,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                                 .labelLarge,
                                           ),
                                           child: const Text('OK'),
-                                          onPressed: () {
-                                            AuthBloc.addEventWithoutContext(
-                                              AuthEvent.updateUser(
-                                                getUserModel().copyWith(
-                                                  userName: newName.text,
-                                                ),
-                                              ),
-                                            );
-
-                                            Fluttertoast.showToast(
-                                              msg: "Name updated!",
-                                              textColor: Colors.black87,
-                                              backgroundColor: Colors.white,
-                                              toastLength: Toast.LENGTH_LONG,
-                                              fontSize: 12,
-                                            );
-                                            Navigator.of(context).pop();
-                                          },
+                                          onPressed: () =>
+                                              changeName(newName.text),
                                         ),
                                         TextButton(
                                           style: TextButton.styleFrom(
@@ -225,36 +205,39 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           Radius.circular(25.0),
                                         ),
                                       ),
-                                      title: const Text('Change email'),
+                                      title: const Text(
+                                        'Change email',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           TextFormField(
                                             controller: oldPass,
                                             obscureText: true,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
                                             decoration: const InputDecoration(
                                               icon: Icon(
                                                 Icons.password,
-                                                color: Colors.black,
                                               ),
                                               hintText:
                                                   "Enter current password",
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
                                             ),
                                           ),
                                           TextFormField(
                                             controller: newEmail,
                                             keyboardType:
                                                 TextInputType.emailAddress,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
                                             decoration: const InputDecoration(
                                               icon: Icon(
                                                 Icons.email,
-                                                color: Colors.black,
                                               ),
                                               hintText: "Enter new email",
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
                                             ),
                                           ),
                                         ],
@@ -267,45 +250,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                                 .labelLarge,
                                           ),
                                           child: const Text('OK'),
-                                          onPressed: () async {
-                                            try {
-                                              await FirebaseAuth.instance
-                                                  .signInWithEmailAndPassword(
-                                                email: getUserModel().email,
-                                                password: oldPass.text,
-                                              )
-                                                  .then((firebaseUser) async {
-                                                await firebaseUser.user!
-                                                    .updateEmail(newEmail.text);
-                                              });
-                                            } catch (err) {
-                                              Fluttertoast.showToast(
-                                                msg: "Error: $err",
-                                                textColor: Colors.black87,
-                                                backgroundColor: Colors.white,
-                                                toastLength: Toast.LENGTH_LONG,
-                                                fontSize: 12,
-                                              );
-                                              return;
-                                            }
-
-                                            AuthBloc.addEventWithoutContext(
-                                              AuthEvent.updateUser(
-                                                getUserModel().copyWith(
-                                                  email: newEmail.text,
-                                                ),
-                                              ),
-                                            );
-
-                                            Fluttertoast.showToast(
-                                              msg: "Email updated!",
-                                              textColor: Colors.black87,
-                                              backgroundColor: Colors.white,
-                                              toastLength: Toast.LENGTH_LONG,
-                                              fontSize: 12,
-                                            );
-                                            Navigator.of(context).pop();
-                                          },
+                                          onPressed: () async => changeEmail(
+                                            oldPass.text,
+                                            newEmail.text,
+                                          ),
                                         ),
                                         TextButton(
                                           style: TextButton.styleFrom(
@@ -341,35 +289,38 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           Radius.circular(25.0),
                                         ),
                                       ),
-                                      title: const Text('Change password'),
+                                      title: const Text(
+                                        'Change password',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           TextFormField(
                                             controller: oldPass,
                                             obscureText: true,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
                                             decoration: const InputDecoration(
                                               icon: Icon(
                                                 Icons.password,
-                                                color: Colors.black,
                                               ),
                                               hintText:
                                                   "Enter current password",
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
                                             ),
                                           ),
                                           TextFormField(
                                             controller: newPass,
                                             obscureText: true,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
                                             decoration: const InputDecoration(
                                               icon: Icon(
                                                 Icons.password,
-                                                color: Colors.black,
                                               ),
                                               hintText: "Enter new password",
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
                                             ),
                                           ),
                                         ],
@@ -382,37 +333,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                                 .labelLarge,
                                           ),
                                           child: const Text('OK'),
-                                          onPressed: () async {
-                                            try {
-                                              await FirebaseAuth.instance
-                                                  .signInWithEmailAndPassword(
-                                                email: getUserModel().email,
-                                                password: oldPass.text,
-                                              )
-                                                  .then((firebaseUser) async {
-                                                await firebaseUser.user!
-                                                    .updatePassword(
-                                                        newPass.text);
-                                              });
-                                            } catch (err) {
-                                              Fluttertoast.showToast(
-                                                msg: "Error: $err",
-                                                textColor: Colors.black87,
-                                                backgroundColor: Colors.white,
-                                                toastLength: Toast.LENGTH_LONG,
-                                                fontSize: 12,
-                                              );
-                                              return;
-                                            }
-                                            Fluttertoast.showToast(
-                                              msg: "Password updated!",
-                                              textColor: Colors.black87,
-                                              backgroundColor: Colors.white,
-                                              toastLength: Toast.LENGTH_LONG,
-                                              fontSize: 12,
-                                            );
-                                            Navigator.of(context).pop();
-                                          },
+                                          onPressed: () async => changePassword(
+                                            oldPass.text,
+                                            newPass.text,
+                                          ),
                                         ),
                                         TextButton(
                                           style: TextButton.styleFrom(
@@ -446,22 +370,25 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           Radius.circular(25.0),
                                         ),
                                       ),
-                                      title: const Text('Change profile image'),
+                                      title: const Text(
+                                        'Change profile image',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           TextFormField(
                                             controller: oldPass,
                                             obscureText: true,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
                                             decoration: const InputDecoration(
                                               icon: Icon(
                                                 Icons.password,
-                                                color: Colors.black,
                                               ),
                                               hintText:
                                                   "Enter current password",
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
                                             ),
                                           ),
                                         ],
@@ -474,68 +401,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                                 .labelLarge,
                                           ),
                                           child: const Text('Choose image'),
-                                          onPressed: () async {
-                                            final ImagePicker picker =
-                                                ImagePicker();
-                                            final XFile? image =
-                                                await picker.pickImage(
-                                              source: ImageSource.gallery,
-                                            );
-
-                                            if (image == null) {
-                                              Fluttertoast.showToast(
-                                                msg:
-                                                    "No photo was selected or invalid",
-                                                textColor: Colors.black87,
-                                                backgroundColor: Colors.white,
-                                                toastLength: Toast.LENGTH_LONG,
-                                                fontSize: 12,
-                                              );
-                                              return;
-                                            }
-
-                                            final Reference ref =
-                                                FirebaseStorage.instance
-                                                    .ref()
-                                                    .child(
-                                                      "profile-images/${getUserModel().id}.png",
-                                                    );
-                                            final TaskSnapshot uploadTask =
-                                                await ref
-                                                    .putFile(File(image.path));
-                                            String imageURL = "";
-                                            imageURL = await uploadTask.ref
-                                                .getDownloadURL();
-
-                                            try {
-                                              await FirebaseAuth.instance
-                                                  .signInWithEmailAndPassword(
-                                                email: getUserModel().email,
-                                                password: oldPass.text,
-                                              )
-                                                  .then((firebaseUser) async {
-                                                await firebaseUser.user!
-                                                    .updatePhotoURL(imageURL);
-                                              });
-                                            } catch (err) {
-                                              Fluttertoast.showToast(
-                                                msg: "Error: $err",
-                                                textColor: Colors.black87,
-                                                backgroundColor: Colors.white,
-                                                toastLength: Toast.LENGTH_LONG,
-                                                fontSize: 12,
-                                              );
-                                              return;
-                                            }
-                                            Fluttertoast.showToast(
-                                              msg: "Profile updated!",
-                                              textColor: Colors.black87,
-                                              backgroundColor: Colors.white,
-                                              toastLength: Toast.LENGTH_LONG,
-                                              fontSize: 12,
-                                            );
-                                            Navigator.of(context).pop();
-                                          },
+                                          onPressed: () async =>
+                                              updatePhotoURL(oldPass.text),
                                         ),
                                         TextButton(
                                           style: TextButton.styleFrom(
@@ -556,9 +423,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                             ),
                             createSettingTitle(
                               Icons.repeat,
-                              roleId == UserTypes.student
-                                  ? "Change to Teacher"
-                                  : "Change to Student",
+                              "Change role",
                               () {
                                 Navigator.push(
                                   context,
@@ -615,5 +480,163 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         ),
       ),
     );
+  }
+
+  // Setting functions
+  void changeName(String newName) {
+    AuthBloc.addEventWithoutContext(
+      AuthEvent.updateUser(
+        getUserModel().copyWith(
+          userName: newName,
+        ),
+      ),
+    );
+
+    Fluttertoast.showToast(
+      msg: "Name updated!",
+      textColor: Colors.black87,
+      backgroundColor: Colors.white,
+      toastLength: Toast.LENGTH_LONG,
+      fontSize: 12,
+    );
+    Navigator.of(context).pop();
+  }
+
+  Future<void> changeEmail(
+    String oldPass,
+    String newEmail,
+  ) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+        email: getUserModel().email,
+        password: oldPass,
+      )
+          .then((firebaseUser) async {
+        await firebaseUser.user!.updateEmail(newEmail);
+      });
+    } catch (err) {
+      Fluttertoast.showToast(
+        msg: "Error: $err",
+        textColor: Colors.black87,
+        backgroundColor: Colors.white,
+        toastLength: Toast.LENGTH_LONG,
+        fontSize: 12,
+      );
+      return;
+    }
+
+    AuthBloc.addEventWithoutContext(
+      AuthEvent.updateUser(
+        getUserModel().copyWith(
+          email: newEmail,
+        ),
+      ),
+    );
+
+    Fluttertoast.showToast(
+      msg: "Email updated!",
+      textColor: Colors.black87,
+      backgroundColor: Colors.white,
+      toastLength: Toast.LENGTH_LONG,
+      fontSize: 12,
+    );
+    Navigator.of(context).pop();
+  }
+
+  Future<void> changePassword(
+    String oldPass,
+    String newPass,
+  ) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+        email: getUserModel().email,
+        password: oldPass,
+      )
+          .then((firebaseUser) async {
+        await firebaseUser.user!.updatePassword(newPass);
+      });
+    } catch (err) {
+      Fluttertoast.showToast(
+        msg: "Error: $err",
+        textColor: Colors.black87,
+        backgroundColor: Colors.white,
+        toastLength: Toast.LENGTH_LONG,
+        fontSize: 12,
+      );
+      return;
+    }
+    Fluttertoast.showToast(
+      msg: "Password updated!",
+      textColor: Colors.black87,
+      backgroundColor: Colors.white,
+      toastLength: Toast.LENGTH_LONG,
+      fontSize: 12,
+    );
+    Navigator.of(context).pop();
+  }
+
+  Future<void> updatePhotoURL(String oldPass) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (image == null) {
+      Fluttertoast.showToast(
+        msg: "No photo was selected or invalid",
+        textColor: Colors.black87,
+        backgroundColor: Colors.white,
+        toastLength: Toast.LENGTH_LONG,
+        fontSize: 12,
+      );
+      return;
+    }
+
+    final Reference ref = FirebaseStorage.instance.ref().child(
+          "profile-images/${getUserModel().id}.png",
+        );
+
+    final TaskSnapshot uploadTask = await ref.putFile(File(image.path));
+    String imageURL = "";
+    imageURL = await uploadTask.ref.getDownloadURL();
+
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+        email: getUserModel().email,
+        password: oldPass,
+      )
+          .then((firebaseUser) async {
+        await firebaseUser.user!.updatePhotoURL(imageURL);
+      });
+    } catch (err) {
+      Fluttertoast.showToast(
+        msg: "Error: $err",
+        textColor: Colors.black87,
+        backgroundColor: Colors.white,
+        toastLength: Toast.LENGTH_LONG,
+        fontSize: 12,
+      );
+      return;
+    }
+
+    AuthBloc.addEventWithoutContext(
+      AuthEvent.updateUser(
+        getUserModel().copyWith(
+          photoURL: imageURL,
+        ),
+      ),
+    );
+
+    Fluttertoast.showToast(
+      msg: "Profile updated!",
+      textColor: Colors.black87,
+      backgroundColor: Colors.white,
+      toastLength: Toast.LENGTH_LONG,
+      fontSize: 12,
+    );
+    Navigator.of(context).pop();
   }
 }

@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/core/user.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/auth/pages/login_page.dart';
-import 'package:classroom/ui/home/pages/bug_report_page.dart';
-import 'package:classroom/ui/home/pages/calendar_page.dart';
 import 'package:classroom/ui/chat/chat_page.dart';
+import 'package:classroom/ui/home/pages/calendar_page.dart';
 import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
@@ -18,11 +18,10 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -50,15 +49,6 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     controller.dispose();
     super.dispose();
-  }
-
-  UserModel getUserModel() {
-    if (getIt<Box>().get(HiveBoxNames.user) != null) {
-      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
-    } else {
-      // Invalid UserModel
-      return UserModel(email: "", id: "", userName: "", classes: []);
-    }
   }
 
   @override
@@ -163,9 +153,9 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                       child: Text(
-                                        isUserStudent
-                                            ? "Student".toUpperCase()
-                                            : "Teacher".toUpperCase(),
+                                        UserTypes().typeToString(
+                                          getUserModel().roleId!,
+                                        ),
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -385,7 +375,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               );
                             },
-                            child: const UserAvatar(
+                            child: UserAvatar(
+                              userModel: getUserModel(),
                               height: 35,
                               width: 35,
                             ),
@@ -395,12 +386,12 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Expanded(
                       child: RefreshIndicator(
-                        color: Colors.black,
+                        color: Colors.white,
                         onRefresh: () async {
                           CourseBloc.addEventWithoutContext(
                             const CourseEvent.getCourses(),
                           );
-                          await Future.delayed(const Duration(seconds: 8));
+                          await Future.delayed(const Duration(seconds: 4));
                         },
                         child: ListView.builder(
                           padding: const EdgeInsets.symmetric(vertical: 20),

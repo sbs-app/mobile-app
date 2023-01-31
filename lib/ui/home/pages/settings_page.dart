@@ -1,4 +1,5 @@
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/core/user.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
@@ -17,15 +18,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  UserModel getUserModel() {
-    if (getIt<Box>().get(HiveBoxNames.user) != null) {
-      return getIt<Box>().get(HiveBoxNames.user) as UserModel;
-    } else {
-      // Invalid UserModel
-      return UserModel(email: "", id: "", userName: "", classes: []);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final String userName = getUserModel().userName;
@@ -86,7 +78,8 @@ class _SettingsPageState extends State<SettingsPage> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             tileColor: Colors.grey[900],
-                            leading: const UserAvatar(
+                            leading: UserAvatar(
+                              userModel: getUserModel(),
                               height: 35,
                               width: 35,
                             ),
@@ -126,7 +119,6 @@ class _SettingsPageState extends State<SettingsPage> {
                             "Licenses",
                             const LicensePage(
                               applicationName: "Classroom App",
-                              applicationIcon: Icon(Icons.class_),
                               applicationLegalese:
                                   "Copyright (c) 2023 Andrew, Shafil, Suraj",
                             ),

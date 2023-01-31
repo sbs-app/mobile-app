@@ -1,6 +1,7 @@
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
+import 'package:classroom/models/courses/post_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 
@@ -21,10 +22,12 @@ class CourseModel {
   final String? description;
   final UserModel? teacher;
   final List<UserModel>? students;
-  final List<String>? posts;
+  final List<PostModel>? posts;
 
   bool get isCreatedByMe =>
       (getIt<Box>().get(HiveBoxNames.user) as UserModel).id == id;
+
+  bool get isValid => id != "invalid";
 
   static Future<UserModel> getFirestoreUser(String userId) async {
     return FirebaseFirestore.instance.doc('/users/$userId').get().then(
@@ -33,7 +36,35 @@ class CourseModel {
         );
   }
 
-  static Future<CourseModel> fromFirestore(Map data) async {
+  static Future<List<PostModel>> getCoursePosts(String classId) async {
+    final CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection('/classes/$classId/posts');
+
+    // Get docs from collection reference
+    final QuerySnapshot querySnapshot = await collectionRef.get();
+
+    // Get data from docs and convert map to List
+    final allPosts =
+        querySnapshot.docs.map((doc) => doc.data()! as Map).toList();
+
+    final List<PostModel> posts = [];
+    for (final Map? post in allPosts) {
+      posts.add(PostModel.fromFirestore(post!));
+    }
+
+    return posts;
+  }
+
+  static Future<CourseModel> fromFirestore(Map? data) async {
+    if (data == null || data.isEmpty) {
+      // Invalid map, return invalid course model.
+      return const CourseModel(
+        id: "invalid",
+        code: "invalid",
+        name: "invalid",
+      );
+    }
+
     final List<String> studentIds =
         List<String>.from(data['students']! as List);
 
@@ -46,7 +77,7 @@ class CourseModel {
     final UserModel teacher =
         await getFirestoreUser(data['teacher']! as String);
 
-    final List<String> posts = List<String>.from(data['posts']! as List);
+    final List<PostModel> posts = await getCoursePosts(data['code'] as String);
 
     return CourseModel(
       id: data['id']! as String,
@@ -66,7 +97,7 @@ class CourseModel {
     String? description,
     UserModel? teacher,
     List<UserModel>? students,
-    List<String>? posts,
+    List<PostModel>? posts,
   }) =>
       CourseModel(
         id: id ?? this.id,
@@ -78,13 +109,20 @@ class CourseModel {
         posts: posts ?? this.posts,
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "code": code,
-        "name": name,
-        "description": description,
-        "teacher": teacher!.id,
-        "students": students,
-        "posts": posts
-      };
+  Map<String, dynamic> toJson() {
+    final List<String> studentIds = [];
+
+    for (final UserModel userModel in students!) {
+      studentIds.add(userModel.id);
+    }
+
+    return {
+      "id": id,
+      "code": code,
+      "name": name,
+      "description": description,
+      "teacher": teacher!.id,
+      "students": studentIds,
+    };
+  }
 }

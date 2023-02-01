@@ -11,6 +11,7 @@ import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
 import 'package:classroom/ui/home/pages/settings_page.dart';
+import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,13 +91,262 @@ class _HomePageState extends State<HomePage> {
                 appBarColor: Colors.black,
                 drawerIconColor: Colors.white,
                 isTitleCenter: false,
-                title: Text(
-                  "My Courses".toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "My Courses".toUpperCase(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    CustomPopupMenu(
+                      controller: controller,
+                      barrierColor: Colors.black45,
+                      pressType: PressType.singleClick,
+                      menuBuilder: () {
+                        return Container(
+                          width: 200,
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 35,
+                                // width: 100,
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  UserTypes().typeToString(
+                                    getUserModel().roleId!,
+                                  ),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 2,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          userName,
+                                          style: const TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Container(
+                                    height: 1,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(1),
+                                      color: Colors.black12,
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      overlayColor: MaterialStateProperty.all(
+                                        Colors.black12,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      await Future.delayed(
+                                        const Duration(
+                                          milliseconds: 400,
+                                        ),
+                                      );
+                                      controller.hideMenu();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const SettingsPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.settings,
+                                          color: Colors.black87,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Settings",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        Colors.white,
+                                      ),
+                                      overlayColor: MaterialStateProperty.all(
+                                        Colors.white10,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      await Future.delayed(
+                                        const Duration(
+                                          milliseconds: 400,
+                                        ),
+                                      );
+                                      controller.hideMenu();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const CalendarPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.calendar_month,
+                                          color: Colors.black87,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Calendar",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        Colors.white,
+                                      ),
+                                      overlayColor: MaterialStateProperty.all(
+                                        Colors.white10,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      await Future.delayed(
+                                        const Duration(
+                                          milliseconds: 400,
+                                        ),
+                                      );
+                                      controller.hideMenu();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const ChatPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.chat,
+                                          color: Colors.black87,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Chat",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        const Color(0xff00B4DB),
+                                      ),
+                                      overlayColor: MaterialStateProperty.all(
+                                        Colors.white10,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      await Future.delayed(
+                                        const Duration(
+                                          milliseconds: 400,
+                                        ),
+                                      );
+                                      controller.hideMenu();
+
+                                      AuthBloc.addEventWithoutContext(
+                                        const AuthEvent.signOut(),
+                                      );
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const LoginPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.logout_rounded,
+                                          color: Colors.white,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Logout",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: UserAvatar(
+                        userModel: getUserModel(),
+                        height: 35,
+                        width: 35,
+                      ),
+                    )
+                  ],
                 ),
               ),
               key: _sliderDrawerKey,

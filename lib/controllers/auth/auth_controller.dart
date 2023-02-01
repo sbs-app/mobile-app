@@ -179,6 +179,7 @@ class AuthController extends IAuthController {
         email: newUser.email,
         userName: newUser.userName,
         id: newUser.id,
+        photoURL: newUser.photoURL,
         classes: newUser.classes,
       );
 

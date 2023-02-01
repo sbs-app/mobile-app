@@ -1,25 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:classroom/core/strings.dart';
-import 'package:classroom/core/user.dart';
-import 'package:classroom/injection.dart';
-import 'package:classroom/models/auth/user_model.dart';
+import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/auth/pages/login_page.dart';
-import 'package:classroom/ui/chat/chat_page.dart';
+import 'package:classroom/ui/chat/chat_rooms.dart';
 import 'package:classroom/ui/home/pages/calendar_page.dart';
 import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
 import 'package:classroom/ui/home/pages/settings_page.dart';
-import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
-import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
-import 'package:hive/hive.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -119,8 +114,12 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: Colors.transparent,
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundImage:
-                            Image.network(getUserModel().photoURL).image,
+                        backgroundImage: getUserModel().photoURL.isEmpty
+                            ? Image.asset(
+                                "assets/auth/man.png",
+                                fit: BoxFit.cover,
+                              ).image
+                            : Image.network(getUserModel().photoURL).image,
                       ),
                     ),
                     const SizedBox(

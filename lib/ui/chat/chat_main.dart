@@ -1,13 +1,14 @@
 import 'dart:io';
 
+import 'package:classroom/ui/chat/firebase_chat.dart';
+import 'package:classroom/ui/chat/types/flutter_chat_types.dart' as chat_types;
+import 'package:classroom/ui/chat/widgets/flutter_chat_ui.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ChatMain extends StatefulWidget {
@@ -16,7 +17,7 @@ class ChatMain extends StatefulWidget {
     required this.room,
   });
 
-  final types.Room room;
+  final chat_types.Room room;
 
   @override
   State<ChatMain> createState() => _ChatPageState();
@@ -31,20 +32,25 @@ class _ChatPageState extends State<ChatMain> {
           systemOverlayStyle: SystemUiOverlayStyle.light,
           title: const Text('Chat'),
         ),
-        body: StreamBuilder<types.Room>(
+        body: StreamBuilder<chat_types.Room>(
           initialData: widget.room,
           stream: FirebaseChatCore.instance.room(widget.room.id),
-          builder: (context, snapshot) => StreamBuilder<List<types.Message>>(
+          builder: (context, snapshot) =>
+              StreamBuilder<List<chat_types.Message>>(
             initialData: const [],
             stream: FirebaseChatCore.instance.messages(snapshot.data!),
             builder: (context, snapshot) => Chat(
+              showUserNames: true,
+              timeFormat: DateFormat.jm(),
+              dateFormat: DateFormat.yMMMd(),
+              theme: const DarkChatTheme(),
               isAttachmentUploading: _isAttachmentUploading,
               messages: snapshot.data ?? [],
               onAttachmentPressed: _handleAtachmentPressed,
               onMessageTap: _handleMessageTap,
               onPreviewDataFetched: _handlePreviewDataFetched,
               onSendPressed: _handleSendPressed,
-              user: types.User(
+              user: chat_types.User(
                 id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
               ),
             ),
@@ -111,7 +117,7 @@ class _ChatPageState extends State<ChatMain> {
     //     await reference.putFile(file);
     //     final uri = await reference.getDownloadURL();
 
-    //     final message = types.PartialFile(
+    //     final message = chat_types.PartialFile(
     //       mimeType: lookupMimeType(filePath),
     //       name: name,
     //       size: result.files.single.size,
@@ -146,7 +152,7 @@ class _ChatPageState extends State<ChatMain> {
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
 
-        final message = types.PartialImage(
+        final message = chat_types.PartialImage(
           height: image.height.toDouble(),
           name: name,
           size: size,
@@ -165,8 +171,8 @@ class _ChatPageState extends State<ChatMain> {
     }
   }
 
-  void _handleMessageTap(BuildContext _, types.Message message) async {
-    if (message is types.FileMessage) {
+  void _handleMessageTap(BuildContext _, chat_types.Message message) async {
+    if (message is chat_types.FileMessage) {
       var localPath = message.uri;
 
       if (message.uri.startsWith('http')) {
@@ -201,15 +207,15 @@ class _ChatPageState extends State<ChatMain> {
   }
 
   void _handlePreviewDataFetched(
-    types.TextMessage message,
-    types.PreviewData previewData,
+    chat_types.TextMessage message,
+    chat_types.PreviewData previewData,
   ) {
     final updatedMessage = message.copyWith(previewData: previewData);
 
     FirebaseChatCore.instance.updateMessage(updatedMessage, widget.room.id);
   }
 
-  void _handleSendPressed(types.PartialText message) {
+  void _handleSendPressed(chat_types.PartialText message) {
     FirebaseChatCore.instance.sendMessage(
       message,
       widget.room.id,

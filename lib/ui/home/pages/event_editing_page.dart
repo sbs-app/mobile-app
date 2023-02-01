@@ -2,7 +2,6 @@ import 'package:classroom/ui/home/pages/event_editing_page.dart';
 import 'package:classroom/ui/home/pages/home_page.dart';
 import 'package:classroom/ui/home/pages/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'event.dart';

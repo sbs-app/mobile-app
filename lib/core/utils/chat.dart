@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:classroom/ui/chat/types/flutter_chat_types.dart' as types;
 
 const colors = [
   Color(0xffff6767),
@@ -20,5 +20,4 @@ Color getUserAvatarNameColor(types.User user) {
   return colors[index];
 }
 
-String getUserName(types.User user) =>
-    '${user.firstName ?? ''} ${user.lastName ?? ''}'.trim();
+String getUserName(types.User user) => (user.name ?? '').trim();

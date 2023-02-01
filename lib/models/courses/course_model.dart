@@ -1,4 +1,5 @@
 import 'package:classroom/core/strings.dart';
+import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/post_model.dart';
@@ -28,13 +29,6 @@ class CourseModel {
       (getIt<Box>().get(HiveBoxNames.user) as UserModel).id == id;
 
   bool get isValid => id != "invalid";
-
-  static Future<UserModel> getFirestoreUser(String userId) async {
-    return FirebaseFirestore.instance.doc('/users/$userId').get().then(
-          (documentSnapshot) =>
-              UserModel.fromFirestore(documentSnapshot.data()!),
-        );
-  }
 
   static Future<List<PostModel>> getCoursePosts(String classId) async {
     final CollectionReference collectionRef =

@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:classroom/core/strings.dart';
-import 'package:classroom/core/user.dart';
+import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
@@ -23,8 +23,8 @@ class CourseController extends ICoursesController {
   final FirebaseFirestore firebaseFirestore;
 
   // Get the firestore class from the firestore collection
-  Future<CourseModel> getFirestoreClass(String classCode) {
-    return firebaseFirestore.doc('/classes/$classCode').get().then(
+  static Future<CourseModel> getFirestoreClass(String classCode) {
+    return FirebaseFirestore.instance.doc('/classes/$classCode').get().then(
           (documentSnapshot) =>
               CourseModel.fromFirestore(documentSnapshot.data()),
         );

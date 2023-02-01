@@ -62,267 +62,270 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         final bool isUserStudent = getUserModel().roleId == UserTypes.student;
         final String userName = getUserModel().userName;
-        return Scaffold(
-          backgroundColor: Colors.black,
-          floatingActionButton: isUserStudent
-              ? FloatingActionButton(
-                  backgroundColor: Colors.white,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const JoinCoursePage(),
-                      ),
-                    );
-                  },
-                  child: const Icon(Icons.add, color: Colors.black),
-                )
-              : FloatingActionButton(
-                  backgroundColor: Colors.white,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const CreateCoursePage(),
-                      ),
-                    );
-                  },
-                  child: const Icon(Icons.add, color: Colors.black),
-                ),
-          body: SliderDrawer(
-            appBar: SliderAppBar(
-              appBarColor: Colors.black,
-              drawerIconColor: Colors.white,
-              isTitleCenter: false,
-              title: Text(
-                "My Courses".toUpperCase(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+        return SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.black,
+            floatingActionButton: isUserStudent
+                ? FloatingActionButton(
+                    backgroundColor: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const JoinCoursePage(),
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.add, color: Colors.black),
+                  )
+                : FloatingActionButton(
+                    backgroundColor: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const CreateCoursePage(),
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.add, color: Colors.black),
+                  ),
+            body: SliderDrawer(
+              appBar: SliderAppBar(
+                appBarColor: Colors.black,
+                drawerIconColor: Colors.white,
+                isTitleCenter: false,
+                title: Text(
+                  "My Courses".toUpperCase(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-            key: _sliderDrawerKey,
-            sliderOpenSize: 180,
-            slider: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.only(top: 30),
-              child: ListView(
-                children: <Widget>[
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  CircleAvatar(
-                    radius: 65,
-                    backgroundColor: Colors.transparent,
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundImage:
-                          Image.network(getUserModel().photoURL).image,
+              key: _sliderDrawerKey,
+              sliderOpenSize: 180,
+              slider: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.only(top: 30),
+                child: ListView(
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 30,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    userName,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 35,
-                      // width: 100,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.black87,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Text(
-                        UserTypes().typeToString(
-                          getUserModel().roleId!,
-                        ),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 2,
-                        ),
+                    CircleAvatar(
+                      radius: 65,
+                      backgroundColor: Colors.transparent,
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage:
+                            Image.network(getUserModel().photoURL).image,
                       ),
                     ),
-                  ),
-                  ...[
-                    Menu(
-                      Icons.calendar_month,
-                      'Calendar',
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const CalendarPage(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      userName,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 35,
+                        // width: 100,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.black87,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          UserTypes().typeToString(
+                            getUserModel().roleId!,
+                          ),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 2,
+                          ),
                         ),
                       ),
                     ),
-                    Menu(
-                      Icons.chat,
-                      'Chat',
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const ChatPage(),
-                        ),
-                      ),
-                    ),
-                    Menu(
-                      Icons.settings,
-                      'Settings',
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const SettingsPage(),
-                        ),
-                      ),
-                    ),
-                    Menu(
-                      Icons.logout,
-                      'Log out',
-                      () {
-                        AuthBloc.addEventWithoutContext(
-                          const AuthEvent.signOut(),
-                        );
-                        Navigator.pushReplacement(
+                    ...[
+                      Menu(
+                        Icons.calendar_month,
+                        'Calendar',
+                        () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const LoginPage(),
+                            builder: (_) => const CalendarPage(),
                           ),
-                        );
-                      },
-                    )
-                  ]
-                      .map(
-                        (menu) => _SliderMenuItem(
-                          title: menu.title,
-                          iconData: menu.iconData,
-                          onTap: menu.onTap,
-                        ),
-                      )
-                      .toList(),
-                ],
-              ),
-            ),
-            child: BlocConsumer<CourseBloc, CourseState>(
-              listener: (context, state) {
-                // TODO: implement listener
-              },
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: RefreshIndicator(
-                        color: Colors.white,
-                        onRefresh: () async {
-                          CourseBloc.addEventWithoutContext(
-                            const CourseEvent.getCourses(),
-                          );
-                          await Future.delayed(const Duration(seconds: 4));
-                        },
-                        child: ListView.builder(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          // physics: const BouncingScrollPhysics(),
-                          itemCount: state.courses.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final CourseModel course = state.courses[index];
-                            return Container(
-                              height: 150,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 5,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white10,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  overlayColor: MaterialStateProperty.all(
-                                    coverUrls[index % 7]
-                                        .values
-                                        .first
-                                        .withOpacity(0.5),
-                                  ),
-                                ),
-                                onPressed: () async {
-                                  await Future.delayed(
-                                    const Duration(milliseconds: 250),
-                                  );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => CoursePage(
-                                        courseCode: course.code,
-                                        courseCoverImageUrl:
-                                            "https://www.gstatic.com/classroom/themes/img_${coverUrls[index % 7].entries.first.key}.jpg",
-                                        primaryColor:
-                                            coverUrls[index % 7].values.first,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Hero(
-                                      tag: course.code,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              "https://www.gstatic.com/classroom/themes/img_${coverUrls[index % 7].entries.first.key}.jpg",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(20),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            course.name,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          Text(
-                                            course.teacher!.userName,
-                                            style: const TextStyle(
-                                              color: Colors.white54,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
                         ),
                       ),
-                    ),
+                      Menu(
+                        Icons.chat,
+                        'Chat',
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ChatPage(),
+                          ),
+                        ),
+                      ),
+                      Menu(
+                        Icons.settings,
+                        'Settings',
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SettingsPage(),
+                          ),
+                        ),
+                      ),
+                      Menu(
+                        Icons.logout,
+                        'Log out',
+                        () {
+                          AuthBloc.addEventWithoutContext(
+                            const AuthEvent.signOut(),
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const LoginPage(),
+                            ),
+                          );
+                        },
+                      )
+                    ]
+                        .map(
+                          (menu) => _SliderMenuItem(
+                            title: menu.title,
+                            iconData: menu.iconData,
+                            onTap: menu.onTap,
+                          ),
+                        )
+                        .toList(),
                   ],
-                );
-              },
+                ),
+              ),
+              child: BlocConsumer<CourseBloc, CourseState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: RefreshIndicator(
+                          color: Colors.white,
+                          onRefresh: () async {
+                            CourseBloc.addEventWithoutContext(
+                              const CourseEvent.getCourses(),
+                            );
+                            await Future.delayed(const Duration(seconds: 4));
+                          },
+                          child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            // physics: const BouncingScrollPhysics(),
+                            itemCount: state.courses.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final CourseModel course = state.courses[index];
+                              return Container(
+                                height: 150,
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    overlayColor: MaterialStateProperty.all(
+                                      coverUrls[index % 7]
+                                          .values
+                                          .first
+                                          .withOpacity(0.5),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    await Future.delayed(
+                                      const Duration(milliseconds: 250),
+                                    );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => CoursePage(
+                                          courseCode: course.code,
+                                          courseCoverImageUrl:
+                                              "https://www.gstatic.com/classroom/themes/img_${coverUrls[index % 7].entries.first.key}.jpg",
+                                          primaryColor:
+                                              coverUrls[index % 7].values.first,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      Hero(
+                                        tag: course.code,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                "https://www.gstatic.com/classroom/themes/img_${coverUrls[index % 7].entries.first.key}.jpg",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              course.name,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            Text(
+                                              course.teacher!.userName,
+                                              style: const TextStyle(
+                                                color: Colors.white54,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         );

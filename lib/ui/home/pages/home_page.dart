@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user.dart';
+import 'package:classroom/core/utils/chat.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
@@ -107,7 +108,7 @@ class _HomePageState extends State<HomePage> {
               key: _sliderDrawerKey,
               sliderOpenSize: 180,
               slider: Container(
-                color: Colors.white,
+                color: Colors.black,
                 padding: const EdgeInsets.only(top: 30),
                 child: ListView(
                   children: <Widget>[
@@ -130,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                       userName,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -142,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                         // width: 100,
                         alignment: Alignment.center,
                         decoration: const BoxDecoration(
-                          color: Colors.black87,
+                          color: Color.fromARGB(221, 89, 83, 83),
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
                           ),
@@ -351,10 +352,10 @@ class _SliderMenuItem extends StatelessWidget {
       title: Text(
         title,
         style: const TextStyle(
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
-      leading: Icon(iconData, color: Colors.black),
+      leading: Icon(iconData, color: Colors.white),
       onTap: () => onTap?.call(),
     );
   }

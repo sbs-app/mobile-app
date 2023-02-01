@@ -133,9 +133,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                   applicationName: "ClassMate",
                                   applicationIcon: Icon(Icons.class_),
                                   applicationLegalese:
-                                      "Copyright (c) 2023 Andrew, Shafil, Suraj\n"
+                                      "Copyright © 2023 Andrew, Shafil, Suraj\n"
                                       "ClassMate is licensed under the MIT license.\n"
-                                      "Image(s) used under license from Shutterstock.com.",
+                                      "Image(s) used under license from Shutterstock.com.\n"
+                                      "SIL Open Font License (OFL)",
                                 ),
                               ),
                             ),

@@ -356,7 +356,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                               },
                             ),
                             createSettingTitle(
-                              Icons.person_pin_circle,
+                              Icons.account_circle,
                               "Change profile image",
                               () {
                                 final TextEditingController oldPass =

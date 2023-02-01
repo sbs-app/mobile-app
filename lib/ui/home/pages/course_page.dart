@@ -30,7 +30,6 @@ class CoursePage extends StatefulWidget {
   final Color primaryColor;
 
   @override
-  // ignore: no_logic_in_create_state
   _CoursePageState createState() => _CoursePageState();
 }
 

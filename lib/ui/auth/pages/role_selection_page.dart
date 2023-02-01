@@ -107,8 +107,8 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                       Text(
                         "Select a role to continue",
                         style: TextStyle(
-                          color: Colors.white24,
-                          // fontWeight: FontWeight.w600,
+                          color: Color(0xff0083B0),
+                          fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
                       ),
@@ -132,13 +132,13 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                             style: ButtonStyle(
                               overlayColor:
                                   MaterialStateProperty.all(Colors.white),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white10),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Color.fromARGB(150, 91, 88, 88)),
                             ),
                             child: const Text(
                               "STUDENT",
                               style: TextStyle(
-                                color: Colors.white38,
+                                color: Color.fromARGB(255, 255, 255, 255),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -165,13 +165,13 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                             style: ButtonStyle(
                               overlayColor:
                                   MaterialStateProperty.all(Colors.white),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white10),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Color.fromARGB(150, 91, 88, 88)),
                             ),
                             child: const Text(
                               "TEACHER",
                               style: TextStyle(
-                                color: Colors.white38,
+                                color: Color.fromARGB(255, 255, 255, 255),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -198,13 +198,13 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                             style: ButtonStyle(
                               overlayColor:
                                   MaterialStateProperty.all(Colors.white),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white10),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Color.fromARGB(150, 91, 88, 88)),
                             ),
                             child: const Text(
                               "PARENT",
                               style: TextStyle(
-                                color: Colors.white38,
+                                color: Color.fromARGB(255, 255, 255, 255),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),

@@ -99,7 +99,6 @@ class FirebaseChatCore {
   /// Creates a direct chat for 2 people. Add [metadata] for any additional
   /// custom data.
   Future<types.Room> createRoom(
-    String? name,
     types.User otherUser, {
     Map<String, dynamic>? metadata,
   }) async {
@@ -168,7 +167,7 @@ class FirebaseChatCore {
       'createdAt': FieldValue.serverTimestamp(),
       'imageUrl': null,
       'metadata': metadata,
-      'name': name,
+      'name': null,
       'type': types.RoomType.direct.toShortString(),
       'updatedAt': FieldValue.serverTimestamp(),
       'userIds': userIds,
@@ -177,7 +176,6 @@ class FirebaseChatCore {
 
     return types.Room(
       id: room.id,
-      name: name,
       metadata: metadata,
       type: types.RoomType.direct,
       users: users,

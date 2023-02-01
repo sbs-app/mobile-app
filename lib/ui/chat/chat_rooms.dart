@@ -95,7 +95,6 @@ class _ChatPageState extends State<ChatPage> {
                                   child: const Text('OK'),
                                   onPressed: () async {
                                     FirebaseChatCore.instance.createRoom(
-                                      currentTeacher.userName,
                                       convertToChatUser(currentTeacher),
                                     );
                                     Navigator.of(context).pop();

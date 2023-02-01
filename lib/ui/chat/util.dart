@@ -84,6 +84,7 @@ Future<types.Room> processRoomDocument(
       final otherUser = users.firstWhere(
         (u) => u['id'] != firebaseUser.uid,
       );
+      data['name'] = otherUser['userName'];
 
       imageUrl = otherUser['imageUrl'] as String?;
     } catch (e) {

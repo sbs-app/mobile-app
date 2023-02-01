@@ -18,6 +18,7 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:hive/hive.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,7 +38,11 @@ class _HomePageState extends State<HomePage> {
     {"read": const Color(0xff566E7A)},
     {"handcraft": const Color(0xff8E22A9)},
   ];
+
   late CustomPopupMenuController controller;
+
+  final GlobalKey<SliderDrawerState> _sliderDrawerKey =
+      GlobalKey<SliderDrawerState>();
 
   @override
   void initState() {
@@ -57,333 +62,167 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         final bool isUserStudent = getUserModel().roleId == UserTypes.student;
         final String userName = getUserModel().userName;
-
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.black,
-            floatingActionButton: isUserStudent
-                ? FloatingActionButton(
-                    backgroundColor: Colors.white,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const JoinCoursePage(),
-                        ),
-                      );
-                    },
-                    child: const Icon(Icons.add, color: Colors.black),
-                  )
-                : FloatingActionButton(
-                    backgroundColor: Colors.white,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const CreateCoursePage(),
-                        ),
-                      );
-                    },
-                    child: const Icon(Icons.add, color: Colors.black),
+        return Scaffold(
+          backgroundColor: Colors.black,
+          floatingActionButton: isUserStudent
+              ? FloatingActionButton(
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const JoinCoursePage(),
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.add, color: Colors.black),
+                )
+              : FloatingActionButton(
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const CreateCoursePage(),
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.add, color: Colors.black),
+                ),
+          body: SliderDrawer(
+            appBar: SliderAppBar(
+              appBarColor: Colors.black,
+              drawerIconColor: Colors.white,
+              isTitleCenter: false,
+              title: Text(
+                "My Courses".toUpperCase(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            key: _sliderDrawerKey,
+            sliderOpenSize: 180,
+            slider: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.only(top: 30),
+              child: ListView(
+                children: <Widget>[
+                  const SizedBox(
+                    height: 30,
                   ),
-            body: BlocConsumer<CourseBloc, CourseState>(
+                  CircleAvatar(
+                    radius: 65,
+                    backgroundColor: Colors.transparent,
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage:
+                          Image.network(getUserModel().photoURL).image,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    userName,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 35,
+                      // width: 100,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        UserTypes().typeToString(
+                          getUserModel().roleId!,
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ...[
+                    Menu(
+                      Icons.calendar_month,
+                      'Calendar',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const CalendarPage(),
+                        ),
+                      ),
+                    ),
+                    Menu(
+                      Icons.chat,
+                      'Chat',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ChatPage(),
+                        ),
+                      ),
+                    ),
+                    Menu(
+                      Icons.settings,
+                      'Settings',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SettingsPage(),
+                        ),
+                      ),
+                    ),
+                    Menu(
+                      Icons.logout,
+                      'Log out',
+                      () {
+                        AuthBloc.addEventWithoutContext(
+                          const AuthEvent.signOut(),
+                        );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const LoginPage(),
+                          ),
+                        );
+                      },
+                    )
+                  ]
+                      .map(
+                        (menu) => _SliderMenuItem(
+                          title: menu.title,
+                          iconData: menu.iconData,
+                          onTap: menu.onTap,
+                        ),
+                      )
+                      .toList(),
+                ],
+              ),
+            ),
+            child: BlocConsumer<CourseBloc, CourseState>(
               listener: (context, state) {
                 // TODO: implement listener
               },
               builder: (context, state) {
                 return Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          FancyTextReveal(
-                            properties: const Properties(
-                              milliseconds: 400,
-                              // horizontalSpacing: 100,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                              ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "My Courses".toUpperCase(),
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Container(
-                                  height: 2,
-                                  width: 25,
-                                  color: Colors.white12,
-                                )
-                              ],
-                            ),
-                          ),
-                          CustomPopupMenu(
-                            controller: controller,
-                            barrierColor: Colors.black45,
-                            pressType: PressType.singleClick,
-                            menuBuilder: () {
-                              return Container(
-                                width: 200,
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: 35,
-                                      // width: 100,
-                                      alignment: Alignment.center,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.black87,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        UserTypes().typeToString(
-                                          getUserModel().roleId!,
-                                        ),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 2,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10),
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                userName,
-                                                style: const TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Container(
-                                          height: 1,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(1),
-                                            color: Colors.black12,
-                                          ),
-                                        ),
-                                        TextButton(
-                                          style: ButtonStyle(
-                                            overlayColor:
-                                                MaterialStateProperty.all(
-                                              Colors.black12,
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            await Future.delayed(
-                                              const Duration(
-                                                milliseconds: 400,
-                                              ),
-                                            );
-                                            controller.hideMenu();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const SettingsPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: Row(
-                                            children: const [
-                                              Icon(
-                                                Icons.settings,
-                                                color: Colors.black87,
-                                                size: 14,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Settings",
-                                                style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        TextButton(
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                              Colors.white,
-                                            ),
-                                            overlayColor:
-                                                MaterialStateProperty.all(
-                                              Colors.white10,
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            await Future.delayed(
-                                              const Duration(
-                                                milliseconds: 400,
-                                              ),
-                                            );
-                                            controller.hideMenu();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const CalendarPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: Row(
-                                            children: const [
-                                              Icon(
-                                                Icons.calendar_month,
-                                                color: Colors.black87,
-                                                size: 14,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Calendar",
-                                                style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        TextButton(
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                              Colors.white,
-                                            ),
-                                            overlayColor:
-                                                MaterialStateProperty.all(
-                                              Colors.white10,
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            await Future.delayed(
-                                              const Duration(
-                                                milliseconds: 400,
-                                              ),
-                                            );
-                                            controller.hideMenu();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const ChatPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: Row(
-                                            children: const [
-                                              Icon(
-                                                Icons.chat,
-                                                color: Colors.black87,
-                                                size: 14,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Chat",
-                                                style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        TextButton(
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                              const Color(0xff00B4DB),
-                                            ),
-                                            overlayColor:
-                                                MaterialStateProperty.all(
-                                              Colors.white10,
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            await Future.delayed(
-                                              const Duration(
-                                                milliseconds: 400,
-                                              ),
-                                            );
-                                            controller.hideMenu();
-
-                                            AuthBloc.addEventWithoutContext(
-                                              const AuthEvent.signOut(),
-                                            );
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const LoginPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: Row(
-                                            children: const [
-                                              Icon(
-                                                Icons.logout_rounded,
-                                                color: Colors.white,
-                                                size: 14,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Logout",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            child: UserAvatar(
-                              userModel: getUserModel(),
-                              height: 35,
-                              width: 35,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
                     Expanded(
                       child: RefreshIndicator(
                         color: Colors.white,
@@ -490,4 +329,38 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+}
+
+class _SliderMenuItem extends StatelessWidget {
+  final String title;
+  final IconData iconData;
+  final Function()? onTap;
+
+  const _SliderMenuItem({
+    required this.title,
+    required this.iconData,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      leading: Icon(iconData, color: Colors.black),
+      onTap: () => onTap?.call(),
+    );
+  }
+}
+
+class Menu {
+  final IconData iconData;
+  final String title;
+  final Function()? onTap;
+
+  Menu(this.iconData, this.title, this.onTap);
 }

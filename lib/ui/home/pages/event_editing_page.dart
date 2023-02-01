@@ -99,7 +99,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               flex: 2,
               child: buildDropdownField(
                   text: Utils.toDate(fromDate),
-                  onClicked: () => pickFromDateTime(pickDate: true))),
+                  onClicked: () => pickFromDateTime(pickDate: false))),
           Expanded(
               child: buildDropdownField(
             text: Utils.toTime(fromDate),

@@ -32,6 +32,12 @@ class _TasksWidgetState extends State<TasksWidget> {
       dataSource: EventDataSource(provider.events),
       initialDisplayDate: provider.selectedDate,
       appointmentBuilder: appointmentBuilder,
+      onTap: (details) {
+        if (details.appointments == null) return;
+        final event = details.appointments!.first;
+      },
+      todayHighlightColor: Color(0xff0083B0),
+      headerHeight: 0,
     );
   }
 
@@ -43,12 +49,17 @@ class _TasksWidgetState extends State<TasksWidget> {
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
-      child: Text(
-        event.subject,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-            color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+      decoration: BoxDecoration(
+          color: event.color.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(12)),
+      child: Center(
+        child: Text(
+          event.subject,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

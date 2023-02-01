@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="logo/logo.png">
+  <title>ClassMate Dashboard</title>
+
+  <!-- Created by Shafil for ClassMate App -->
+
+  <!-- <script type="module">    
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+    
+      // TODO: Add SDKs for Firebase products that you want to use
+    
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+    
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDrAXBaNN8-_iX4dhcJ8V51sl0HCM1AyFU",
+        authDomain: "student-app-3457d.firebaseapp.com",
+        projectId: "student-app-3457d",
+        storageBucket: "student-app-3457d.appspot.com",
+        messagingSenderId: "665521402929",
+        appId: "1:665521402929:web:523273c712aaa7ac4c5110"
+      };
+    
+      // Initialize Firebase
+    
+      const app = initializeApp(firebaseConfig);
+    
+    </script> -->
+
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/9.16.0/firebase-app-compat.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/9.16.0/firebase-auth-compat.js"></script>
+  <script defer src="/__/firebase/9.16.0/firebase-firestore-compat.js"></script>
+  <script defer src="/__/firebase/9.16.0/firebase-messaging-compat.js"></script>
+  <script defer src="/__/firebase/9.16.0/firebase-storage-compat.js"></script>
+  <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+  <style media="screen">
+    body {
+      background: #ECEFF1;
+      color: rgba(0, 0, 0, 0.87);
+      font-family: Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .message {
+      background: white;
+      max-width: 360px;
+      margin: 100px auto 16px;
+      padding: 32px 24px;
+      border-radius: 3px;
+    }
+
+    .message h2 {
+      color: #ffa100;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 0 0 8px;
+    }
+
+    .message h1 {
+      font-size: 22px;
+      font-weight: 300;
+      color: rgba(0, 0, 0, 0.6);
+      margin: 0 0 16px;
+    }
+
+    .message p {
+      line-height: 140%;
+      margin: 16px 0 24px;
+      font-size: 14px;
+    }
+
+    .message .btn {
+      display: block;
+      text-align: center;
+      background: #039be5;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: white;
+      padding: 16px;
+      border-radius: 4px;
+    }
+
+    .message,
+    .message a {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    #load {
+      color: rgba(0, 0, 0, 0.4);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+
+      body,
+      .message {
+        margin-top: 0;
+        background: white;
+        box-shadow: none;
+      }
+
+      body {
+        border-top: 16px solid #ffa100;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="message" id="main">
+    <h2>Welcome</h2>
+    <h1>Login to access dashboard</h1>
+    <p>To access the ClassMate dashboard and view bug reports, please login into an admin account.</p>
+    <input type="email" name="Email" id="email">
+    <input type="password" name="password" id="password">
+    <div class="btn" id="btn_login">Login</div>
+  </div>
+
+  <div class="message" id="bug_reports" style="display: none;">
+    <h2 id="name">Bug Reports</h2>
+    <h1>List of all bug report for ClassMate</h1>
+    <div id="reports"></div>
+    <div class="btn" id="btn_logout">Logout</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const loadEl = document.querySelector('#load');
+      // 🔥 The Firebase SDK is initialized and available here! 🔥
+
+      document.querySelector("#btn_login").addEventListener('click', () => {
+        let email = document.querySelector("#email").value;
+        let pass = document.querySelector("#password").value;
+        firebase.auth().signInWithEmailAndPassword(email, pass).catch(e => alert(e.message));
+      });
+
+      document.querySelector("#btn_logout").addEventListener('click', () => {
+        alert("Logging out");
+        firebase.auth().signOut();
+      });
+
+      firebase.auth().onAuthStateChanged(user => {
+        document.querySelector("#name").innerHTML += " - " + user.email;
+        if (user) {
+          document.querySelector('#bug_reports').style.display = 'block';
+          document.querySelector('#main').style.display = 'none';
+
+          firebase.firestore().collection("reports").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              document.querySelector("#reports").innerHTML += `<p>${doc.data().user}: ${doc.data().message}</p>`;
+            });
+          });
+        } else {
+          document.querySelector('#bug_reports').style.display = 'none';
+          document.querySelector('#main').style.display = 'block';
+        }
+      });
+
+      // firebase.firestore().doc('/foo/bar').get().then(() => { });
+      // firebase.messaging().requestPermission().then(() => { });
+      // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+
+    });
+  </script>
+</body>
+
+</html>

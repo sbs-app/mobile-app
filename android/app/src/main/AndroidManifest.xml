@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
    <application
-        android:label="Classroom"
+        android:label="ClassMate"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

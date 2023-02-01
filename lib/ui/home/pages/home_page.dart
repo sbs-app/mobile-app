@@ -1,9 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:classroom/core/strings.dart';
-import 'package:classroom/core/user.dart';
-import 'package:classroom/core/utils/chat.dart';
-import 'package:classroom/injection.dart';
-import 'package:classroom/models/auth/user_model.dart';
+import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/states/course/course_bloc.dart';

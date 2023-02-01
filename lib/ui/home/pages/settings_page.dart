@@ -8,6 +8,7 @@ import 'package:classroom/ui/home/pages/update_profile_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -107,20 +108,36 @@ class _SettingsPageState extends State<SettingsPage> {
                           createSettingTitle(
                             Icons.person,
                             "Update profile",
-                            const UpdateProfilePage(),
+                            MaterialPageRoute(
+                              builder: (_) => const UpdateProfilePage(),
+                            ),
                           ),
                           createSettingTitle(
                             Icons.bug_report,
                             "Report Bug",
-                            const ReportBugPage(),
+                            MaterialPageRoute(
+                              builder: (_) => const ReportBugPage(),
+                            ),
                           ),
                           createSettingTitle(
                             Icons.balance,
                             "Licenses",
-                            const LicensePage(
-                              applicationName: "Classroom App",
-                              applicationLegalese:
-                                  "Copyright (c) 2023 Andrew, Shafil, Suraj",
+                            MaterialPageRoute(
+                              builder: (context) => Theme(
+                                data: ThemeData.light().copyWith(
+                                  textTheme: GoogleFonts.montserratTextTheme(),
+                                  appBarTheme:
+                                      const AppBarTheme(color: Colors.black),
+                                ),
+                                child: const LicensePage(
+                                  applicationName: "ClassMate",
+                                  applicationIcon: Icon(Icons.class_),
+                                  applicationLegalese:
+                                      "Copyright (c) 2023 Andrew, Shafil, Suraj\n"
+                                      "ClassMate is licensed under the MIT license.\n"
+                                      "Image(s) used under license from Shutterstock.com.",
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -136,15 +153,17 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget createSettingTitle(IconData icon, String name, Widget page) {
+  Widget createSettingTitle(
+    IconData icon,
+    String name,
+    MaterialPageRoute route,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () => Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (_) => page,
-          ),
+          route,
         ),
         child: ListTile(
           shape: RoundedRectangleBorder(

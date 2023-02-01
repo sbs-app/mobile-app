@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         Container(
                           margin: const EdgeInsets.only(top: 50),
                           child: Image.asset(
-                            "assets/app_logo.png",
+                            "assets/logo/logo.png",
                             height: 90,
                             width: 90,
                           ),
@@ -317,7 +317,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             width: 15,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                              color: Colors.white,
                             ),
                           )
                         : const Text(

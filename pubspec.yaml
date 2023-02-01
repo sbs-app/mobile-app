@@ -96,7 +96,7 @@ flutter:
     - assets/icon/
     - assets/auth/
     - assets/courses/
-    - assets/app_logo.png
+    - assets/logo/
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see

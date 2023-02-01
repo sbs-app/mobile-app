@@ -2,13 +2,12 @@ import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/auth/pages/login_page.dart';
 import 'package:classroom/ui/auth/pages/role_selection_page.dart';
 import 'package:classroom/ui/core/validator.dart';
-import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -162,7 +161,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
             child: Column(
               children: [
                 Container(
-                  height: 250,
+                  height: 300,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(40),
@@ -182,14 +181,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                         Container(
                           margin: const EdgeInsets.only(top: 50),
                           child: Image.asset(
-                            "assets/app_logo.png",
+                            "assets/logo/logo.png",
                             height: 90,
                             width: 90,
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(right: 20, top: 20),
-                          alignment: Alignment.bottomRight,
+                          margin: const EdgeInsets.only(right: 2, top: 20),
+                          alignment: Alignment.bottomCenter,
                           child: const Text(
                             "Register",
                             style: TextStyle(fontSize: 20, color: Colors.white),
@@ -211,12 +210,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   child: TextFormField(
                     controller: userNameController,
                     cursorColor: const Color(0xff0083B0),
+                    style: const TextStyle(color: Color(0xff240b36)),
                     decoration: const InputDecoration(
                       icon: Icon(
                         Icons.person,
                         color: Color(0xff0083B0),
                       ),
                       hintText: "Full Name",
+                      hintStyle: TextStyle(color: Color(0xff240b36)),
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),
@@ -240,12 +241,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: const Color(0xff0083B0),
+                    style: const TextStyle(color: Color(0xff240b36)),
                     decoration: const InputDecoration(
                       icon: Icon(
                         Icons.email,
                         color: Color(0xff0083B0),
                       ),
                       hintText: "Email",
+                      hintStyle: TextStyle(color: Color(0xff240b36)),
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),
@@ -269,6 +272,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                     controller: passwordController,
                     obscureText: !showPassword,
                     cursorColor: const Color(0xff0083B0),
+                    style: const TextStyle(color: Color(0xff240b36)),
                     decoration: InputDecoration(
                       focusColor: const Color(0xff0083B0),
                       suffixIcon: IconButton(
@@ -290,6 +294,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                         color: Color(0xff0083B0),
                       ),
                       hintText: "Enter Password",
+                      hintStyle: const TextStyle(color: Color(0xff240b36)),
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),
@@ -383,11 +388,16 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Already a member? "),
+                      const Text(
+                        "Already a member? ",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       GestureDetector(
                         child: const Text(
                           "Login Now",
-                          style: TextStyle(color: Color(0xff0DF5E3)),
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 2, 129, 240),
+                          ),
                         ),
                         onTap: () {
                           Navigator.pushReplacement(

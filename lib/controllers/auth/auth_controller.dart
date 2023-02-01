@@ -196,8 +196,12 @@ class AuthController extends IAuthController {
   @override
   Future<Either<AuthFailure, Unit>> registerRole(int roleId) async {
     try {
-      final UserModel userModel = box.get(HiveBoxNames.user) as UserModel;
-      box.put(HiveBoxNames.user, userModel.copyWith(roleId: roleId));
+      final UserModel userModel =
+          (box.get(HiveBoxNames.user) as UserModel).copyWith(roleId: roleId);
+
+      firebaseFirestore.doc('/users/${userModel.id}').set(userModel.toJson());
+
+      box.put(HiveBoxNames.user, userModel);
 
       return const Right(unit);
     } catch (e) {
@@ -220,19 +224,20 @@ class AuthController extends IAuthController {
   @override
   Future<Either<AuthFailure, Unit>> switchRole() async {
     try {
-      final userModel = box.get(HiveBoxNames.user) as UserModel;
+      final UserModel userModel = box.get(HiveBoxNames.user) as UserModel;
+      final UserModel userModelNew;
 
       if (userModel.roleId == UserTypes.student) {
-        await box.put(
-          HiveBoxNames.user,
-          userModel.copyWith(roleId: UserTypes.teacher),
-        );
+        userModelNew = userModel.copyWith(roleId: UserTypes.teacher);
       } else {
-        await box.put(
-          HiveBoxNames.user,
-          userModel.copyWith(roleId: UserTypes.student),
-        );
+        userModelNew = userModel.copyWith(roleId: UserTypes.student);
       }
+
+      firebaseFirestore
+          .doc('/users/${userModelNew.id}')
+          .set(userModelNew.toJson());
+
+      box.put(HiveBoxNames.user, userModelNew);
 
       return const Right(unit);
     } catch (e) {

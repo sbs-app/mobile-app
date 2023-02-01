@@ -1,15 +1,14 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
-import 'package:classroom/ui/auth/pages/role_selection_page.dart';
 import 'package:classroom/ui/auth/pages/sign_up_page.dart';
 import 'package:classroom/ui/core/validator.dart';
-import 'package:fancy_text_reveal/fancy_text_reveal.dart';
+import 'package:classroom/ui/home/pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -120,7 +119,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             },
             (r) => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => const RoleSelectionPage()),
+              MaterialPageRoute(builder: (_) => const LoadingPage()),
             ),
           ),
         );

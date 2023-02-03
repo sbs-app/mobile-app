@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/models/auth/auth_failures.dart';
 import 'package:classroom/models/auth/i_auth_controller.dart';
@@ -5,6 +7,7 @@ import 'package:classroom/models/auth/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
@@ -35,15 +38,26 @@ class AuthController extends IAuthController {
     required String userName,
     required String email,
     required String password,
+    String? profileImage,
   }) async {
     try {
       final UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
+      String? imageURL;
+      if (profileImage != null) {
+        final Reference ref = FirebaseStorage.instance.ref().child(
+              "profile-images/${userCredential.user!.uid}.png",
+            );
+
+        final TaskSnapshot uploadTask = await ref.putFile(File(profileImage));
+        imageURL = await uploadTask.ref.getDownloadURL();
+      }
+
       final UserModel newUserModel = UserModel(
         email: email,
         id: userCredential.user!.uid,
-        photoURL: "",
+        photoURL: imageURL == null ? "" : imageURL,
         roleId: UserTypes.student,
         userName: userName,
         classes: <String>[""],

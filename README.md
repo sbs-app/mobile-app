@@ -13,6 +13,7 @@ ClassMate is a mobile application designed to help keep parents, students, and t
 
 # Frameworks & Technologies
 ClassMate is built using the Flutter framework, the Dart programming language, and Firebase as the backend.
+For video meetings, ClassMate uses the open-source Jitsi Meet SDK.
 
 # Running the App
 To run the app, you need to have the Flutter SDK installed on your computer. You can follow the instructions for installation on the Flutter website.
@@ -38,7 +39,7 @@ $ flutter run
 # Folder layout
 - `lib/ui` UI files
 - `lib/core` Helper utils for codebase
-- `lib/states` Handles states such as courses and posts
+- `lib/states` Handles BLoC states such as courses and posts
 - `lib/models` Models for Users, Courses, and Posts
 - `lib/controllers` Controller for auth and courses
 
@@ -50,6 +51,7 @@ $ flutter run
 - flutter_bloc: ^7.2.0
 - flutter_phoenix: ^1.0.0
 - flutter_firebase_chat_core: ^1.6.4
+- jitsi_meet: ^4.0.0
 - google_fonts: ^3.0.1
 - hive: ^2.0.4
 - lottie: ^2.2.0

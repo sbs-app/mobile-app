@@ -1,8 +1,10 @@
-import 'package:classroom/ui/home/pages/calendar/event_editing_page.dart';
-import 'package:classroom/ui/home/pages/calendar/event_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:classroom/ui/home/pages/calendar/event_editing_page.dart';
+import 'package:classroom/ui/home/pages/calendar/event_provider.dart';
 import 'task_widget.dart';
 
 class CalendarPage extends StatelessWidget {
@@ -12,9 +14,11 @@ class CalendarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final events = Provider.of<EventProvider>(context).events;
 
-    if (!events.contains(_getCalendarDataSource()[0])) {
-      events.addAll(_getCalendarDataSource());
-    }
+    _getCalendarDataSource().then((value) {
+      if (!events.contains(value[0])) {
+        events.addAll(value);
+      }
+    });
 
     return SafeArea(
       child: Scaffold(
@@ -160,89 +164,111 @@ class EventDataSource extends CalendarDataSource {
   }
 }
 
-List<Appointment> _getCalendarDataSource() {
-  final List<Appointment> appointments = <Appointment>[];
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 1, 4),
-      endTime: DateTime(2023, 1, 4),
-      subject: 'Teacher Planning/Staff Development/Student Holiday',
-      color: const Color.fromARGB(255, 243, 136, 14),
-      isAllDay: true,
-    ),
-  );
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 1, 5),
-      endTime: DateTime(2023, 1, 5),
-      subject: 'First Day of 2nd Semester',
-      color: const Color.fromARGB(255, 14, 136, 243),
-      isAllDay: true,
-    ),
-  );
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 1, 16),
-      endTime: DateTime(2023, 1, 16),
-      subject: 'MLK Jr. Day',
-      color: const Color.fromARGB(255, 110, 193, 110),
-      isAllDay: true,
-    ),
-  );
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 2, 3),
-      endTime: DateTime(2023, 2, 3),
-      subject: 'DLD Day',
-      color: const Color.fromARGB(255, 158, 21, 21),
-      isAllDay: true,
-    ),
-  );
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 2, 16),
-      endTime: DateTime(2023, 2, 20),
-      subject: 'Student/Teacher Holiday',
-      color: const Color.fromARGB(255, 110, 193, 110),
-      isAllDay: true,
-    ),
-  );
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 3, 17),
-      endTime: DateTime(2023, 3, 17),
-      subject: 'DLD Day',
-      color: const Color.fromARGB(255, 158, 21, 21),
-      isAllDay: true,
-    ),
-  );
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 4, 3),
-      endTime: DateTime(2023, 4, 7),
-      subject: 'Spring Break',
-      color: const Color.fromARGB(255, 110, 193, 110),
-      isAllDay: true,
-    ),
-  );
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 5, 24),
-      endTime: DateTime(2023, 5, 24),
-      subject: 'Last Day of School',
-      color: const Color.fromARGB(255, 233, 201, 86),
-      isAllDay: true,
-    ),
-  );
-  appointments.add(
-    Appointment(
-      startTime: DateTime(2023, 5, 22),
-      endTime: DateTime(2023, 5, 24),
-      subject: 'High School Early Release/Final Exams',
-      color: const Color.fromARGB(255, 184, 136, 246),
-      isAllDay: true,
-    ),
-  );
+Future<List<Appointment>> _getCalendarDataSource() async {
+  final List<Appointment> events = <Appointment>[];
 
-  return appointments;
+  final icsString = await rootBundle.loadString('assets/core/cal.ics');
+  final ical = ICalendar.fromString(icsString);
+
+  ical.data.forEach((event) {
+    if (event['type'] == 'VEVENT') {
+      events.add(
+        Appointment(
+          startTime: DateTime.parse((event['dtstart'] as IcsDateTime).dt),
+          endTime: DateTime.parse((event['dtend'] as IcsDateTime).dt),
+          subject: event['summary'],
+          color: const Color.fromARGB(255, 243, 136, 14),
+        ),
+      );
+    }
+  });
+
+  return events;
 }
+
+// List<Appointment> _getCalendarDataSource() {
+//   final List<Appointment> appointments = <Appointment>[];
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 1, 4),
+//       endTime: DateTime(2023, 1, 4),
+//       subject: 'Teacher Planning/Staff Development/Student Holiday',
+//       color: const Color.fromARGB(255, 243, 136, 14),
+//       isAllDay: true,
+//     ),
+//   );
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 1, 5),
+//       endTime: DateTime(2023, 1, 5),
+//       subject: 'First Day of 2nd Semester',
+//       color: const Color.fromARGB(255, 14, 136, 243),
+//       isAllDay: true,
+//     ),
+//   );
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 1, 16),
+//       endTime: DateTime(2023, 1, 16),
+//       subject: 'MLK Jr. Day',
+//       color: const Color.fromARGB(255, 110, 193, 110),
+//       isAllDay: true,
+//     ),
+//   );
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 2, 3),
+//       endTime: DateTime(2023, 2, 3),
+//       subject: 'DLD Day',
+//       color: const Color.fromARGB(255, 158, 21, 21),
+//       isAllDay: true,
+//     ),
+//   );
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 2, 16),
+//       endTime: DateTime(2023, 2, 20),
+//       subject: 'Student/Teacher Holiday',
+//       color: const Color.fromARGB(255, 110, 193, 110),
+//       isAllDay: true,
+//     ),
+//   );
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 3, 17),
+//       endTime: DateTime(2023, 3, 17),
+//       subject: 'DLD Day',
+//       color: const Color.fromARGB(255, 158, 21, 21),
+//       isAllDay: true,
+//     ),
+//   );
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 4, 3),
+//       endTime: DateTime(2023, 4, 7),
+//       subject: 'Spring Break',
+//       color: const Color.fromARGB(255, 110, 193, 110),
+//       isAllDay: true,
+//     ),
+//   );
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 5, 24),
+//       endTime: DateTime(2023, 5, 24),
+//       subject: 'Last Day of School',
+//       color: const Color.fromARGB(255, 233, 201, 86),
+//       isAllDay: true,
+//     ),
+//   );
+//   appointments.add(
+//     Appointment(
+//       startTime: DateTime(2023, 5, 22),
+//       endTime: DateTime(2023, 5, 24),
+//       subject: 'High School Early Release/Final Exams',
+//       color: const Color.fromARGB(255, 184, 136, 246),
+//       isAllDay: true,
+//     ),
+//   );
+
+//   return appointments;
+// }

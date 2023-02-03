@@ -1,10 +1,11 @@
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/auth/pages/login_page.dart';
-import 'package:classroom/ui/auth/pages/role_selection_page.dart';
 import 'package:classroom/ui/core/validator.dart';
+import 'package:classroom/ui/home/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -21,6 +22,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
   late TextEditingController emailController;
   late TextEditingController userNameController;
   late TextEditingController passwordController;
+
+  XFile? profileImage;
 
   @override
   void initState() {
@@ -60,7 +63,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       "Full name is invalid",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 )
@@ -80,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       "Email is invalid",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 )
@@ -102,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         "Password must contain minimum 8 characters, at least one letter and one number",
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -149,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
             },
             (r) => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => const RoleSelectionPage()),
+              MaterialPageRoute(builder: (_) => OnboardingPage()),
             ),
           ),
         );
@@ -305,46 +308,61 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   duration: const Duration(milliseconds: 400),
                   child: passwordErrorWidget(),
                 ),
-                // TODO: Fix Profile Image
-                // Container(
-                //   alignment: Alignment.center,
-                //   margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                //   padding: const EdgeInsets.only(left: 20, right: 20),
-                //   height: 54,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(50),
-                //     color: const Color(0xffEEEEEE),
-                //     boxShadow: const [
-                //       BoxShadow(
-                //           offset: Offset(0, 20),
-                //           blurRadius: 100,
-                //           color: Color(0xffEEEEEE)),
-                //     ],
-                //   ),
-                //   child: TextButton(
-                //     child: const Text("Upload image"),
-                //     onPressed: () async {
-                //       final ImagePicker picker = ImagePicker();
-                //       XFile? image =
-                //           await picker.pickImage(source: ImageSource.gallery);
-                //       Reference ref =
-                //           _storage.ref().child("image-${DateTime.now()}");
-                //       showLoadingIndicator();
-                //       TaskSnapshot uploadTask =
-                //           await ref.putFile(File(image!.path));
-                //       imageURL = await uploadTask.ref.getDownloadURL();
-                //       hideLoadingIndicator();
-                //       Get.snackbar('Profile Image', 'Your image was uploaded!',
-                //           backgroundColor:
-                //               Get.theme.snackBarTheme.backgroundColor,
-                //           colorText: Get.theme.snackBarTheme.actionTextColor);
-                //     },
-                //   ),
-                // ),
+                TextButton(
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    height: 54,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Colors.white, Colors.white],
+                      ),
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.grey[200],
+                    ),
+                    child: Text(
+                      "Upload image".toUpperCase(),
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  onPressed: () async {
+                    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                    final ImagePicker picker = ImagePicker();
+                    final XFile? image = await picker.pickImage(
+                      source: ImageSource.gallery,
+                    );
+
+                    if (image == null) {
+                      Fluttertoast.showToast(
+                        msg: "No photo was selected or invalid",
+                        textColor: Colors.black87,
+                        backgroundColor: Colors.white,
+                        toastLength: Toast.LENGTH_LONG,
+                        fontSize: 12,
+                      );
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Photo was selected",
+                        textColor: Colors.black87,
+                        backgroundColor: Colors.white,
+                        toastLength: Toast.LENGTH_LONG,
+                        fontSize: 12,
+                      );
+                    }
+
+                    setState(() {
+                      profileImage = image;
+                    });
+                  },
+                ),
                 TextButton(
                   onPressed: () {
                     FocusScope.of(context).unfocus();
                     showErrors = true;
+
+                    String? imagePath =
+                        profileImage == null ? null : profileImage!.path;
+
                     if (isValid) {
                       isLoading = true;
                       AuthBloc.addEventWithoutContext(
@@ -352,6 +370,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                           userName: userNameController.text,
                           email: emailController.text,
                           password: passwordController.text,
+                          profileImage: imagePath,
                         ),
                       );
                     }
@@ -363,7 +382,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                           width: 15,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Color.fromARGB(255, 0, 0, 0),
+                            color: Colors.white,
                           ),
                         )
                       : Container(

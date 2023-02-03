@@ -18,7 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AuthEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String userName, String password)
+    required TResult Function(String email, String userName, String password,
+            String? profileImage)
         signUpUsingUsername,
     required TResult Function(String email, String password) signInUsingEmail,
     required TResult Function() signInUsingGoogle,
@@ -30,7 +31,8 @@ mixin _$AuthEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String userName, String password)?
+    TResult? Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult? Function(String email, String password)? signInUsingEmail,
     TResult? Function()? signInUsingGoogle,
@@ -42,7 +44,8 @@ mixin _$AuthEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String userName, String password)?
+    TResult Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult Function(String email, String password)? signInUsingEmail,
     TResult Function()? signInUsingGoogle,
@@ -112,7 +115,8 @@ abstract class _$$_SignUpUsingUsernameCopyWith<$Res> {
           $Res Function(_$_SignUpUsingUsername) then) =
       __$$_SignUpUsingUsernameCopyWithImpl<$Res>;
   @useResult
-  $Res call({String email, String userName, String password});
+  $Res call(
+      {String email, String userName, String password, String? profileImage});
 }
 
 /// @nodoc
@@ -129,6 +133,7 @@ class __$$_SignUpUsingUsernameCopyWithImpl<$Res>
     Object? email = null,
     Object? userName = null,
     Object? password = null,
+    Object? profileImage = freezed,
   }) {
     return _then(_$_SignUpUsingUsername(
       email: null == email
@@ -143,6 +148,10 @@ class __$$_SignUpUsingUsernameCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -151,7 +160,10 @@ class __$$_SignUpUsingUsernameCopyWithImpl<$Res>
 
 class _$_SignUpUsingUsername implements _SignUpUsingUsername {
   const _$_SignUpUsingUsername(
-      {required this.email, required this.userName, required this.password});
+      {required this.email,
+      required this.userName,
+      required this.password,
+      this.profileImage});
 
   @override
   final String email;
@@ -159,10 +171,12 @@ class _$_SignUpUsingUsername implements _SignUpUsingUsername {
   final String userName;
   @override
   final String password;
+  @override
+  final String? profileImage;
 
   @override
   String toString() {
-    return 'AuthEvent.signUpUsingUsername(email: $email, userName: $userName, password: $password)';
+    return 'AuthEvent.signUpUsingUsername(email: $email, userName: $userName, password: $password, profileImage: $profileImage)';
   }
 
   @override
@@ -174,11 +188,14 @@ class _$_SignUpUsingUsername implements _SignUpUsingUsername {
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
             (identical(other.password, password) ||
-                other.password == password));
+                other.password == password) &&
+            (identical(other.profileImage, profileImage) ||
+                other.profileImage == profileImage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, email, userName, password);
+  int get hashCode =>
+      Object.hash(runtimeType, email, userName, password, profileImage);
 
   @JsonKey(ignore: true)
   @override
@@ -190,7 +207,8 @@ class _$_SignUpUsingUsername implements _SignUpUsingUsername {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String userName, String password)
+    required TResult Function(String email, String userName, String password,
+            String? profileImage)
         signUpUsingUsername,
     required TResult Function(String email, String password) signInUsingEmail,
     required TResult Function() signInUsingGoogle,
@@ -199,13 +217,14 @@ class _$_SignUpUsingUsername implements _SignUpUsingUsername {
     required TResult Function() switchRole,
     required TResult Function() signOut,
   }) {
-    return signUpUsingUsername(email, userName, password);
+    return signUpUsingUsername(email, userName, password, profileImage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String userName, String password)?
+    TResult? Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult? Function(String email, String password)? signInUsingEmail,
     TResult? Function()? signInUsingGoogle,
@@ -214,13 +233,14 @@ class _$_SignUpUsingUsername implements _SignUpUsingUsername {
     TResult? Function()? switchRole,
     TResult? Function()? signOut,
   }) {
-    return signUpUsingUsername?.call(email, userName, password);
+    return signUpUsingUsername?.call(email, userName, password, profileImage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String userName, String password)?
+    TResult Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult Function(String email, String password)? signInUsingEmail,
     TResult Function()? signInUsingGoogle,
@@ -231,7 +251,7 @@ class _$_SignUpUsingUsername implements _SignUpUsingUsername {
     required TResult orElse(),
   }) {
     if (signUpUsingUsername != null) {
-      return signUpUsingUsername(email, userName, password);
+      return signUpUsingUsername(email, userName, password, profileImage);
     }
     return orElse();
   }
@@ -287,11 +307,13 @@ abstract class _SignUpUsingUsername implements AuthEvent {
   const factory _SignUpUsingUsername(
       {required final String email,
       required final String userName,
-      required final String password}) = _$_SignUpUsingUsername;
+      required final String password,
+      final String? profileImage}) = _$_SignUpUsingUsername;
 
   String get email;
   String get userName;
   String get password;
+  String? get profileImage;
   @JsonKey(ignore: true)
   _$$_SignUpUsingUsernameCopyWith<_$_SignUpUsingUsername> get copyWith =>
       throw _privateConstructorUsedError;
@@ -370,7 +392,8 @@ class _$_signInUsingEmail implements _signInUsingEmail {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String userName, String password)
+    required TResult Function(String email, String userName, String password,
+            String? profileImage)
         signUpUsingUsername,
     required TResult Function(String email, String password) signInUsingEmail,
     required TResult Function() signInUsingGoogle,
@@ -385,7 +408,8 @@ class _$_signInUsingEmail implements _signInUsingEmail {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String userName, String password)?
+    TResult? Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult? Function(String email, String password)? signInUsingEmail,
     TResult? Function()? signInUsingGoogle,
@@ -400,7 +424,8 @@ class _$_signInUsingEmail implements _signInUsingEmail {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String userName, String password)?
+    TResult Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult Function(String email, String password)? signInUsingEmail,
     TResult Function()? signInUsingGoogle,
@@ -513,7 +538,8 @@ class _$_SignInUsingGoogle implements _SignInUsingGoogle {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String userName, String password)
+    required TResult Function(String email, String userName, String password,
+            String? profileImage)
         signUpUsingUsername,
     required TResult Function(String email, String password) signInUsingEmail,
     required TResult Function() signInUsingGoogle,
@@ -528,7 +554,8 @@ class _$_SignInUsingGoogle implements _SignInUsingGoogle {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String userName, String password)?
+    TResult? Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult? Function(String email, String password)? signInUsingEmail,
     TResult? Function()? signInUsingGoogle,
@@ -543,7 +570,8 @@ class _$_SignInUsingGoogle implements _SignInUsingGoogle {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String userName, String password)?
+    TResult Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult Function(String email, String password)? signInUsingEmail,
     TResult Function()? signInUsingGoogle,
@@ -674,7 +702,8 @@ class _$_RegisterUserRole implements _RegisterUserRole {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String userName, String password)
+    required TResult Function(String email, String userName, String password,
+            String? profileImage)
         signUpUsingUsername,
     required TResult Function(String email, String password) signInUsingEmail,
     required TResult Function() signInUsingGoogle,
@@ -689,7 +718,8 @@ class _$_RegisterUserRole implements _RegisterUserRole {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String userName, String password)?
+    TResult? Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult? Function(String email, String password)? signInUsingEmail,
     TResult? Function()? signInUsingGoogle,
@@ -704,7 +734,8 @@ class _$_RegisterUserRole implements _RegisterUserRole {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String userName, String password)?
+    TResult Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult Function(String email, String password)? signInUsingEmail,
     TResult Function()? signInUsingGoogle,
@@ -840,7 +871,8 @@ class _$_UpdateUser implements _UpdateUser {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String userName, String password)
+    required TResult Function(String email, String userName, String password,
+            String? profileImage)
         signUpUsingUsername,
     required TResult Function(String email, String password) signInUsingEmail,
     required TResult Function() signInUsingGoogle,
@@ -855,7 +887,8 @@ class _$_UpdateUser implements _UpdateUser {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String userName, String password)?
+    TResult? Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult? Function(String email, String password)? signInUsingEmail,
     TResult? Function()? signInUsingGoogle,
@@ -870,7 +903,8 @@ class _$_UpdateUser implements _UpdateUser {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String userName, String password)?
+    TResult Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult Function(String email, String password)? signInUsingEmail,
     TResult Function()? signInUsingGoogle,
@@ -980,7 +1014,8 @@ class _$_SwitchRole implements _SwitchRole {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String userName, String password)
+    required TResult Function(String email, String userName, String password,
+            String? profileImage)
         signUpUsingUsername,
     required TResult Function(String email, String password) signInUsingEmail,
     required TResult Function() signInUsingGoogle,
@@ -995,7 +1030,8 @@ class _$_SwitchRole implements _SwitchRole {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String userName, String password)?
+    TResult? Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult? Function(String email, String password)? signInUsingEmail,
     TResult? Function()? signInUsingGoogle,
@@ -1010,7 +1046,8 @@ class _$_SwitchRole implements _SwitchRole {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String userName, String password)?
+    TResult Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult Function(String email, String password)? signInUsingEmail,
     TResult Function()? signInUsingGoogle,
@@ -1114,7 +1151,8 @@ class _$_SignOut implements _SignOut {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String userName, String password)
+    required TResult Function(String email, String userName, String password,
+            String? profileImage)
         signUpUsingUsername,
     required TResult Function(String email, String password) signInUsingEmail,
     required TResult Function() signInUsingGoogle,
@@ -1129,7 +1167,8 @@ class _$_SignOut implements _SignOut {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String userName, String password)?
+    TResult? Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult? Function(String email, String password)? signInUsingEmail,
     TResult? Function()? signInUsingGoogle,
@@ -1144,7 +1183,8 @@ class _$_SignOut implements _SignOut {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String userName, String password)?
+    TResult Function(String email, String userName, String password,
+            String? profileImage)?
         signUpUsingUsername,
     TResult Function(String email, String password)? signInUsingEmail,
     TResult Function()? signInUsingGoogle,

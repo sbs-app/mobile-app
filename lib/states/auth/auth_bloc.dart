@@ -41,6 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           userName: e.userName,
           email: e.email,
           password: e.password,
+          profileImage: e.profileImage,
         );
 
         yield failureOrSuccess.fold(

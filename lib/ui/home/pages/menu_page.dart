@@ -160,13 +160,18 @@ class _FoodMenuPageState extends State<FoodMenuPage> {
                 // If it's a weekend then tell the user there is no school.
                 if (currentDate.weekday == DateTime.saturday ||
                     currentDate.weekday == DateTime.sunday)
-                  Container(
+                  Flexible(
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text("No school."),
+                          Text(
+                            "No school.",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                           ElevatedButton(
                             onPressed: () => selectDate(context),
                             child: Text('Select date'),
@@ -231,6 +236,7 @@ class _FoodMenuPageState extends State<FoodMenuPage> {
                                     return Padding(
                                       padding: const EdgeInsets.all(14),
                                       child: Card(
+                                        color: Colors.grey[900],
                                         child: Padding(
                                           padding: const EdgeInsets.all(18),
                                           child: Column(
@@ -246,10 +252,15 @@ class _FoodMenuPageState extends State<FoodMenuPage> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              FoodImage(
-                                                img: snapshot
-                                                    .data!.images![index]
-                                                    .toString(),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 8.0,
+                                                ),
+                                                child: FoodImage(
+                                                  img: snapshot
+                                                      .data!.images![index]
+                                                      .toString(),
+                                                ),
                                               )
                                             ],
                                           ),

@@ -597,115 +597,134 @@ class _HomePageState extends State<HomePage> {
                             );
                             await Future.delayed(const Duration(seconds: 4));
                           },
-                          child: ListView.builder(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            // physics: const BouncingScrollPhysics(),
-                            itemCount: state.courses.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final CourseModel course = state.courses[index];
-                              return Container(
-                                height: 150,
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white10,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    overlayColor:
-                                        MaterialStateProperty.all(Colors.black),
+                          child: state.courses.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    "You have not joined any courses.",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                  onPressed: () async {
-                                    await Future.delayed(
-                                      const Duration(milliseconds: 250),
-                                    );
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => CoursePage(
-                                            courseCode: course.code,
-                                            courseCoverImageUrl:
-                                                coverUrls[index % 15],
-                                            primaryColor: Colors.black),
+                                )
+                              : ListView.builder(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  // physics: const BouncingScrollPhysics(),
+                                  itemCount: state.courses.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final CourseModel course =
+                                        state.courses[index];
+                                    return Container(
+                                      height: 150,
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 5,
                                       ),
-                                    );
-                                  },
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      Hero(
-                                        tag: course.code,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
-                                            children: [
-                                              Expanded(
-                                                child: Image.asset(
-                                                  coverUrls[index % 15],
-                                                  fit: BoxFit.cover,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white10,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          overlayColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.black),
+                                        ),
+                                        onPressed: () async {
+                                          await Future.delayed(
+                                            const Duration(milliseconds: 250),
+                                          );
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => CoursePage(
+                                                  courseCode: course.code,
+                                                  courseCoverImageUrl:
+                                                      coverUrls[index % 15],
+                                                  primaryColor: Colors.black),
+                                            ),
+                                          );
+                                        },
+                                        child: Stack(
+                                          fit: StackFit.expand,
+                                          children: [
+                                            Hero(
+                                              tag: course.code,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Image.asset(
+                                                        coverUrls[index % 15],
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 20,
-                                          right: 20,
-                                          top: 20,
-                                          bottom: 20,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              course.name,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
                                             ),
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    right: 10,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 20,
+                                                right: 20,
+                                                top: 20,
+                                                bottom: 20,
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    course.name,
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20),
                                                   ),
-                                                  child: UserAvatar(
-                                                    userModel: course.teacher!,
-                                                    height: 32,
-                                                    width: 32,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  course.teacher!.userName,
-                                                  style: const TextStyle(
-                                                    color: Colors.white70,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          right: 10,
+                                                        ),
+                                                        child: UserAvatar(
+                                                          userModel:
+                                                              course.teacher!,
+                                                          height: 32,
+                                                          width: 32,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        course
+                                                            .teacher!.userName,
+                                                        style: const TextStyle(
+                                                          color: Colors.white70,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
                         ),
                       ),
                     ],

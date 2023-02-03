@@ -8,6 +8,7 @@ abstract class IAuthController {
     required String userName,
     required String email,
     required String password,
+    String? profileImage,
   });
 
   /// Sign in using username and password

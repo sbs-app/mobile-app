@@ -6,6 +6,7 @@ class AuthEvent with _$AuthEvent {
     required String email,
     required String userName,
     required String password,
+    String? profileImage,
   }) = _SignUpUsingUsername;
 
   const factory AuthEvent.signInUsingEmail({

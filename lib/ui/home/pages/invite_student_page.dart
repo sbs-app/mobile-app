@@ -1,6 +1,5 @@
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/core/validator.dart';
-import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -124,21 +123,12 @@ class _InviteStudentPageState extends State<InviteStudentPage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const FancyTextReveal(
-                      properties: Properties(
-                        milliseconds: 400,
-                        // horizontalSpacing: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                      ),
-                      child: Text(
-                        "Invite Students",
-                        style: TextStyle(
-                          fontSize: 26,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    Text(
+                      "Invite Students",
+                      style: TextStyle(
+                        fontSize: 26,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 10),

@@ -1,6 +1,7 @@
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/home/pages/bug_report_page.dart';
+import 'package:classroom/ui/home/pages/onboarding_page.dart';
 import 'package:classroom/ui/home/pages/update_profile_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +114,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             "Report Bug",
                             MaterialPageRoute(
                               builder: (_) => const ReportBugPage(),
+                            ),
+                          ),
+                          createSettingTitle(
+                            Icons.restart_alt,
+                            "View onboarding",
+                            MaterialPageRoute(
+                              builder: (_) => OnboardingPage(),
                             ),
                           ),
                           createSettingTitle(

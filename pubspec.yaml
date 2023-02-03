@@ -31,7 +31,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   custom_pop_up_menu: ^1.2.2
   dartz: ^0.10.0-nullsafety.2
-  fancy_text_reveal: ^1.0.1
   firebase_auth: ^4.2.5
   firebase_core: ^2.4.1
   flutter:
@@ -68,6 +67,8 @@ dependencies:
   url_launcher: ^6.1.8
   diffutil_dart: ^3.0.0
   jitsi_meet: ^4.0.0
+  flutter_onboarding_slider: ^1.0.8
+  icalendar_parser: ^1.1.1
 
 dev_dependencies:
   build_runner: any
@@ -87,6 +88,8 @@ flutter_icons:
 
 flutter_launcher_name:
   name: "ClassMate"
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

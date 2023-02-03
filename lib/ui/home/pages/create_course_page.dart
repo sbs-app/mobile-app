@@ -1,7 +1,6 @@
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/core/clean_string.dart';
-import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -132,21 +131,12 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FancyTextReveal(
-                      properties: const Properties(
-                        milliseconds: 400,
-                        // horizontalSpacing: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                      ),
-                      child: Text(
-                        widget.name == null ? "Create Course" : "Update Course",
-                        style: const TextStyle(
-                          fontSize: 26,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    Text(
+                      widget.name == null ? "Create Course" : "Update Course",
+                      style: const TextStyle(
+                        fontSize: 26,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 10),

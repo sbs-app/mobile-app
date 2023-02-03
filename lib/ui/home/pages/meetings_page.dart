@@ -6,8 +6,6 @@ import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:jitsi_meet/jitsi_meet.dart';
-import 'package:jitsi_meet/room_name_constraint.dart';
-import 'package:jitsi_meet/room_name_constraint_type.dart';
 
 class VideoCall extends StatefulWidget {
   @override
@@ -33,20 +31,11 @@ class _VideoCallState extends State<VideoCall> {
     subjectText = TextEditingController();
     nameText = TextEditingController();
     emailText = TextEditingController();
-    // Adding a Listener
-    JitsiMeet.addListener(JitsiMeetingListener(
-        // onConferenceWillJoin: _onConferenceWillJoin,
-        // onConferenceJoined: _onConferenceJoined,
-        // onConferenceTerminated: _onConferenceTerminated,
-        // onPictureInPictureWillEnter: _onPictureInPictureWillEnter,
-        // onPictureInPictureTerminated: _onPictureInPictureTerminated,
-        onError: _onError));
   }
 
   @override
   void dispose() {
     super.dispose();
-    JitsiMeet.removeAllListeners();
   }
 
   @override
@@ -254,10 +243,10 @@ class _VideoCallState extends State<VideoCall> {
                                   height: 82,
                                   child: Center(
                                     child: Text(
-                                      "Create Meeting".toUpperCase(),
+                                      "Create Meeting",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         color: Colors.white,
                                       ),
                                       textAlign: TextAlign.center,
@@ -322,10 +311,10 @@ class _VideoCallState extends State<VideoCall> {
                                   height: 82,
                                   child: Center(
                                     child: Text(
-                                      "Join Meeting".toUpperCase(),
+                                      "Join Meeting",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         color: Colors.white,
                                       ),
                                       textAlign: TextAlign.center,
@@ -369,8 +358,7 @@ class _VideoCallState extends State<VideoCall> {
   // Defining Join meeting function
   _joinMeeting() async {
     // Using default serverUrl that is https://meet.jit.si/
-    String? serverUrl =
-        (serverText.text.trim().isEmpty ? null : serverText.text);
+    String? serverUrl = serverText.text;
 
     try {
       // Enable or disable any feature flag here
@@ -378,7 +366,6 @@ class _VideoCallState extends State<VideoCall> {
       // Full list of feature flags (and defaults) available in the README
       Map<FeatureFlagEnum, bool> featureFlags = HashMap();
       featureFlags[FeatureFlagEnum.WELCOME_PAGE_ENABLED] = false;
-      // Here is an example, disabling features for each platform
       if (Platform.isAndroid) {
         // Disable ConnectionService usage on Android to avoid issues (see README)
         featureFlags[FeatureFlagEnum.CALL_INTEGRATION_ENABLED] = false;
@@ -401,54 +388,13 @@ class _VideoCallState extends State<VideoCall> {
         ..videoMuted = isVideoMuted
         ..featureFlags = featureFlags;
 
-      debugPrint("JitsiMeetingOptions: $options");
       // Joining meet
       await JitsiMeet.joinMeeting(
         options,
-        // listener: JitsiMeetingListener(
-        //     onConferenceWillJoin: ({message = const {"": ""}}) {
-        //   debugPrint("${options.room} will join with message: $message");
-        // }, onConferenceJoined: ({message = const {"": ""}}) {
-        //   debugPrint("${options.room} joined with message: $message");
-        // }, onConferenceTerminated: ({message = const {"": ""}}) {
-        //   debugPrint("${options.room} terminated with message: $message");
-        // }, onPictureInPictureWillEnter: ({message = const {"": ""}}) {
-        //   debugPrint("${options.room} entered PIP mode with message: $message");
-        // }, onPictureInPictureTerminated: ({message = const {"": ""}}) {
-        //   debugPrint("${options.room} exited PIP mode with message: $message");
-        // }),
-        // // by default, plugin default constraints are used
         roomNameConstraints: new Map(), // to disable all constraints
-        // //roomNameConstraints: customContraints, // to use your own constraint(s)
       );
     } catch (error) {
       debugPrint("error: $error");
     }
-  }
-
-  void _onConferenceWillJoin({message}) {
-    debugPrint("_onConferenceWillJoin broadcasted with message: $message");
-  }
-
-  void _onConferenceJoined({message}) {
-    debugPrint("_onConferenceJoined broadcasted with message: $message");
-  }
-
-  void _onConferenceTerminated({message}) {
-    debugPrint("_onConferenceTerminated broadcasted with message: $message");
-  }
-
-  void _onPictureInPictureWillEnter({message}) {
-    debugPrint(
-        "_onPictureInPictureWillEnter broadcasted with message: $message");
-  }
-
-  void _onPictureInPictureTerminated({message}) {
-    debugPrint(
-        "_onPictureInPictureTerminated broadcasted with message: $message");
-  }
-
-  _onError(error) {
-    debugPrint("_onError broadcasted: $error");
   }
 }

@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       "Email is invalid",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 )
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         "Password must contain minimum 8 characters, at least one letter and one number",
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),

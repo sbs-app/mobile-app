@@ -6,7 +6,6 @@ import 'package:classroom/models/courses/post_model.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/core/clean_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -121,21 +120,12 @@ class _CreatePostPageState extends State<CreatePostPage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const FancyTextReveal(
-                      properties: Properties(
-                        milliseconds: 400,
-                        // horizontalSpacing: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                      ),
-                      child: Text(
-                        "New Post",
-                        style: TextStyle(
-                          fontSize: 26,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    Text(
+                      "New Post",
+                      style: TextStyle(
+                        fontSize: 26,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 10),

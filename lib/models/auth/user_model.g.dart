@@ -16,13 +16,11 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    String photoURL = "";
-    if (fields[5] != null) photoURL = fields[5] as String;
     return UserModel(
       roleId: fields[0] as int?,
       email: fields[1] as String,
       id: fields[3] as String,
-      photoURL: photoURL,
+      photoURL: fields[5] as String,
       userName: fields[2] as String,
       classes: (fields[4] as List).cast<String>(),
     );

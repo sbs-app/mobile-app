@@ -49,6 +49,10 @@
 	<string>To upload profile image</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To upload profile image</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To access to your camera for meetings.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To access to your microphone for meetings.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 </dict>

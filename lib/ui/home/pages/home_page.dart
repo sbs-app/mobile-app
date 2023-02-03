@@ -9,6 +9,7 @@ import 'package:classroom/ui/home/pages/calendar/calendar_page.dart';
 import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
+import 'package:classroom/ui/home/pages/meetings_page.dart';
 import 'package:classroom/ui/home/pages/menu_page.dart';
 import 'package:classroom/ui/home/pages/settings_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
@@ -318,6 +319,48 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
+                                          builder: (_) => VideoCall(),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.video_call,
+                                          color: Colors.black87,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Meetings",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        Colors.white,
+                                      ),
+                                      overlayColor: MaterialStateProperty.all(
+                                        Colors.white10,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      await Future.delayed(
+                                        const Duration(
+                                          milliseconds: 400,
+                                        ),
+                                      );
+                                      controller.hideMenu();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
                                           builder: (_) => const FoodMenuPage(),
                                         ),
                                       );
@@ -478,6 +521,16 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => const ChatPage(),
+                          ),
+                        ),
+                      ),
+                      Menu(
+                        Icons.video_call,
+                        'Meetings',
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => VideoCall(),
                           ),
                         ),
                       ),

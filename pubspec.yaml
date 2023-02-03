@@ -67,6 +67,7 @@ dependencies:
   flutter_parsed_text: ^2.2.1
   url_launcher: ^6.1.8
   diffutil_dart: ^3.0.0
+  jitsi_meet: ^4.0.0
 
 dev_dependencies:
   build_runner: any

@@ -3,7 +3,6 @@ import 'package:classroom/ui/core/fade_animations.dart';
 import 'package:classroom/ui/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 
 class LoadingPage extends StatefulWidget {

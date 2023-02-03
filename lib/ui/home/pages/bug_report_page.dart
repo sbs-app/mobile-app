@@ -1,13 +1,9 @@
-import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
-import 'package:classroom/injection.dart';
-import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hive/hive.dart';
 
 class ReportBugPage extends StatefulWidget {
   const ReportBugPage({super.key});

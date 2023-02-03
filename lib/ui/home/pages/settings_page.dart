@@ -1,7 +1,4 @@
-import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
-import 'package:classroom/injection.dart';
-import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/home/pages/bug_report_page.dart';
 import 'package:classroom/ui/home/pages/update_profile_page.dart';
@@ -9,7 +6,6 @@ import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

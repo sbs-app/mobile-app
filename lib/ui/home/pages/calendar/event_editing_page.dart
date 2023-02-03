@@ -1,20 +1,13 @@
-import 'package:classroom/ui/home/pages/event_editing_page.dart';
-import 'package:classroom/ui/home/pages/home_page.dart';
-import 'package:classroom/ui/home/pages/utils.dart';
+import 'package:classroom/ui/home/pages/calendar/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'event.dart';
-import 'event_editing_page.dart';
 import 'event_provider.dart';
 
 class EventEditingPage extends StatefulWidget {
-  final Event? event;
-
   const EventEditingPage({
-    Key? key,
-    this.event,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _EventEditingPageState createState() => _EventEditingPageState();
@@ -29,7 +22,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.event == null) fromDate = DateTime.now();
+    fromDate = DateTime.now();
     toDate = DateTime.now().add(Duration(hours: 2));
   }
 
@@ -45,7 +38,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           leading: CloseButton(),
           actions: buildEditingActions(),
         ),
-        backgroundColor: Colors.indigo[200],
+        backgroundColor: Colors.black,
         body: SingleChildScrollView(
           padding: EdgeInsets.all(12),
           child: Form(
@@ -65,14 +58,17 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<Widget> buildEditingActions() => [
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-              primary: Colors.transparent, shadowColor: Colors.transparent),
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+          ),
           onPressed: saveForm,
           icon: Icon(Icons.done),
-          label: Text("SAVE"),
+          label: Text("Save".toUpperCase()),
         )
       ];
+
   Widget buildTitle() => TextFormField(
-        style: TextStyle(fontSize: 24),
+        style: TextStyle(color: Colors.white, fontSize: 24),
         decoration: InputDecoration(
           border: UnderlineInputBorder(),
           hintText: "Add Title",
@@ -91,36 +87,49 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildFrom() => buildHeader(
-      header: 'FROM',
-      child: Row(
-        children: [
-          Expanded(
+        header: 'FROM',
+        child: Row(
+          children: [
+            Expanded(
               flex: 2,
               child: buildDropdownField(
-                  text: Utils.toDate(fromDate),
-                  onClicked: () => pickFromDateTime(pickDate: false))),
-          Expanded(
+                text: Utils.toDate(fromDate),
+                onClicked: () => pickFromDateTime(pickDate: false),
+              ),
+            ),
+            Expanded(
               child: buildDropdownField(
-            text: Utils.toTime(fromDate),
-            onClicked: () => pickFromDateTime(pickDate: false),
-          )),
-        ],
-      ));
+                text: Utils.toTime(fromDate),
+                onClicked: () => pickFromDateTime(pickDate: false),
+              ),
+            ),
+          ],
+        ),
+      );
+
   Widget buildTo() => buildHeader(
-      header: 'TO',
-      child: Row(
-        children: [
-          Expanded(
+        header: 'TO',
+        child: Row(
+          children: [
+            Expanded(
               flex: 2,
               child: buildDropdownField(
-                  text: Utils.toDate(toDate),
-                  onClicked: () => pickFromToDateTime(pickDate: true))),
-          Expanded(
+                text: Utils.toDate(toDate),
+                onClicked: () => pickFromToDateTime(pickDate: true),
+              ),
+            ),
+            Expanded(
               child: buildDropdownField(
-                  text: Utils.toTime(toDate),
-                  onClicked: () => pickFromToDateTime(pickDate: false))),
-        ],
-      ));
+                text: Utils.toTime(toDate),
+                onClicked: () {
+                  pickFromToDateTime(pickDate: false);
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+
   Future pickFromDateTime({required bool pickDate}) async {
     final date = await pickDateTime(fromDate, pickDate: pickDate);
     if (date == null) return;
@@ -173,8 +182,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
       final date =
           DateTime(initialDate.year, initialDate.month, initialDate.day);
       final time = Duration(
-        hours: initialDate.hour,
-        minutes: initialDate.minute,
+        hours: timeOfDay.hour,
+        minutes: timeOfDay.minute,
       );
       return date.add(time);
     }
@@ -182,13 +191,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget buildDropdownField({
     required String text,
-    required VoidCallback onClicked,
+    required Function()? onClicked,
   }) =>
       ListTile(
-        title: Text(text),
+        title: Text(text, style: const TextStyle(color: Colors.white)),
         trailing: Icon(Icons.arrow_drop_down),
         onTap: onClicked,
       );
+
   Widget buildHeader({
     required String header,
     required Widget child,
@@ -198,7 +208,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         children: [
           Text(
             header,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           child,
         ],

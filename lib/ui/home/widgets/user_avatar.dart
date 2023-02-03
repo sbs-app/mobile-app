@@ -1,5 +1,4 @@
 import 'package:classroom/models/auth/user_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserAvatar extends StatelessWidget {

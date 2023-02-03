@@ -9,7 +9,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
-// ignore_for_file: constant_identifier_names
 const ERROR_INVALID_EMAIL = "invalid-email";
 const ERROR_EMAIL_ALREADY_IN_USER = "email-already-in-use";
 const ERROR_WRONG_PASSWORD = "wrong-password";
@@ -122,7 +121,7 @@ class AuthController extends IAuthController {
   @override
   Future<Either<AuthFailure, UserModel>> signInUsingGoogle() async {
     return const Left(AuthFailure.googleSignInAborted());
-    // TODO: FIX GOOGLE SIGN IN
+    // FIX GOOGLE SIGN IN
     // final GoogleSignInAccount? googleSignInAccount =
     //     await googleSignIn.signIn();
 

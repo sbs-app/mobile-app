@@ -1,14 +1,10 @@
-import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
-import 'package:classroom/injection.dart';
-import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/core/clean_string.dart';
 import 'package:fancy_text_reveal/fancy_text_reveal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hive/hive.dart';
 
 class JoinCoursePage extends StatefulWidget {
   const JoinCoursePage({Key? key, this.courseCode}) : super(key: key);

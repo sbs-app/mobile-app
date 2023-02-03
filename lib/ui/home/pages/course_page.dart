@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
-import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/create_post.dart';
@@ -71,9 +69,9 @@ class _CoursePageState extends State<CoursePage> {
             setState(() {});
           },
           builder: (context, state) {
-            final isUserStudent =
-                (getIt<Box>().get(HiveBoxNames.user) as UserModel).roleId ==
-                    UserTypes.student;
+            final isStudentOrParent =
+                getUserModel().roleId == UserTypes.student ||
+                    getUserModel().roleId == UserTypes.parent;
 
             final index = state.courses
                 .indexWhere((course) => widget.courseCode == course.code);
@@ -82,7 +80,7 @@ class _CoursePageState extends State<CoursePage> {
 
             return Scaffold(
               backgroundColor: Colors.black,
-              floatingActionButton: course.isCreatedByMe && !isUserStudent
+              floatingActionButton: course.isCreatedByMe && !isStudentOrParent
                   ? SpeedDial(
                       overlayColor: Colors.black12,
                       spacing: 20,
@@ -244,8 +242,8 @@ class _CoursePageState extends State<CoursePage> {
                               transitionOnUserGestures: true,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.courseCoverImageUrl,
+                                child: Image.asset(
+                                  widget.courseCoverImageUrl,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -362,7 +360,7 @@ class _CoursePageState extends State<CoursePage> {
                                             ),
                                     ),
                                     trailing: course.isCreatedByMe &&
-                                            !isUserStudent
+                                            !isStudentOrParent
                                         ? IconButton(
                                             icon:
                                                 const Icon(Icons.remove_circle),
@@ -424,6 +422,13 @@ class _CoursePageState extends State<CoursePage> {
                                             color: Colors.white,
                                           ),
                                         ),
+                                        subtitle: Text(
+                                          teacher.email,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.grey[400],
+                                          ),
+                                        ),
                                       );
                                     },
                                   ),
@@ -432,7 +437,7 @@ class _CoursePageState extends State<CoursePage> {
                                   padding:
                                       EdgeInsets.only(top: 10.0, left: 15.0),
                                   child: Text(
-                                    "Students",
+                                    "Students and Parents",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -467,7 +472,7 @@ class _CoursePageState extends State<CoursePage> {
                                             color: Colors.white,
                                           ),
                                         ),
-                                        trailing: isUserStudent ||
+                                        trailing: isStudentOrParent ||
                                                 myEmail != teacherEmail
                                             ? null
                                             : PopupMenuButton(

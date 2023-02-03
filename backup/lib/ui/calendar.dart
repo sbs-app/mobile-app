@@ -72,7 +72,7 @@ class CalendarUI extends StatelessWidget {
                     fontFamily: 'SyneTactile',
                     color: Color.fromARGB(255, 243, 238, 238)))),
         initialSelectedDate: DateTime.now(),
-        todayHighlightColor: Color.fromARGB(255, 253, 198, 121),
+        todayHighlightColor: const Color.fromARGB(255, 253, 198, 121),
         showNavigationArrow: true,
       ),
     );

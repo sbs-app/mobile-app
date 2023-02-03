@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
-import 'package:classroom/injection.dart';
-import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/auth/pages/role_selection_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
@@ -12,7 +10,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdateProfilePage extends StatefulWidget {
@@ -104,9 +101,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                       ),
                                     ),
                                     Text(
-                                      roleId == UserTypes.student
-                                          ? "Student"
-                                          : "Teacher",
+                                      UserTypes().typeToString(roleId),
                                       style: const TextStyle(
                                         fontSize: 16,
                                         color: Colors.white,

@@ -24,39 +24,42 @@ class ChatMain extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatMain> {
+  String name = "Chat";
   bool _isAttachmentUploading = false;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-          title: const Text('Chat'),
-        ),
-        body: StreamBuilder<chat_types.Room>(
-          initialData: widget.room,
-          stream: FirebaseChatCore.instance.room(widget.room.id),
-          builder: (context, snapshot) =>
-              StreamBuilder<List<chat_types.Message>>(
-            initialData: const [],
-            stream: FirebaseChatCore.instance.messages(snapshot.data!),
-            builder: (context, snapshot) => Chat(
-              showUserNames: true,
-              timeFormat: DateFormat.jm(),
-              dateFormat: DateFormat.yMMMd(),
-              theme: const DarkChatTheme(),
-              isAttachmentUploading: _isAttachmentUploading,
-              messages: snapshot.data ?? [],
-              onAttachmentPressed: _handleAtachmentPressed,
-              onMessageTap: _handleMessageTap,
-              onPreviewDataFetched: _handlePreviewDataFetched,
-              onSendPressed: _handleSendPressed,
-              user: chat_types.User(
-                id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
-              ),
+  Widget build(BuildContext context) {
+    name = widget.room.name!;
+    return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        title: Text(name),
+      ),
+      body: StreamBuilder<chat_types.Room>(
+        initialData: widget.room,
+        stream: FirebaseChatCore.instance.room(widget.room.id),
+        builder: (context, snapshot) => StreamBuilder<List<chat_types.Message>>(
+          initialData: const [],
+          stream: FirebaseChatCore.instance.messages(snapshot.data!),
+          builder: (context, snapshot) => Chat(
+            showUserNames: true,
+            timeFormat: DateFormat.jm(),
+            dateFormat: DateFormat.yMMMd(),
+            theme: const DarkChatTheme(),
+            isAttachmentUploading: _isAttachmentUploading,
+            messages: snapshot.data ?? [],
+            onAttachmentPressed: _handleAtachmentPressed,
+            onMessageTap: _handleMessageTap,
+            onPreviewDataFetched: _handlePreviewDataFetched,
+            onSendPressed: _handleSendPressed,
+            user: chat_types.User(
+              id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
             ),
           ),
         ),
-      );
+      ),
+    );
+  }
 
   void _handleAtachmentPressed() {
     showModalBottomSheet<void>(
@@ -101,7 +104,7 @@ class _ChatPageState extends State<ChatMain> {
     );
   }
 
-  void _handleFileSelection() async {
+  Future<void> _handleFileSelection() async {
     // final result = await FilePicker.platform.pickFiles(
     //   type: FileType.any,
     // );
@@ -132,7 +135,7 @@ class _ChatPageState extends State<ChatMain> {
     // }
   }
 
-  void _handleImageSelection() async {
+  Future<void> _handleImageSelection() async {
     final result = await ImagePicker().pickImage(
       imageQuality: 70,
       maxWidth: 1440,
@@ -148,7 +151,7 @@ class _ChatPageState extends State<ChatMain> {
       final name = result.name;
 
       try {
-        final reference = FirebaseStorage.instance.ref(name);
+        final reference = FirebaseStorage.instance.ref('chat/$name');
         await reference.putFile(file);
         final uri = await reference.getDownloadURL();
 
@@ -171,7 +174,10 @@ class _ChatPageState extends State<ChatMain> {
     }
   }
 
-  void _handleMessageTap(BuildContext _, chat_types.Message message) async {
+  Future<void> _handleMessageTap(
+    BuildContext _,
+    chat_types.Message message,
+  ) async {
     if (message is chat_types.FileMessage) {
       var localPath = message.uri;
 

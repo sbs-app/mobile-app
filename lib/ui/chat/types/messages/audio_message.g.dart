@@ -49,7 +49,7 @@ Map<String, dynamic> _$AudioMessageToJson(AudioMessage instance) {
   writeNotNull('roomId', instance.roomId);
   writeNotNull('showStatus', instance.showStatus);
   writeNotNull('status', _$StatusEnumMap[instance.status]);
-  val['type'] = _$MessageTypeEnumMap[instance.type]!;
+  val['type'] = _$MessageTypeEnumMap[instance.type];
   writeNotNull('updatedAt', instance.updatedAt);
   val['duration'] = instance.duration.inMicroseconds;
   writeNotNull('mimeType', instance.mimeType);

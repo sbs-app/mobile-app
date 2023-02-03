@@ -1,9 +1,8 @@
+import 'package:classroom/ui/chat/types/message.dart';
+import 'package:classroom/ui/chat/types/messages/partial_image.dart';
+import 'package:classroom/ui/chat/types/user.dart' show User;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-
-import '../message.dart';
-import '../user.dart' show User;
-import 'partial_image.dart';
 
 part 'image_message.g.dart';
 

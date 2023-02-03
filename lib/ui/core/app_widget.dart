@@ -3,7 +3,7 @@ import 'package:classroom/injection.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/auth/pages/auth_checker_page.dart';
-import 'package:classroom/ui/home/pages/event_provider.dart';
+import 'package:classroom/ui/home/pages/calendar/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

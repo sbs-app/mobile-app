@@ -18,6 +18,7 @@ part 'auth_state.dart';
 @prod
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.AuthController) : super(AuthState.initial());
+  // ignore: non_constant_identifier_names
   final IAuthController AuthController;
 
   static void addEventWithoutContext(AuthEvent e) =>

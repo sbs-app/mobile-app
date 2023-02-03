@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:classroom/ui/chat/types/flutter_chat_types.dart' as types;
 import 'package:flutter_parsed_text/flutter_parsed_text.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/emoji_enlargement_behavior.dart';
 import '../../models/pattern_style.dart';
@@ -62,7 +61,6 @@ class TextMessage extends StatelessWidget {
             isConsistsOfEmojis(emojiEnlargementBehavior, message);
     final theme = InheritedChatTheme.of(context).theme;
     final user = InheritedUser.of(context).user;
-    final width = MediaQuery.of(context).size.width;
 
     if (usePreviewData && onPreviewDataFetched != null) {
       // final urlRegexp = RegExp(regexLink, caseSensitive: false);
@@ -80,12 +78,6 @@ class TextMessage extends StatelessWidget {
       ),
       child: _textWidgetBuilder(user, context, enlargeEmojis),
     );
-  }
-
-  void _onPreviewDataFetched(types.PreviewData previewData) {
-    if (message.previewData == null) {
-      onPreviewDataFetched?.call(message, previewData);
-    }
   }
 
   Widget _textWidgetBuilder(

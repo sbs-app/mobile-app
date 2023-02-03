@@ -13,16 +13,16 @@ enum Role { admin, agent, moderator, user }
 abstract class User extends Equatable {
   /// Creates a user.
   const User._({
-    this.name,
     required this.id,
+    this.name,
     this.imageUrl,
     this.metadata,
     this.role,
   });
 
   const factory User({
-    String? name,
     required String id,
+    String? name,
     String? imageUrl,
     Map<String, dynamic>? metadata,
     Role? role,
@@ -71,8 +71,8 @@ abstract class User extends Equatable {
 /// A utility class to enable better copyWith.
 class _User extends User {
   const _User({
-    super.name,
     required super.id,
+    super.name,
     super.imageUrl,
     super.metadata,
     super.role,

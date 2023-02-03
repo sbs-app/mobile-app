@@ -151,7 +151,6 @@ class SettingsUI extends StatelessWidget {
             const Divider(
               color: Colors.white,
             ),
-            // TODO: Fix this
             languageListTile(context),
             const Divider(
               color: Colors.white,

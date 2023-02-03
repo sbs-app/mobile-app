@@ -46,7 +46,7 @@ Map<String, dynamic> _$FileMessageToJson(FileMessage instance) {
   writeNotNull('roomId', instance.roomId);
   writeNotNull('showStatus', instance.showStatus);
   writeNotNull('status', _$StatusEnumMap[instance.status]);
-  val['type'] = _$MessageTypeEnumMap[instance.type]!;
+  val['type'] = _$MessageTypeEnumMap[instance.type];
   writeNotNull('updatedAt', instance.updatedAt);
   writeNotNull('isLoading', instance.isLoading);
   writeNotNull('mimeType', instance.mimeType);

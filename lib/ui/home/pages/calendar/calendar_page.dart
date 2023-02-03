@@ -1,12 +1,9 @@
-import 'package:classroom/ui/home/pages/event_editing_page.dart';
-import 'package:classroom/ui/home/pages/event_provider.dart';
-import 'package:classroom/ui/home/pages/home_page.dart';
+import 'package:classroom/ui/home/pages/calendar/event_editing_page.dart';
+import 'package:classroom/ui/home/pages/calendar/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'TaskWidgets.dart';
-import 'event.dart';
-import 'event_editing_page.dart';
+import 'task_widget.dart';
 
 class CalendarPage extends StatelessWidget {
   const CalendarPage({super.key});
@@ -24,11 +21,14 @@ class CalendarPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,
-            color: Colors.white,
+            color: Colors.black,
           ),
-          backgroundColor: Color(0xff00B4DB),
+          backgroundColor: Colors.white,
           onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => EventEditingPage())),
+            MaterialPageRoute(
+              builder: (context) => EventEditingPage(),
+            ),
+          ),
         ),
         backgroundColor: Colors.black,
         body: Column(
@@ -157,20 +157,6 @@ class CalendarPage extends StatelessWidget {
 class EventDataSource extends CalendarDataSource {
   EventDataSource(List<Appointment> appointments) {
     this.appointments = appointments;
-    // appointments.addAll(_getCalendarDataSource());
-    Event getEvent(int index) => appointments[index] as Event;
-
-    @override
-    DateTime getStartTime(int index) => getEvent(index).from;
-    @override
-    DateTime getEndTime(int index) => getEvent(index).to;
-    @override
-    String getSubject(int index) => getEvent(index).title;
-
-    @override
-    Color getColor(int index) => getEvent(index).backgroundColor;
-    @override
-    bool isAllDay(int index) => getEvent(index).isAllDay;
   }
 }
 
@@ -252,17 +238,11 @@ List<Appointment> _getCalendarDataSource() {
     Appointment(
       startTime: DateTime(2023, 5, 22),
       endTime: DateTime(2023, 5, 24),
-      subject: 'High School Early Release/ Final Exams',
+      subject: 'High School Early Release/Final Exams',
       color: const Color.fromARGB(255, 184, 136, 246),
       isAllDay: true,
     ),
   );
 
   return appointments;
-}
-
-class _AppointmentDataSource extends CalendarDataSource {
-  _AppointmentDataSource(List<Appointment> source) {
-    appointments = source;
-  }
 }

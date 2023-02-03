@@ -1,12 +1,8 @@
-import 'package:classroom/ui/home/pages/calendar_page.dart';
-import 'package:classroom/ui/home/pages/event_editing_page.dart';
-import 'package:classroom/ui/home/pages/event_provider.dart';
-import 'package:classroom/ui/home/pages/home_page.dart';
+import 'package:classroom/ui/home/pages/calendar/calendar_page.dart';
+import 'package:classroom/ui/home/pages/calendar/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'event.dart';
-import 'event_editing_page.dart';
 
 class TasksWidget extends StatefulWidget {
   @override
@@ -34,7 +30,6 @@ class _TasksWidgetState extends State<TasksWidget> {
       appointmentBuilder: appointmentBuilder,
       onTap: (details) {
         if (details.appointments == null) return;
-        final event = details.appointments!.first;
       },
       todayHighlightColor: Color(0xff0083B0),
       headerHeight: 0,

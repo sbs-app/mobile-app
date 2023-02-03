@@ -42,7 +42,7 @@ Map<String, dynamic> _$CustomMessageToJson(CustomMessage instance) {
   writeNotNull('roomId', instance.roomId);
   writeNotNull('showStatus', instance.showStatus);
   writeNotNull('status', _$StatusEnumMap[instance.status]);
-  val['type'] = _$MessageTypeEnumMap[instance.type]!;
+  val['type'] = _$MessageTypeEnumMap[instance.type];
   writeNotNull('updatedAt', instance.updatedAt);
   return val;
 }

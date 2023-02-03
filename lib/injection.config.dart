@@ -39,7 +39,8 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i3.Box<dynamic>>(() => authInjectableModule.userBox);
     gh.lazySingleton<_i4.FirebaseAuth>(() => authInjectableModule.firebaseAuth);
     gh.lazySingleton<_i5.FirebaseFirestore>(
-        () => authInjectableModule.firebaseFirestore);
+      () => authInjectableModule.firebaseFirestore,
+    );
     gh.lazySingleton<_i6.GoogleSignIn>(() => authInjectableModule.googleSignIn);
     gh.factory<_i7.IAuthController>(
       () => _i8.AuthController(

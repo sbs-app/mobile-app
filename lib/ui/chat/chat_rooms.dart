@@ -1,4 +1,3 @@
-import 'package:classroom/controllers/courses/course_controller.dart';
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/core/utils/chat.dart';
 import 'package:classroom/models/auth/user_model.dart';
@@ -36,7 +35,7 @@ class _ChatPageState extends State<ChatPage> {
         return SafeArea(
           child: BlocConsumer<CourseBloc, CourseState>(
             listener: (context, state) {
-              // TODO: implement listener
+              // Implement listener
             },
             builder: (context, state) {
               if (state.courses.isNotEmpty) {

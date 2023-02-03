@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/models/courses/course_model.dart';
@@ -6,10 +5,11 @@ import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/states/course/course_bloc.dart';
 import 'package:classroom/ui/auth/pages/login_page.dart';
 import 'package:classroom/ui/chat/chat_rooms.dart';
-import 'package:classroom/ui/home/pages/calendar_page.dart';
+import 'package:classroom/ui/home/pages/calendar/calendar_page.dart';
 import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
+import 'package:classroom/ui/home/pages/menu_page.dart';
 import 'package:classroom/ui/home/pages/settings_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
@@ -25,14 +25,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, Color>> coverUrls = [
-    {"breakfast": const Color(0xffFF8A66)},
-    {"code": const Color(0xff566E7A)},
-    {"learnlanguage": const Color(0xff3367D5)},
-    {"cooking": const Color(0xff848484)},
-    {"mealfamily": const Color(0xff4FC2F8)},
-    {"read": const Color(0xff566E7A)},
-    {"handcraft": const Color(0xff8E22A9)},
+  List<String> coverUrls = [
+    "assets/courses/course-1.png",
+    "assets/courses/course-2.png",
+    "assets/courses/course-3.png",
+    "assets/courses/course-4.png",
+    "assets/courses/course-5.png",
+    "assets/courses/course-6.png",
+    "assets/courses/course-7.png",
+    "assets/courses/course-8.png",
+    "assets/courses/course-9.png",
+    "assets/courses/course-10.png",
+    "assets/courses/course-11.png",
+    "assets/courses/course-12.png",
+    "assets/courses/course-13.png",
+    "assets/courses/course-14.png",
+    "assets/courses/course-15.png",
   ];
 
   late CustomPopupMenuController controller;
@@ -56,12 +64,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        final bool isUserStudent = getUserModel().roleId == UserTypes.student;
+        final bool isStudentOrParent =
+            getUserModel().roleId == UserTypes.student ||
+                getUserModel().roleId == UserTypes.parent;
         final String userName = getUserModel().userName;
         return SafeArea(
           child: Scaffold(
             backgroundColor: Colors.black,
-            floatingActionButton: isUserStudent
+            floatingActionButton: isStudentOrParent
                 ? FloatingActionButton(
                     backgroundColor: Colors.white,
                     onPressed: () {
@@ -292,6 +302,48 @@ class _HomePageState extends State<HomePage> {
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
+                                        Colors.white,
+                                      ),
+                                      overlayColor: MaterialStateProperty.all(
+                                        Colors.white10,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      await Future.delayed(
+                                        const Duration(
+                                          milliseconds: 400,
+                                        ),
+                                      );
+                                      controller.hideMenu();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const FoodMenuPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.fastfood,
+                                          color: Colors.black87,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Menu",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
                                         const Color(0xff00B4DB),
                                       ),
                                       overlayColor: MaterialStateProperty.all(
@@ -430,6 +482,16 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Menu(
+                        Icons.fastfood,
+                        'Menu',
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const FoodMenuPage(),
+                          ),
+                        ),
+                      ),
+                      Menu(
                         Icons.settings,
                         'Settings',
                         () => Navigator.push(
@@ -468,7 +530,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: BlocConsumer<CourseBloc, CourseState>(
                 listener: (context, state) {
-                  // TODO: implement listener
+                  // Implement listener
                 },
                 builder: (context, state) {
                   return Column(
@@ -500,12 +562,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    overlayColor: MaterialStateProperty.all(
-                                      coverUrls[index % 7]
-                                          .values
-                                          .first
-                                          .withOpacity(0.5),
-                                    ),
+                                    overlayColor:
+                                        MaterialStateProperty.all(Colors.black),
                                   ),
                                   onPressed: () async {
                                     await Future.delayed(
@@ -515,12 +573,10 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => CoursePage(
-                                          courseCode: course.code,
-                                          courseCoverImageUrl:
-                                              "https://www.gstatic.com/classroom/themes/img_${coverUrls[index % 7].entries.first.key}.jpg",
-                                          primaryColor:
-                                              coverUrls[index % 7].values.first,
-                                        ),
+                                            courseCode: course.code,
+                                            courseCoverImageUrl:
+                                                coverUrls[index % 15],
+                                            primaryColor: Colors.black),
                                       ),
                                     );
                                   },
@@ -532,15 +588,31 @@ class _HomePageState extends State<HomePage> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                "https://www.gstatic.com/classroom/themes/img_${coverUrls[index % 7].entries.first.key}.jpg",
-                                            fit: BoxFit.cover,
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              Container(
+                                                color: Colors.white,
+                                                width: 25,
+                                              ),
+                                              Expanded(
+                                                child: Image.asset(
+                                                  coverUrls[index % 15],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(20),
+                                        padding: const EdgeInsets.only(
+                                          left: 40,
+                                          right: 20,
+                                          top: 20,
+                                          bottom: 20,
+                                        ),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -550,16 +622,32 @@ class _HomePageState extends State<HomePage> {
                                             Text(
                                               course.name,
                                               style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
                                             ),
-                                            Text(
-                                              course.teacher!.userName,
-                                              style: const TextStyle(
-                                                color: Colors.white54,
-                                              ),
-                                            ),
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    right: 10,
+                                                  ),
+                                                  child: UserAvatar(
+                                                    userModel: course.teacher!,
+                                                    height: 32,
+                                                    width: 32,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  course.teacher!.userName,
+                                                  style: const TextStyle(
+                                                    color: Colors.white70,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                           ],
                                         ),
                                       ),

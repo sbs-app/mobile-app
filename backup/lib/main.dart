@@ -25,7 +25,7 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // FIXME: Should use GetMaterialApp but it breaks app.
+    // Should use GetMaterialApp but it breaks app.
     return MaterialApp(
         title: 'Student app',
         home: AnimatedSplashScreen(

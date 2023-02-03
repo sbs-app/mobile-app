@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -167,12 +169,12 @@ class LoginUI extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.w300),
                   gradient: LinearGradient(
-                    colors: [Color(0xffc31432), Color(0xff240b36)],
+                    colors: const [Color(0xffc31432), Color(0xff240b36)],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
-                  selectedGradientColor:
-                      LinearGradient(colors: [Colors.yellow, Colors.purple]),
+                  selectedGradientColor: LinearGradient(
+                      colors: const [Colors.yellow, Colors.purple]),
                   selectedTextColor: Colors.white,
                   transitionType: TransitionType.LEFT_TO_RIGHT,
                   isReverse: true,

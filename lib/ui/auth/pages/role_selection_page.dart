@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 
 class RoleSelectionPage extends StatefulWidget {
-  const RoleSelectionPage({Key? key}) : super(key: key);
+  const RoleSelectionPage({super.key});
 
   @override
   _RoleSelectionPageState createState() => _RoleSelectionPageState();
@@ -133,7 +133,8 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                               overlayColor:
                                   MaterialStateProperty.all(Colors.white),
                               backgroundColor: MaterialStateProperty.all(
-                                  Color.fromARGB(150, 91, 88, 88)),
+                                const Color.fromARGB(150, 91, 88, 88),
+                              ),
                             ),
                             child: const Text(
                               "STUDENT",
@@ -166,7 +167,8 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                               overlayColor:
                                   MaterialStateProperty.all(Colors.white),
                               backgroundColor: MaterialStateProperty.all(
-                                  Color.fromARGB(150, 91, 88, 88)),
+                                const Color.fromARGB(150, 91, 88, 88),
+                              ),
                             ),
                             child: const Text(
                               "TEACHER",
@@ -199,7 +201,8 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                               overlayColor:
                                   MaterialStateProperty.all(Colors.white),
                               backgroundColor: MaterialStateProperty.all(
-                                  Color.fromARGB(150, 91, 88, 88)),
+                                const Color.fromARGB(150, 91, 88, 88),
+                              ),
                             ),
                             child: const Text(
                               "PARENT",

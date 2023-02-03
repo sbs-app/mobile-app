@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
-import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/models/courses/courses_failure.dart';

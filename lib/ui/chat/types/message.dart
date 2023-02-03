@@ -1,15 +1,14 @@
+import 'package:classroom/ui/chat/types/messages/audio_message.dart';
+import 'package:classroom/ui/chat/types/messages/custom_message.dart';
+import 'package:classroom/ui/chat/types/messages/file_message.dart';
+import 'package:classroom/ui/chat/types/messages/image_message.dart';
+import 'package:classroom/ui/chat/types/messages/system_message.dart';
+import 'package:classroom/ui/chat/types/messages/text_message.dart';
+import 'package:classroom/ui/chat/types/messages/unsupported_message.dart';
+import 'package:classroom/ui/chat/types/messages/video_message.dart';
+import 'package:classroom/ui/chat/types/user.dart' show User;
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import 'messages/audio_message.dart';
-import 'messages/custom_message.dart';
-import 'messages/file_message.dart';
-import 'messages/image_message.dart';
-import 'messages/system_message.dart';
-import 'messages/text_message.dart';
-import 'messages/unsupported_message.dart';
-import 'messages/video_message.dart';
-import 'user.dart' show User;
 
 /// All possible message types.
 enum MessageType {

@@ -29,10 +29,3 @@ Map<String, dynamic> _$UserToJson(User instance) {
   // writeNotNull('metadata', instance.metadata);
   return val;
 }
-
-const _$RoleEnumMap = {
-  Role.admin: 'admin',
-  Role.agent: 'agent',
-  Role.moderator: 'moderator',
-  Role.user: 'user',
-};

@@ -18,13 +18,6 @@ class _LoadingPageState extends State<LoadingPage>
   bool isVisible = false;
   @override
   void initState() {
-    Fluttertoast.showToast(
-      msg: "Loading classes",
-      textColor: Colors.black87,
-      backgroundColor: Colors.white,
-      toastLength: Toast.LENGTH_LONG,
-      fontSize: 12,
-    );
     CourseBloc.addEventWithoutContext(const CourseEvent.getCourses());
     Future.delayed(const Duration(seconds: 6), () {
       isVisible = true;

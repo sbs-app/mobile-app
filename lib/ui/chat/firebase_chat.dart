@@ -1,11 +1,9 @@
 import 'package:classroom/ui/chat/firebase_chat_config.dart';
 import 'package:classroom/ui/chat/types/flutter_chat_types.dart' as types;
+import 'package:classroom/ui/chat/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-import 'firebase_chat_config.dart';
-import 'util.dart';
 
 /// Provides access to Firebase chat data. Singleton, use
 /// FirebaseChatCore.instance to aceess methods.
@@ -403,11 +401,13 @@ class FirebaseChatCore {
     if (firebaseUser == null) return;
 
     final roomMap = room.toJson();
-    roomMap.removeWhere((key, value) =>
-        key == 'createdAt' ||
-        key == 'id' ||
-        key == 'lastMessages' ||
-        key == 'users');
+    roomMap.removeWhere(
+      (key, value) =>
+          key == 'createdAt' ||
+          key == 'id' ||
+          key == 'lastMessages' ||
+          key == 'users',
+    );
 
     if (room.type == types.RoomType.direct) {
       roomMap['imageUrl'] = null;
@@ -417,11 +417,13 @@ class FirebaseChatCore {
     roomMap['lastMessages'] = room.lastMessages?.map((m) {
       final messageMap = m.toJson();
 
-      messageMap.removeWhere((key, value) =>
-          key == 'author' ||
-          key == 'createdAt' ||
-          key == 'id' ||
-          key == 'updatedAt');
+      messageMap.removeWhere(
+        (key, value) =>
+            key == 'author' ||
+            key == 'createdAt' ||
+            key == 'id' ||
+            key == 'updatedAt',
+      );
 
       messageMap['authorId'] = m.author.id;
 

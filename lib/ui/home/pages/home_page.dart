@@ -645,10 +645,6 @@ class _HomePageState extends State<HomePage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.stretch,
                                             children: [
-                                              Container(
-                                                color: Colors.white,
-                                                width: 25,
-                                              ),
                                               Expanded(
                                                 child: Image.asset(
                                                   coverUrls[index % 15],
@@ -661,7 +657,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                          left: 40,
+                                          left: 20,
                                           right: 20,
                                           top: 20,
                                           bottom: 20,

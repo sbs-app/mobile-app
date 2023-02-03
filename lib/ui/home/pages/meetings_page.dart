@@ -191,8 +191,8 @@ class _VideoCallState extends State<VideoCall> {
                                           color: Colors.black.withOpacity(0.06),
                                           offset: Offset(0, 4)),
                                     ]),
-                                width: 72,
-                                height: 72,
+                                width: 82,
+                                height: 82,
                                 child: Icon(
                                   isAudioMuted
                                       ? Icons.mic_off_sharp
@@ -221,8 +221,8 @@ class _VideoCallState extends State<VideoCall> {
                                           color: Colors.black.withOpacity(0.06),
                                           offset: Offset(0, 4)),
                                     ]),
-                                width: 72,
-                                height: 72,
+                                width: 82,
+                                height: 82,
                                 child: Icon(
                                   isVideoMuted
                                       ? Icons.videocam_off_sharp
@@ -241,7 +241,7 @@ class _VideoCallState extends State<VideoCall> {
                               child: AnimatedContainer(
                                   duration: Duration(milliseconds: 300),
                                   decoration: BoxDecoration(
-                                      color: Color(0xffAA66CC),
+                                      color: Color(0xff02B3FD),
                                       borderRadius: BorderRadius.circular(16),
                                       boxShadow: [
                                         BoxShadow(
@@ -250,14 +250,14 @@ class _VideoCallState extends State<VideoCall> {
                                                 Colors.black.withOpacity(0.06),
                                             offset: Offset(0, 4)),
                                       ]),
-                                  width: 174,
-                                  height: 72,
+                                  width: 82,
+                                  height: 82,
                                   child: Center(
                                     child: Text(
                                       "Create Meeting".toUpperCase(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         color: Colors.white,
                                       ),
                                       textAlign: TextAlign.center,
@@ -309,7 +309,7 @@ class _VideoCallState extends State<VideoCall> {
                               child: AnimatedContainer(
                                   duration: Duration(milliseconds: 300),
                                   decoration: BoxDecoration(
-                                      color: Color(0xffAA66CC),
+                                      color: Color(0xff02B3FD),
                                       borderRadius: BorderRadius.circular(16),
                                       boxShadow: [
                                         BoxShadow(
@@ -318,14 +318,14 @@ class _VideoCallState extends State<VideoCall> {
                                                 Colors.black.withOpacity(0.06),
                                             offset: Offset(0, 4)),
                                       ]),
-                                  width: 174,
-                                  height: 72,
+                                  width: 82,
+                                  height: 82,
                                   child: Center(
                                     child: Text(
                                       "Join Meeting".toUpperCase(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         color: Colors.white,
                                       ),
                                       textAlign: TextAlign.center,

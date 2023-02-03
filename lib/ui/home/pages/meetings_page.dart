@@ -55,7 +55,7 @@ class _VideoCallState extends State<VideoCall> {
       builder: (context, state) {
         UserModel user = getUserModel();
         serverText.text = "https://meet.jit.si/";
-        roomText.text = "${user.userName} ClassMate Room";
+        roomText.text = "${user.userName} ClassMate";
         subjectText.text = user.userName;
         nameText.text = user.userName;
         emailText.text = user.email;
@@ -113,7 +113,7 @@ class _VideoCallState extends State<VideoCall> {
                         const Spacer(flex: 65),
                         Container(
                           child: Text(
-                            "Join a Meeting",
+                            "Join or create a Meeting",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 35,
@@ -237,6 +237,74 @@ class _VideoCallState extends State<VideoCall> {
                             GestureDetector(
                               onTap: () {
                                 _joinMeeting(); // Join meet on tap
+                              },
+                              child: AnimatedContainer(
+                                  duration: Duration(milliseconds: 300),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffAA66CC),
+                                      borderRadius: BorderRadius.circular(16),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            blurRadius: 10,
+                                            color:
+                                                Colors.black.withOpacity(0.06),
+                                            offset: Offset(0, 4)),
+                                      ]),
+                                  width: 174,
+                                  height: 72,
+                                  child: Center(
+                                    child: Text(
+                                      "Create Meeting".toUpperCase(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )),
+                            ),
+                            const Spacer(flex: 10),
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          'Enter meeting name (username + ClassMate)',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        content: TextField(
+                                          controller: roomText,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          decoration: InputDecoration(
+                                            hintStyle: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                            hintText: "Username",
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('CANCEL'),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: Text('OK'),
+                                            onPressed: () {
+                                              _joinMeeting(); // Join meet on tap
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
                               },
                               child: AnimatedContainer(
                                   duration: Duration(milliseconds: 300),

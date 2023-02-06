@@ -535,6 +535,16 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Menu(
+                        Icons.numbers,
+                        'Socials',
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const FoodMenuPage(),
+                          ),
+                        ),
+                      ),
+                      Menu(
                         Icons.fastfood,
                         'Menu',
                         () => Navigator.push(

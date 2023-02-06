@@ -28,15 +28,15 @@ class OnboardingPage extends StatelessWidget {
       pageBackgroundColor: Colors.white,
       background: [
         Image.asset(
-          'assets/slide_1.png',
+          'assets/onboarding/slide_1.png',
           height: 400,
         ),
         Image.asset(
-          'assets/slide_2.png',
+          'assets/onboarding/slide_2.png',
           height: 400,
         ),
         Image.asset(
-          'assets/slide_3.png',
+          'assets/onboarding/slide_3.png',
           height: 400,
         ),
       ],

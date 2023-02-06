@@ -27,17 +27,26 @@ class OnboardingPage extends StatelessWidget {
       headerBackgroundColor: Colors.white,
       pageBackgroundColor: Colors.white,
       background: [
-        Image.asset(
-          'assets/onboarding/slide_1.png',
-          height: 400,
+        Padding(
+          padding: const EdgeInsets.only(left: 200.0),
+          child: Image.asset(
+            'assets/onboarding/slide_1.png',
+            height: 400,
+          ),
         ),
-        Image.asset(
-          'assets/onboarding/slide_2.png',
-          height: 400,
+        Padding(
+          padding: const EdgeInsets.only(left: 200.0),
+          child: Image.asset(
+            'assets/onboarding/slide_2.png',
+            height: 400,
+          ),
         ),
-        Image.asset(
-          'assets/onboarding/slide_3.png',
-          height: 400,
+        Padding(
+          padding: const EdgeInsets.only(left: 200.0),
+          child: Image.asset(
+            'assets/onboarding/slide_3.png',
+            height: 400,
+          ),
         ),
       ],
       speed: 1.8,

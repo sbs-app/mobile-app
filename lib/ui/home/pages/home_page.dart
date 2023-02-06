@@ -12,6 +12,7 @@ import 'package:classroom/ui/home/pages/join_course_page.dart';
 import 'package:classroom/ui/home/pages/meetings_page.dart';
 import 'package:classroom/ui/home/pages/menu_page.dart';
 import 'package:classroom/ui/home/pages/settings_page.dart';
+import 'package:classroom/ui/home/pages/socials_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
@@ -540,7 +541,7 @@ class _HomePageState extends State<HomePage> {
                         () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const FoodMenuPage(),
+                            builder: (_) => const SocialsPage(),
                           ),
                         ),
                       ),

@@ -13,6 +13,11 @@ class SocialsPage extends StatefulWidget {
 class _SocialsPageState extends State<SocialsPage> {
   TextEditingController controller = TextEditingController();
 
+  // Uri.dataFromString(
+  //   '',
+  //   mimeType: 'text/html',
+  // ),
+
   @override
   void dispose() {
     controller.dispose();

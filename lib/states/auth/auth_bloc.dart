@@ -109,7 +109,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield failureOrSuccess.fold(
           (l) => state.copyWith(switchRoleOption: Some(Left(l))),
           (r) {
-            // Phoenix.rebirth(context);
             return state.copyWith(
               switchRoleOption: const Some(Right(unit)),
             );
@@ -130,6 +129,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               userName: e.newUser.userName,
               id: e.newUser.id,
               classes: e.newUser.classes,
+              link: e.newUser.link,
+              absence: e.newUser.absence,
             ),
           ),
         );

@@ -16,6 +16,10 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
+    String getLinkedStudent(Map<int, dynamic> rawData) =>
+        (rawData[6] != null) ? rawData[6] as String : '';
+    List<int> getAbsenceInfo(Map<int, dynamic> rawData) =>
+        (rawData[7] != null) ? (rawData[7] as List).cast<int>() : <int>[-1, -1];
     return UserModel(
       roleId: fields[0] as int?,
       email: fields[1] as String,
@@ -23,13 +27,15 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       photoURL: fields[5] as String,
       userName: fields[2] as String,
       classes: (fields[4] as List).cast<String>(),
+      link: getLinkedStudent(fields),
+      absence: getAbsenceInfo(fields),
     );
   }
 
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.roleId)
       ..writeByte(1)
@@ -41,7 +47,11 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(4)
       ..write(obj.classes)
       ..writeByte(5)
-      ..write(obj.photoURL);
+      ..write(obj.photoURL)
+      ..writeByte(6)
+      ..write(obj.link)
+      ..writeByte(7)
+      ..write(obj.absence);
   }
 
   @override

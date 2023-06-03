@@ -15,6 +15,8 @@ UserModel getUserModel() {
       userName: "",
       photoURL: "",
       classes: [],
+      link: '',
+      absence: [-1, -1],
     );
   }
 }

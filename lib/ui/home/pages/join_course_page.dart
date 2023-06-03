@@ -45,8 +45,8 @@ class _JoinCoursePageState extends State<JoinCoursePage>
           ? isValidName
               ? const SizedBox.shrink()
               : const Text(
-                  "Class name should have atleast one character",
-                  style: TextStyle(color: Colors.white24),
+                  "Class code should have atleast one character",
+                  style: TextStyle(color: Colors.grey),
                 )
           : const SizedBox.shrink(),
     );
@@ -122,7 +122,7 @@ class _JoinCoursePageState extends State<JoinCoursePage>
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Please fill below details to continue",
+                      "Enter class code below:",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white.withOpacity(0.5),

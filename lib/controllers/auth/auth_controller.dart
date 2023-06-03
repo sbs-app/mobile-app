@@ -61,6 +61,8 @@ class AuthController extends IAuthController {
         roleId: UserTypes.student,
         userName: userName,
         classes: <String>[""],
+        link: '',
+        absence: <int>[-1, -1],
       );
 
       await box.put(HiveBoxNames.user, newUserModel.copyWith());
@@ -194,6 +196,8 @@ class AuthController extends IAuthController {
         id: newUser.id,
         photoURL: newUser.photoURL,
         classes: newUser.classes,
+        link: newUser.link,
+        absence: newUser.absence,
       );
 
       firebaseFirestore.doc('/users/${currentModel.id}').set(newModel.toJson());

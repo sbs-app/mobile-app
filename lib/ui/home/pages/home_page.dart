@@ -9,6 +9,7 @@ import 'package:classroom/ui/home/pages/calendar/calendar_page.dart';
 import 'package:classroom/ui/home/pages/course_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
+import 'package:classroom/ui/home/pages/link_student_page.dart';
 import 'package:classroom/ui/home/pages/meetings_page.dart';
 import 'package:classroom/ui/home/pages/menu_page.dart';
 import 'package:classroom/ui/home/pages/settings_page.dart';
@@ -18,6 +19,7 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -62,42 +64,93 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  Widget buildFloatingActionButton() {
+    if (getUserModel().roleId == UserTypes.student) {
+      return FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const JoinCoursePage(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add, color: Colors.black),
+      );
+    } else if (getUserModel().roleId == UserTypes.parent) {
+      return SpeedDial(
+        overlayColor: Colors.black12,
+        spacing: 20,
+        backgroundColor: Colors.white,
+        activeChild: const Icon(
+          Icons.close,
+          color: Colors.black,
+        ),
+        children: [
+          SpeedDialChild(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const LinkStudentPage(),
+                ),
+              );
+            },
+            child: const Icon(
+              Icons.link,
+              color: Colors.white,
+            ),
+            label: "Link student",
+            labelStyle: const TextStyle(color: Colors.white),
+          ),
+          SpeedDialChild(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const JoinCoursePage(),
+                ),
+              );
+            },
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            label: "Join Course",
+            labelStyle: const TextStyle(color: Colors.white),
+          ),
+        ],
+        child: const Icon(
+          Icons.menu,
+          color: Colors.black,
+        ),
+      );
+    } else {
+      return FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const CreateCoursePage(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add, color: Colors.black),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        final bool isStudentOrParent =
-            getUserModel().roleId == UserTypes.student ||
-                getUserModel().roleId == UserTypes.parent;
         final String userName = getUserModel().userName;
         return SafeArea(
           child: Scaffold(
             backgroundColor: Colors.black,
-            floatingActionButton: isStudentOrParent
-                ? FloatingActionButton(
-                    backgroundColor: Colors.white,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const JoinCoursePage(),
-                        ),
-                      );
-                    },
-                    child: const Icon(Icons.add, color: Colors.black),
-                  )
-                : FloatingActionButton(
-                    backgroundColor: Colors.white,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const CreateCoursePage(),
-                        ),
-                      );
-                    },
-                    child: const Icon(Icons.add, color: Colors.black),
-                  ),
+            floatingActionButton: buildFloatingActionButton(),
             body: SliderDrawer(
               appBar: SliderAppBar(
                 appBarColor: Colors.black,

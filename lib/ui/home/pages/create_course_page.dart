@@ -48,7 +48,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
               ? const SizedBox.shrink()
               : const Text(
                   "Class name should have atleast one character",
-                  style: TextStyle(color: Colors.white24),
+                  style: TextStyle(color: Colors.grey),
                 )
           : const SizedBox.shrink(),
     );
@@ -141,7 +141,7 @@ class _CreateCoursePageState extends State<CreateCoursePage>
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Please fill below details to continue",
+                      "Enter class name below:",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white.withOpacity(0.5),

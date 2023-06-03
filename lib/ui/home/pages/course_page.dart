@@ -1,8 +1,9 @@
 import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
-import 'package:classroom/injection.dart';
 import 'package:classroom/models/auth/user_model.dart';
+import 'package:classroom/models/courses/course_model.dart';
 import 'package:classroom/states/course/course_bloc.dart';
+import 'package:classroom/ui/home/pages/absence_page.dart';
 import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/create_post.dart';
 import 'package:classroom/ui/home/pages/invite_student_page.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class CoursePage extends StatefulWidget {
@@ -35,6 +35,155 @@ class _CoursePageState extends State<CoursePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Widget? buildAttendeeSubtitle(UserModel attendee) {
+    // Student is linked to parent account
+    if (attendee.email == getUserModel().link) {
+      return Text(
+        'Your student',
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Colors.grey[400],
+        ),
+      );
+    } else if (attendee.roleId == UserTypes.student) {
+      return Text(
+        'Student',
+        style: TextStyle(
+          fontSize: 10,
+          color: Colors.grey[400],
+        ),
+      );
+    } else if (attendee.roleId == UserTypes.parent) {
+      return Text(
+        'Parent',
+        style: TextStyle(
+          fontSize: 10,
+          color: Colors.grey[400],
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  Widget? buildAttendeeOptions(UserModel attendee, CourseModel course) {
+    // Current user owns this course, give admin.
+    if (getUserModel().email == course.teacher!.email) {
+      return Column(
+        children: [
+          PopupMenuButton(
+            onSelected: (value) {
+              CourseBloc.addEventWithoutContext(
+                CourseEvent.removeStudentFromCourse(
+                  courseCode: course.id,
+                  studentId: attendee.id,
+                ),
+              );
+            },
+            child: Icon(
+              Icons.more_vert_outlined,
+              color: Colors.white,
+            ),
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  height: 20,
+                  value: "Remove",
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.delete_outline,
+                        size: 14,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "Remove Student",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ];
+            },
+          ),
+        ],
+      );
+      // Student is linked to parent account
+    } else if (attendee.email == getUserModel().link) {
+      return PopupMenuButton(
+        onSelected: (value) {
+          if (value == "absence") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const AbsencePage(),
+              ),
+            );
+          }
+        },
+        child: const Icon(
+          Icons.more_vert_outlined,
+          color: Colors.white,
+        ),
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              height: 20,
+              value: "absence",
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.calendar_month,
+                    size: 14,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Schedule absence",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ];
+        },
+      );
+    } else {
+      return null;
+    }
+  }
+
+  List<UserModel> getAbsentStudents(List<UserModel> attendees) {
+    List<UserModel> absentStudent = [];
+
+    for (UserModel attendee in attendees) {
+      if (attendee.roleId == UserTypes.parent) {
+        if (attendee.link != '' || attendee.link.isNotEmpty) {
+          if (attendee.absence != [-1, -1]) {
+            for (UserModel maybeStudent in attendees) {
+              if (maybeStudent.email == attendee.link) {
+                absentStudent.add(
+                  maybeStudent.copyWith(absence: attendee.absence),
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+    return absentStudent;
   }
 
   @override
@@ -77,6 +226,10 @@ class _CoursePageState extends State<CoursePage> {
                 .indexWhere((course) => widget.courseCode == course.code);
             if (index <= -1) Navigator.pop(context);
             final course = state.courses[index];
+
+            List<UserModel> absentStudents = getAbsentStudents(
+              course.students!,
+            );
 
             return Scaffold(
               backgroundColor: Colors.black,
@@ -205,9 +358,6 @@ class _CoursePageState extends State<CoursePage> {
                 builder: (context, state) {
                   final String? updatedCourseName = state.updatedCourseName;
                   final String courseName = updatedCourseName ?? course.name;
-                  final String teacherEmail = course.teacher!.email;
-                  final String myEmail =
-                      (getIt<Box>().get(HiveBoxNames.user) as UserModel).email;
                   return Column(
                     children: [
                       TextButton(
@@ -233,18 +383,32 @@ class _CoursePageState extends State<CoursePage> {
                       ),
                       Container(
                         height: 150,
-                        padding: const EdgeInsets.all(8),
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white10,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                         child: Stack(
                           fit: StackFit.expand,
                           children: [
                             Hero(
                               tag: course.code,
-                              transitionOnUserGestures: true,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child: Image.asset(
-                                  widget.courseCoverImageUrl,
-                                  fit: BoxFit.cover,
+                                child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Expanded(
+                                      child: Image.asset(
+                                        widget.courseCoverImageUrl,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -259,15 +423,31 @@ class _CoursePageState extends State<CoursePage> {
                                     courseName,
                                     style: const TextStyle(
                                       color: Colors.white,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
                                     ),
                                   ),
-                                  Text(
-                                    course.teacher!.userName,
-                                    style: const TextStyle(
-                                      color: Colors.white54,
-                                    ),
-                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 10,
+                                        ),
+                                        child: UserAvatar(
+                                          userModel: course.teacher!,
+                                          height: 32,
+                                          width: 32,
+                                        ),
+                                      ),
+                                      Text(
+                                        course.teacher!.userName,
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
@@ -290,6 +470,12 @@ class _CoursePageState extends State<CoursePage> {
                             ),
                             Text(
                               "Attendees",
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.montserrat().fontFamily,
+                              ),
+                            ),
+                            Text(
+                              "Absences",
                               style: TextStyle(
                                 fontFamily: GoogleFonts.montserrat().fontFamily,
                               ),
@@ -395,7 +581,9 @@ class _CoursePageState extends State<CoursePage> {
                                     ),
                                   ),
                                 ),
-                                const Divider(),
+                                const Divider(
+                                  color: Colors.grey,
+                                ),
                                 Flexible(
                                   child: ListView.builder(
                                     shrinkWrap: true,
@@ -445,8 +633,10 @@ class _CoursePageState extends State<CoursePage> {
                                     ),
                                   ),
                                 ),
-                                const Divider(),
-                                Flexible(
+                                const Divider(
+                                  color: Colors.grey,
+                                ),
+                                Expanded(
                                   child: ListView.builder(
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 10,
@@ -472,54 +662,85 @@ class _CoursePageState extends State<CoursePage> {
                                             color: Colors.white,
                                           ),
                                         ),
-                                        trailing: isStudentOrParent ||
-                                                myEmail != teacherEmail
-                                            ? null
-                                            : PopupMenuButton(
-                                                onSelected: (value) {
-                                                  CourseBloc
-                                                      .addEventWithoutContext(
-                                                    CourseEvent
-                                                        .removeStudentFromCourse(
-                                                      courseCode: course.id,
-                                                      studentId:
-                                                          getUserModel().id,
-                                                    ),
-                                                  );
-                                                },
-                                                child: const Icon(
-                                                  Icons.more_vert_outlined,
-                                                  color: Colors.white,
-                                                ),
-                                                itemBuilder: (context) {
-                                                  return [
-                                                    PopupMenuItem(
-                                                      height: 20,
-                                                      value: "Remove",
-                                                      child: Row(
-                                                        children: const [
-                                                          Icon(
-                                                            Icons
-                                                                .delete_outline,
-                                                            size: 14,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text(
-                                                            "Remove Student",
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 12,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ];
-                                                },
-                                              ),
+                                        subtitle:
+                                            buildAttendeeSubtitle(student),
+                                        trailing: buildAttendeeOptions(
+                                          student,
+                                          course,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, left: 15.0),
+                                  child: Text(
+                                    "Absences",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const Divider(
+                                  color: Colors.grey,
+                                ),
+                                Flexible(
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                    ),
+                                    itemCount: absentStudents.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final UserModel student =
+                                          absentStudents[index];
+                                      DateTime absenceFrom =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                        student.absence[0],
+                                      );
+                                      DateTime absenceTo =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                        student.absence[1],
+                                      );
+                                      String absenceString = "";
+                                      if (absenceFrom.day == absenceTo.day)
+                                        absenceString =
+                                            "Student will be absent on ${DateFormat('MMMM dd').format(absenceFrom)}";
+                                      else
+                                        absenceString =
+                                            "Student will be absent from ${DateFormat('MMMM dd').format(absenceFrom)} to ${DateFormat('MMMM dd').format(absenceTo)}";
+
+                                      return ListTile(
+                                        leading: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: UserAvatar(
+                                            userModel: student,
+                                            height: 35,
+                                            width: 35,
+                                          ),
+                                        ),
+                                        title: Text(
+                                          student.userName,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          absenceString,
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: Colors.grey[400],
+                                          ),
+                                        ),
                                       );
                                     },
                                   ),

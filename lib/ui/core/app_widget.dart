@@ -19,9 +19,10 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        statusBarColor: Colors.black,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark,
+        statusBarColor: Color(0xff202e55),
+        systemNavigationBarColor: Color(0xff202e55),
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light,
       ),
     );
 
@@ -41,7 +42,7 @@ class AppWidget extends StatelessWidget {
           key: _navigationService.navigationKey,
           theme: ThemeData.dark().copyWith(
             textTheme: GoogleFonts.montserratTextTheme(),
-            appBarTheme: const AppBarTheme(color: Colors.black),
+            appBarTheme: const AppBarTheme(color: Color(0xff202e55)),
             splashFactory: InkRipple.splashFactory,
             pageTransitionsTheme: const PageTransitionsTheme(
               builders: <TargetPlatform, PageTransitionsBuilder>{

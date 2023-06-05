@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: buildFloatingActionButton(),
             body: SliderDrawer(
               appBar: SliderAppBar(
-                appBarColor: Color(0xff2E2C53),
+                appBarColor: Color(0xff202e55),
                 drawerIconColor: Colors.white,
                 isTitleCenter: false,
                 title: Row(

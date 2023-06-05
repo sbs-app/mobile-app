@@ -149,11 +149,11 @@ class _HomePageState extends State<HomePage> {
         final String userName = getUserModel().userName;
         return SafeArea(
           child: Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.white,
             floatingActionButton: buildFloatingActionButton(),
             body: SliderDrawer(
               appBar: SliderAppBar(
-                appBarColor: Colors.black,
+                appBarColor: Color(0xff2E2C53),
                 drawerIconColor: Colors.white,
                 isTitleCenter: false,
                 title: Row(
@@ -501,7 +501,7 @@ class _HomePageState extends State<HomePage> {
               key: _sliderDrawerKey,
               sliderOpenSize: 180,
               slider: Container(
-                color: Colors.black,
+                color: Color(0xff202e55),
                 padding: const EdgeInsets.only(top: 30),
                 child: ListView(
                   children: <Widget>[
@@ -510,7 +510,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     CircleAvatar(
                       radius: 65,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: Color(0xffCB3161),
                       child: CircleAvatar(
                         radius: 60,
                         backgroundImage: getUserModel().photoURL.isEmpty

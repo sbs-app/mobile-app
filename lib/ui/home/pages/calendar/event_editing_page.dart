@@ -94,7 +94,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               flex: 2,
               child: buildDropdownField(
                 text: Utils.toDate(fromDate),
-                onClicked: () => pickFromDateTime(pickDate: false),
+                onClicked: () => pickFromDateTime(pickDate: true),
               ),
             ),
             Expanded(
@@ -165,6 +165,23 @@ class _EventEditingPageState extends State<EventEditingPage> {
   }) async {
     if (pickDate) {
       final date = await showDatePicker(
+          helpText: 'SELECT DATE',
+          builder: (context, child) => Theme(
+                data: ThemeData().copyWith(
+                    colorScheme: ColorScheme.dark(
+                        primary: Color(0xffFF045F),
+                        onPrimary: Colors.white,
+                        onSurface: Color.fromARGB(255, 137, 217, 252),
+                        //onSurface: Color(0xffFF045F),
+                        surface: Color.fromARGB(255, 0, 0, 0)),
+                    textTheme: TextTheme(
+                        overline: TextStyle(
+                      fontSize: 14,
+                      color: Colors.red,
+                    )),
+                    dialogBackgroundColor: Color.fromARGB(255, 8, 8, 8)),
+                child: child!,
+              ),
           context: context,
           initialDate: initialDate,
           firstDate: firstDate ?? DateTime(1900),
@@ -177,7 +194,25 @@ class _EventEditingPageState extends State<EventEditingPage> {
       return date.add(time);
     } else {
       final timeOfDay = await showTimePicker(
-          context: context, initialTime: TimeOfDay.fromDateTime(initialDate));
+          helpText: 'SELECT TIME',
+          builder: (context, child) => Theme(
+                data: ThemeData().copyWith(
+                    colorScheme: ColorScheme.dark(
+                        primary: Color(0xffF0C38E),
+                        onPrimary: Colors.white,
+                        onSurface: Color.fromARGB(255, 137, 217, 252),
+                        //onSurface: Color(0xffFF045F),
+                        surface: Color(0xff312c51)),
+                    textTheme: TextTheme(
+                        overline: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    )),
+                    dialogBackgroundColor: Color(0xff312c51)),
+                child: child!,
+              ),
+          context: context,
+          initialTime: TimeOfDay.fromDateTime(initialDate));
       if (timeOfDay == null) return null;
       final date =
           DateTime(initialDate.year, initialDate.month, initialDate.day);

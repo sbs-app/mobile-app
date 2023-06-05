@@ -235,9 +235,11 @@ class _CoursePageState extends State<CoursePage> {
               backgroundColor: Colors.black,
               floatingActionButton: course.isCreatedByMe && !isStudentOrParent
                   ? SpeedDial(
+                      tooltip: 'Edit Course',
                       overlayColor: Colors.black12,
                       spacing: 20,
-                      backgroundColor: Colors.white,
+                      backgroundColor: Color(0xff00B4DB),
+                      elevation: 10,
                       activeChild: const Icon(
                         Icons.close,
                         color: Colors.black,

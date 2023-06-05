@@ -125,6 +125,23 @@ class _AbsencePageState extends State<AbsencePage>
   }) async {
     if (pickDate) {
       final date = await showDatePicker(
+          helpText: 'SELECT DATE',
+          builder: (context, child) => Theme(
+                data: ThemeData().copyWith(
+                    colorScheme: ColorScheme.dark(
+                        primary: Color(0xffFF045F),
+                        onPrimary: Colors.white,
+                        onSurface: Color.fromARGB(255, 137, 217, 252),
+                        //onSurface: Color(0xffFF045F),
+                        surface: Color.fromARGB(255, 0, 0, 0)),
+                    textTheme: TextTheme(
+                        overline: TextStyle(
+                      fontSize: 14,
+                      color: Colors.red,
+                    )),
+                    dialogBackgroundColor: Color.fromARGB(255, 8, 8, 8)),
+                child: child!,
+              ),
           context: context,
           initialDate: initialDate,
           firstDate: firstDate ?? DateTime(1900),
@@ -244,7 +261,7 @@ class _AbsencePageState extends State<AbsencePage>
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xff0083B0),
-                            elevation: 10,
+                            elevation: 5,
                             shadowColor: Color(0xff00B4DB),
                             // overlayColor:
                             //     MaterialStateProperty.all(Colors.white),

@@ -190,7 +190,7 @@ class _CreatePostPageState extends State<CreatePostPage>
                           SizedBox(
                             height: 60,
                             width: double.maxFinite,
-                            child: TextButton(
+                            child: ElevatedButton(
                               onPressed: () {
                                 showErrors = true;
                                 if (isValid) {
@@ -212,17 +212,10 @@ class _CreatePostPageState extends State<CreatePostPage>
                                 }
                                 setState(() {});
                               },
-                              style: ButtonStyle(
-                                overlayColor: MaterialStateProperty.all(
-                                  Colors.white,
-                                ),
-                                backgroundColor: isValid
-                                    ? MaterialStateProperty.all(
-                                        const Color(0xff0DF5E3),
-                                      )
-                                    : MaterialStateProperty.all(
-                                        Colors.white10,
-                                      ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff0083B0),
+                                elevation: 10,
+                                shadowColor: Color(0xff00B4DB),
                               ),
                               child: isLoading
                                   ? const SizedBox(
@@ -230,14 +223,16 @@ class _CreatePostPageState extends State<CreatePostPage>
                                       width: 15,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        color: Colors.black,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                       ),
                                     )
                                   : const Text(
                                       "POST",
                                       style: TextStyle(
-                                        color: Colors.black,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.w600,
+                                        fontSize: 18.5,
                                       ),
                                     ),
                             ),

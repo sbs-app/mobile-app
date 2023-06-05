@@ -129,6 +129,7 @@ class _AbsencePageState extends State<AbsencePage>
           initialDate: initialDate,
           firstDate: firstDate ?? DateTime(1900),
           lastDate: DateTime(9999));
+
       if (date == null) return null;
       final time = Duration(
         hours: initialDate.hour,
@@ -205,7 +206,7 @@ class _AbsencePageState extends State<AbsencePage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Schedule absence",
+                        "Schedule Absence",
                         style: TextStyle(
                           fontSize: 26,
                           color: Colors.white,
@@ -226,7 +227,7 @@ class _AbsencePageState extends State<AbsencePage>
                       SizedBox(
                         height: 60,
                         width: double.maxFinite,
-                        child: TextButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             isLoading = true;
                             AuthBloc.addEventWithoutContext(
@@ -241,12 +242,15 @@ class _AbsencePageState extends State<AbsencePage>
                             );
                             setState(() {});
                           },
-                          style: ButtonStyle(
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.white),
-                            backgroundColor: MaterialStateProperty.all(
-                              const Color(0xff0DF5E3),
-                            ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff0083B0),
+                            elevation: 10,
+                            shadowColor: Color(0xff00B4DB),
+                            // overlayColor:
+                            //     MaterialStateProperty.all(Colors.white),
+                            // backgroundColor: MaterialStateProperty.all(
+                            //   const Color(0xff0083B0),
+                            // ),
                           ),
                           child: isLoading
                               ? const SizedBox(
@@ -260,7 +264,7 @@ class _AbsencePageState extends State<AbsencePage>
                               : const Text(
                                   "SCHEDULE",
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

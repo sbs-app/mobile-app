@@ -310,9 +310,11 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                 ),
                 TextButton(
                   child: Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
                     alignment: Alignment.center,
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     height: 54,
+                    width: 375,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Colors.white, Colors.white],
@@ -321,7 +323,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                       color: Colors.grey[200],
                     ),
                     child: Text(
-                      "Upload image".toUpperCase(),
+                      "Upload profile picture".toUpperCase(),
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
@@ -387,6 +389,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                         )
                       : Container(
                           alignment: Alignment.center,
+                          margin: const EdgeInsets.only(
+                              left: 20, right: 20, top: 20),
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           height: 54,
                           decoration: BoxDecoration(

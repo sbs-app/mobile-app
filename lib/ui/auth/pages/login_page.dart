@@ -203,7 +203,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   child: TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    cursorColor: const Color(0xffc31432),
+                    cursorColor: const Color(0xff0083B0),
                     style: const TextStyle(color: Color(0xff240b36)),
                     decoration: const InputDecoration(
                       icon: Icon(
@@ -276,7 +276,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
                 SizedBox(
-                  width: 340,
+                  height: 54,
+                  width: 380,
                   child: TextButton(
                     onPressed: () {
                       FocusScope.of(context).unfocus();
@@ -296,7 +297,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       overlayColor: MaterialStateProperty.all(Colors.white),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
+                          borderRadius: BorderRadius.circular(50.0),
                           side: const BorderSide(
                             color: Color.fromARGB(255, 54, 165, 244),
                           ),
@@ -304,7 +305,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                       backgroundColor: isValid
                           ? MaterialStateProperty.all(
-                              const Color(0xff0083B1),
+                              const Color(0xff00B4DB),
                             )
                           : MaterialStateProperty.all(
                               const Color(0xff0083B0),

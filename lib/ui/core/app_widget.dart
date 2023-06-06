@@ -17,15 +17,6 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Color(0xff202e55),
-        systemNavigationBarColor: Color(0xff202e55),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light,
-      ),
-    );
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(

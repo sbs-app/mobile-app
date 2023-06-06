@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: buildFloatingActionButton(),
             body: SliderDrawer(
               appBar: SliderAppBar(
-                appBarColor: Color(0xff202e55),
+                appBarColor: Colors.black,
                 drawerIconColor: Colors.white,
                 isTitleCenter: false,
                 title: Row(
@@ -501,7 +501,7 @@ class _HomePageState extends State<HomePage> {
               key: _sliderDrawerKey,
               sliderOpenSize: 180,
               slider: Container(
-                color: Color(0xff202e55),
+                color: Colors.black,
                 padding: const EdgeInsets.only(top: 30),
                 child: ListView(
                   children: <Widget>[

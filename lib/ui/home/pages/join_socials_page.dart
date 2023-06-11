@@ -56,11 +56,7 @@ class _JoinSocialsPageState extends State<JoinSocialsPage>
   Widget build(BuildContext context) {
     return BlocConsumer<CourseBloc, CourseState>(
       listener: (context, state) {
-        //PUT JOIN LOGIC PLS 
-        //PUT JOIN LOGIC PLS 
-        //PUT JOIN LOGIC PLS 
-        //PUT JOIN LOGIC PLS 
-        //PUT JOIN LOGIC PLS  
+        // Handle join logic...  
       },
       builder: (context, state) {
         return SafeArea(

@@ -1,28 +1,21 @@
 import 'package:classroom/states/auth/auth_bloc.dart';
+import 'package:classroom/ui/home/pages/join_socials_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webviewx/webviewx.dart';
 
 class SocialsPage extends StatefulWidget {
-  const SocialsPage({super.key});
+  const SocialsPage({Key? key}) : super(key: key);
 
   @override
   _SocialsPageState createState() => _SocialsPageState();
 }
 
 class _SocialsPageState extends State<SocialsPage> {
-  TextEditingController controller = TextEditingController();
-
-  // Uri.dataFromString(
-  //   '',
-  //   mimeType: 'text/html',
-  // ),
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+  List<String> coverUrls = [
+    "assets/courses/instagram.png",
+    "assets/courses/twitter.png",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,16 +63,19 @@ class _SocialsPageState extends State<SocialsPage> {
                     ),
                   ],
                 ),
-                Expanded(
-                  child: WebViewX(
-                    initialContent:
-                        '<a class="twitter-timeline" href="https://twitter.com/GwinnettSchools?ref_src=twsrc%5Etfw">Tweets by GwinnettSchools</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>',
-                    initialSourceType: SourceType.html,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
-                ),
               ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const JoinSocialsPage(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.add, color: Colors.black),
             ),
           ),
         );
@@ -87,3 +83,4 @@ class _SocialsPageState extends State<SocialsPage> {
     );
   }
 }
+

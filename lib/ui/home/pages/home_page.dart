@@ -509,8 +509,8 @@ class _HomePageState extends State<HomePage> {
                       height: 30,
                     ),
                     CircleAvatar(
-                      radius: 65,
-                      backgroundColor: Color(0xffCB3161),
+                      radius: 62.5,
+                      backgroundColor: Colors.white,
                       child: CircleAvatar(
                         radius: 60,
                         backgroundImage: getUserModel().photoURL.isEmpty

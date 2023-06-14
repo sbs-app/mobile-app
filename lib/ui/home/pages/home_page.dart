@@ -399,48 +399,6 @@ class _HomePageState extends State<HomePage> {
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                        Colors.white,
-                                      ),
-                                      overlayColor: MaterialStateProperty.all(
-                                        Colors.white10,
-                                      ),
-                                    ),
-                                    onPressed: () async {
-                                      await Future.delayed(
-                                        const Duration(
-                                          milliseconds: 400,
-                                        ),
-                                      );
-                                      controller.hideMenu();
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => const FoodMenuPage(),
-                                        ),
-                                      );
-                                    },
-                                    child: Row(
-                                      children: const [
-                                        Icon(
-                                          Icons.fastfood,
-                                          color: Colors.black87,
-                                          size: 14,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Text(
-                                          "Menu",
-                                          style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  TextButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
                                         const Color(0xff00B4DB),
                                       ),
                                       overlayColor: MaterialStateProperty.all(
@@ -595,16 +553,6 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => const SocialsPage(),
-                          ),
-                        ),
-                      ),
-                      Menu(
-                        Icons.fastfood,
-                        'Menu',
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const FoodMenuPage(),
                           ),
                         ),
                       ),

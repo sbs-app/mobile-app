@@ -238,7 +238,7 @@ class _CoursePageState extends State<CoursePage> {
                       tooltip: 'Edit Course',
                       overlayColor: Colors.black12,
                       spacing: 20,
-                      backgroundColor: Color(0xff00B4DB),
+                      backgroundColor: Color.fromARGB(255, 255, 255, 255),
                       elevation: 10,
                       activeChild: const Icon(
                         Icons.close,

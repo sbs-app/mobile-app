@@ -94,100 +94,117 @@ class _SocialsPageState extends State<SocialsPage> {
                           itemCount: getUserModel().socials.length,
                           itemBuilder: (BuildContext context, int index) {
                             final String social = getUserModel().socials[index];
-                            return Container(
-                              height: 150,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 5,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white10,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  overlayColor:
-                                      MaterialStateProperty.all(Colors.black),
-                                ),
-                                onPressed: () async {
-                                  await Future.delayed(
-                                    const Duration(milliseconds: 250),
-                                  );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => SocialItemPage(
-                                        socialURL: social,
-                                      ),
+                            return Dismissible(
+                              key: Key(social),
+                              onDismissed: (DismissDirection direction) {
+                                List<String> newSocials =
+                                    getUserModel().socials;
+                                newSocials.remove(social);
+                                AuthBloc.addEventWithoutContext(
+                                  AuthEvent.updateUser(
+                                    getUserModel().copyWith(
+                                      socials: newSocials,
                                     ),
-                                  );
-                                },
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Hero(
-                                      tag: social,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            Expanded(
-                                              child: Image.asset(
-                                                getSocialURL(social),
-                                                fit: BoxFit.cover,
+                                  ),
+                                );
+                                forceUserModelUpdate();
+                              },
+                              child: Container(
+                                height: 150,
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    overlayColor:
+                                        MaterialStateProperty.all(Colors.black),
+                                  ),
+                                  onPressed: () async {
+                                    await Future.delayed(
+                                      const Duration(milliseconds: 250),
+                                    );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => SocialItemPage(
+                                          socialURL: social,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      Hero(
+                                        tag: social,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              Expanded(
+                                                child: Image.asset(
+                                                  getSocialURL(social),
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 20,
+                                          right: 20,
+                                          top: 20,
+                                          bottom: 20,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              getUsername(social),
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
                                             ),
+                                            // Row(
+                                            //   children: [
+                                            //     Padding(
+                                            //       padding: const EdgeInsets.only(
+                                            //         right: 10,
+                                            //       ),
+                                            //       child: UserAvatar(
+                                            //         userModel: getUserModel(),
+                                            //         height: 32,
+                                            //         width: 32,
+                                            //       ),
+                                            //     ),
+                                            //     Text(
+                                            //       social,
+                                            //       style: const TextStyle(
+                                            //         color: Colors.white70,
+                                            //         fontSize: 16,
+                                            //       ),
+                                            //     ),
+                                            //   ],
+                                            // )
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 20,
-                                        bottom: 20,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            getUsername(social),
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          ),
-                                          // Row(
-                                          //   children: [
-                                          //     Padding(
-                                          //       padding: const EdgeInsets.only(
-                                          //         right: 10,
-                                          //       ),
-                                          //       child: UserAvatar(
-                                          //         userModel: getUserModel(),
-                                          //         height: 32,
-                                          //         width: 32,
-                                          //       ),
-                                          //     ),
-                                          //     Text(
-                                          //       social,
-                                          //       style: const TextStyle(
-                                          //         color: Colors.white70,
-                                          //         fontSize: 16,
-                                          //       ),
-                                          //     ),
-                                          //   ],
-                                          // )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );

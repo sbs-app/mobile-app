@@ -232,44 +232,6 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   TextButton(
                                     style: ButtonStyle(
-                                      overlayColor: MaterialStateProperty.all(
-                                        Colors.black12,
-                                      ),
-                                    ),
-                                    onPressed: () async {
-                                      await Future.delayed(
-                                        const Duration(
-                                          milliseconds: 400,
-                                        ),
-                                      );
-                                      controller.hideMenu();
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => const SettingsPage(),
-                                        ),
-                                      );
-                                    },
-                                    child: Row(
-                                      children: const [
-                                        Icon(
-                                          Icons.settings,
-                                          color: Colors.black87,
-                                          size: 14,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Text(
-                                          "Settings",
-                                          style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  TextButton(
-                                    style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
                                         Colors.white,
@@ -386,6 +348,86 @@ class _HomePageState extends State<HomePage> {
                                         SizedBox(width: 10),
                                         Text(
                                           "Meetings",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        Colors.white,
+                                      ),
+                                      overlayColor: MaterialStateProperty.all(
+                                        Colors.white10,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      await Future.delayed(
+                                        const Duration(
+                                          milliseconds: 400,
+                                        ),
+                                      );
+                                      controller.hideMenu();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => SocialsPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.share,
+                                          color: Colors.black87,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Socials",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      overlayColor: MaterialStateProperty.all(
+                                        Colors.black12,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      await Future.delayed(
+                                        const Duration(
+                                          milliseconds: 400,
+                                        ),
+                                      );
+                                      controller.hideMenu();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const SettingsPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.settings,
+                                          color: Colors.black87,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Settings",
                                           style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -546,7 +588,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Menu(
-                        Icons.numbers,
+                        Icons.share,
                         'Socials',
                         () => Navigator.push(
                           context,

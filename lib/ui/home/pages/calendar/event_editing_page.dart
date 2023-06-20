@@ -35,6 +35,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.black,
           leading: CloseButton(),
           actions: buildEditingActions(),
         ),
@@ -58,7 +59,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<Widget> buildEditingActions() => [
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Color.fromARGB(0, 0, 0, 0),
             shadowColor: Colors.transparent,
           ),
           onPressed: saveForm,
@@ -198,11 +199,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
           builder: (context, child) => Theme(
                 data: ThemeData().copyWith(
                     colorScheme: ColorScheme.dark(
-                        primary: Color(0xffF0C38E),
+                        primary: Color(0xffFF045F),
                         onPrimary: Colors.white,
                         onSurface: Color.fromARGB(255, 137, 217, 252),
                         //onSurface: Color(0xffFF045F),
-                        surface: Color(0xff312c51)),
+                        surface: Color.fromARGB(255, 0, 0, 0)),
                     textTheme: TextTheme(
                         overline: TextStyle(
                       fontSize: 14,

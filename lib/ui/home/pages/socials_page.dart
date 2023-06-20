@@ -95,6 +95,7 @@ class _SocialsPageState extends State<SocialsPage> {
                           itemBuilder: (BuildContext context, int index) {
                             final String social = getUserModel().socials[index];
                             return Dismissible(
+                              background: Container(color: Colors.red),
                               key: Key(social),
                               onDismissed: (DismissDirection direction) {
                                 List<String> newSocials =

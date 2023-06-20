@@ -26,3 +26,9 @@ class PostTypes {
   static const text = "text";
   static const image = "image";
 }
+
+class SocialTypes {
+  static const allTypes = [twitter, instagram];
+  static const twitter = "twitter";
+  static const instagram = "instagram";
+}

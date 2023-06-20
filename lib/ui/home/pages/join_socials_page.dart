@@ -1,3 +1,4 @@
+import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/core/clean_string.dart';
@@ -43,7 +44,7 @@ class _JoinSocialsPageState extends State<JoinSocialsPage>
           ? isValidLink
               ? const SizedBox.shrink()
               : const Text(
-                  "Please enter a valid link",
+                  "Please enter a valid name",
                   style: TextStyle(color: Colors.grey),
                 )
           : const SizedBox.shrink(),
@@ -51,6 +52,8 @@ class _JoinSocialsPageState extends State<JoinSocialsPage>
   }
 
   bool get isValid => cleanString(linkController.text).isNotEmpty;
+
+  String currentType = SocialTypes.instagram;
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +118,24 @@ class _JoinSocialsPageState extends State<JoinSocialsPage>
                       ),
                     ),
                     const SizedBox(height: 10),
+                    DropdownButton(
+                      value: currentType,
+                      style: const TextStyle(color: Colors.white),
+                      onChanged: (value) {
+                        setState(() {
+                          currentType = value.toString();
+                        });
+                      },
+                      items: SocialTypes.allTypes.map((type) {
+                        return DropdownMenuItem(
+                          value: type,
+                          child: Text(type.toUpperCase()),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 10),
                     Text(
-                      "Enter social media link below:",
+                      "Enter social media username below:",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white.withOpacity(0.5),
@@ -138,7 +157,7 @@ class _JoinSocialsPageState extends State<JoinSocialsPage>
                           ),
                           focusColor: Colors.black,
                           contentPadding: const EdgeInsets.all(10),
-                          hintText: "Social media link",
+                          hintText: "Social media username",
                           fillColor: Colors.white,
                           filled: true,
                           border: OutlineInputBorder(
@@ -163,7 +182,9 @@ class _JoinSocialsPageState extends State<JoinSocialsPage>
                           if (isValid) {
                             isLoading = true;
                             final newSocials = getUserModel().socials;
-                            newSocials.add(linkController.text);
+                            newSocials.add(
+                              "https://$currentType.com/${linkController.text}",
+                            );
                             AuthBloc.addEventWithoutContext(
                               AuthEvent.updateUser(
                                 getUserModel().copyWith(

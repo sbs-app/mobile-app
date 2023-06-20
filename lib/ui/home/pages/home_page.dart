@@ -11,7 +11,6 @@ import 'package:classroom/ui/home/pages/create_course_page.dart';
 import 'package:classroom/ui/home/pages/join_course_page.dart';
 import 'package:classroom/ui/home/pages/link_student_page.dart';
 import 'package:classroom/ui/home/pages/meetings_page.dart';
-import 'package:classroom/ui/home/pages/menu_page.dart';
 import 'package:classroom/ui/home/pages/settings_page.dart';
 import 'package:classroom/ui/home/pages/socials_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';

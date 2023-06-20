@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/home/pages/calendar/utils.dart';

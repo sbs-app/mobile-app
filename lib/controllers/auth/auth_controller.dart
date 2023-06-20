@@ -63,6 +63,7 @@ class AuthController extends IAuthController {
         classes: <String>[""],
         link: '',
         absence: <int>[-1, -1],
+        socials: <String>[],
       );
 
       await box.put(HiveBoxNames.user, newUserModel.copyWith());

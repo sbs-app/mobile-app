@@ -333,6 +333,25 @@ class _CoursePageState extends State<CoursePage> {
                       ),
                       children: [
                         SpeedDialChild(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => CreatePostPage(
+                                  courseCode: course.code,
+                                  post: "",
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
+                          label: "Add post",
+                          labelStyle: const TextStyle(color: Colors.white),
+                        ),
+                        SpeedDialChild(
                           backgroundColor: Colors.red.shade400,
                           onTap: () {
                             CourseBloc.addEventWithoutContext(

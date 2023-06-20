@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:http/http.dart';
 
 part 'user_model.g.dart';
 
@@ -14,6 +13,7 @@ class UserModel {
     required this.classes,
     required this.link,
     required this.absence,
+    required this.socials,
   });
 
   @HiveField(0)
@@ -32,12 +32,19 @@ class UserModel {
   final String link;
   @HiveField(7)
   final List<int> absence;
+  @HiveField(8)
+  final List<String> socials;
 
   factory UserModel.fromFirestore(Map data) {
     final List<String> classes = List<String>.from(data['classes']! as List);
+
     final List<int> absence = (data['absence'] != null)
         ? List<int>.from(data['absence']! as List)
         : <int>[-1, -1];
+
+    final List<String> socials = (data['socials'] != null)
+        ? List<String>.from(data['socials']! as List)
+        : <String>[];
 
     String getLinkedStudent(Map<dynamic, dynamic> rawData) =>
         (rawData['link'] != null) ? rawData['link']! as String : '';
@@ -51,6 +58,7 @@ class UserModel {
       classes: classes,
       link: getLinkedStudent(data),
       absence: absence,
+      socials: socials,
     );
   }
 
@@ -63,6 +71,7 @@ class UserModel {
     String? link,
     List<String>? classes,
     List<int>? absence,
+    List<String>? socials,
   }) =>
       UserModel(
         email: email ?? this.email,
@@ -73,6 +82,7 @@ class UserModel {
         classes: classes ?? this.classes,
         link: link ?? this.link,
         absence: absence ?? this.absence,
+        socials: socials ?? this.socials,
       );
 
   Map<String, dynamic> toJson() => {
@@ -84,5 +94,6 @@ class UserModel {
         "classes": classes,
         "link": link,
         "absence": absence,
+        "socials": socials,
       };
 }

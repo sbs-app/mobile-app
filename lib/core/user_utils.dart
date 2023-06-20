@@ -17,8 +17,14 @@ UserModel getUserModel() {
       classes: [],
       link: '',
       absence: [-1, -1],
+      socials: [],
     );
   }
+}
+
+void forceUserModelUpdate() async {
+  await getIt<Box>()
+      .put(HiveBoxNames.user, await getFirestoreUser(getUserModel().id));
 }
 
 Future<UserModel> getFirestoreUser(String userId) async {

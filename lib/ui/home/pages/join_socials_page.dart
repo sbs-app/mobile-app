@@ -1,5 +1,5 @@
 import 'package:classroom/core/user_utils.dart';
-import 'package:classroom/states/course/course_bloc.dart';
+import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/core/clean_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,9 +54,29 @@ class _JoinSocialsPageState extends State<JoinSocialsPage>
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CourseBloc, CourseState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        // Handle join logic...  
+        state.updateUserOption.fold(
+          () => null,
+          (some) => some.fold(
+            (l) {
+              isLoading = false;
+              setState(() {});
+              Fluttertoast.showToast(
+                msg: l.maybeMap(
+                  orElse: () => "",
+                  clientAuthFailure: (_) =>
+                      "Oops! Server down. Please try again after sometime.",
+                ),
+                textColor: Colors.black87,
+                backgroundColor: Colors.white,
+                toastLength: Toast.LENGTH_LONG,
+                fontSize: 12,
+              );
+            },
+            (r) => Navigator.pop(context),
+          ),
+        );
       },
       builder: (context, state) {
         return SafeArea(
@@ -141,8 +161,16 @@ class _JoinSocialsPageState extends State<JoinSocialsPage>
                         onPressed: () {
                           showErrors = true;
                           if (isValid) {
-                            // Handle social media joining logic here
-                            // ...
+                            isLoading = true;
+                            final newSocials = getUserModel().socials;
+                            newSocials.add(linkController.text);
+                            AuthBloc.addEventWithoutContext(
+                              AuthEvent.updateUser(
+                                getUserModel().copyWith(
+                                  socials: newSocials,
+                                ),
+                              ),
+                            );
                           }
                           setState(() {});
                         },

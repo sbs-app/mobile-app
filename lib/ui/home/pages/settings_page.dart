@@ -1,6 +1,7 @@
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/home/pages/bug_report_page.dart';
+import 'package:classroom/ui/home/pages/delete_account.dart';
 import 'package:classroom/ui/home/pages/onboarding_page.dart';
 import 'package:classroom/ui/home/pages/update_profile_page.dart';
 import 'package:classroom/ui/home/widgets/user_avatar.dart';
@@ -105,50 +106,76 @@ class _SettingsPageState extends State<SettingsPage> {
                           createSettingTitle(
                             Icons.person,
                             "Update profile",
-                            MaterialPageRoute(
-                              builder: (_) => const UpdateProfilePage(),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const UpdateProfilePage(),
+                              ),
                             ),
                           ),
                           createSettingTitle(
                             Icons.edit_notifications,
                             "Notificatons",
-                            MaterialPageRoute(
-                              builder: (_) => const ReportBugPage(),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const ReportBugPage(),
+                              ),
                             ),
                           ),
                           createSettingTitle(
                             Icons.bug_report,
                             "Report Bug",
-                            MaterialPageRoute(
-                              builder: (_) => const ReportBugPage(),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const ReportBugPage(),
+                              ),
                             ),
                           ),
                           createSettingTitle(
                             Icons.restart_alt,
                             "View onboarding",
-                            MaterialPageRoute(
-                              builder: (_) => OnboardingPage(),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => OnboardingPage(),
+                              ),
                             ),
                           ),
                           createSettingTitle(
                             Icons.balance,
                             "Licenses",
-                            MaterialPageRoute(
-                              builder: (context) => Theme(
-                                data: ThemeData.light().copyWith(
-                                  textTheme: GoogleFonts.montserratTextTheme(),
-                                  appBarTheme:
-                                      const AppBarTheme(color: Colors.black),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Theme(
+                                  data: ThemeData.light().copyWith(
+                                    textTheme:
+                                        GoogleFonts.montserratTextTheme(),
+                                    appBarTheme:
+                                        const AppBarTheme(color: Colors.black),
+                                  ),
+                                  child: const LicensePage(
+                                    applicationName: "ClassMate",
+                                    applicationIcon: Icon(Icons.class_),
+                                    applicationLegalese:
+                                        "Copyright © 2023 Andrew, Shafil, Suraj\n"
+                                        "ClassMate is licensed under the MIT license.\n"
+                                        "Image(s) used under license from Shutterstock.com.\n"
+                                        "SIL Open Font License (OFL)",
+                                  ),
                                 ),
-                                child: const LicensePage(
-                                  applicationName: "ClassMate",
-                                  applicationIcon: Icon(Icons.class_),
-                                  applicationLegalese:
-                                      "Copyright © 2023 Andrew, Shafil, Suraj\n"
-                                      "ClassMate is licensed under the MIT license.\n"
-                                      "Image(s) used under license from Shutterstock.com.\n"
-                                      "SIL Open Font License (OFL)",
-                                ),
+                              ),
+                            ),
+                          ),
+                          createSettingTitle(
+                            Icons.delete_forever,
+                            "Delete account",
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DeleteAccount(),
                               ),
                             ),
                           ),
@@ -168,15 +195,12 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget createSettingTitle(
     IconData icon,
     String name,
-    MaterialPageRoute route,
+    Function() onTap,
   ) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          route,
-        ),
+        onTap: onTap,
         child: ListTile(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

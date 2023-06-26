@@ -142,13 +142,16 @@ class CourseController extends ICoursesController {
       return const Left(CourseFailure.serverFailure());
     }
 
+    // Remove all students that are part of the course
+    for (final UserModel student in course.students!) {
+      removeStudentFromCourse(
+        courseCode: courseCode,
+        studentId: student.id,
+      );
+    }
+
     // Remove course
     firebaseFirestore.doc('/classes/$courseCode').delete();
-
-    removeStudentFromCourse(
-      courseCode: courseCode,
-      studentId: FirebaseAuth.instance.currentUser!.uid,
-    );
 
     return const Right(unit);
   }

@@ -29,11 +29,16 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To access to your camera for meetings.</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>To view and see event and schedule</string>
+	<string>To view and see events and schedule</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To access to your microphone for meetings.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To upload profile image</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>voip</string>
+	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

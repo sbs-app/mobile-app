@@ -8,7 +8,6 @@ import 'package:classroom/models/courses/i_courses_repo.dart';
 import 'package:classroom/models/courses/post_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
@@ -33,8 +32,7 @@ class CourseController extends ICoursesController {
 
   String getRandomCode() {
     const int length = 8;
-    const chars =
-        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    const chars = 'abcdefghijklmnopqrstuvwxyz';
     return String.fromCharCodes(
       Iterable.generate(
         length,

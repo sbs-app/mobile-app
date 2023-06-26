@@ -66,10 +66,10 @@ dependencies:
   flutter_parsed_text: ^2.2.1
   url_launcher: ^6.1.8
   diffutil_dart: ^3.0.0
-  jitsi_meet: ^4.0.0
   flutter_onboarding_slider: ^1.0.8
   icalendar_parser: ^1.1.1
   webviewx: ^0.2.1
+  jitsi_meet_wrapper: ^0.0.6
 
 dev_dependencies:
   build_runner: any

@@ -1,11 +1,12 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/models/auth/user_model.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 
 class VideoCall extends StatefulWidget {
   @override
@@ -38,13 +39,25 @@ class _VideoCallState extends State<VideoCall> {
     super.dispose();
   }
 
+  final Random _rnd = Random();
+
+  String getRandomCode() {
+    const int length = 4;
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    return String.fromCharCodes(
+      Iterable.generate(
+        length,
+        (_) => chars.codeUnitAt(_rnd.nextInt(chars.length)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         UserModel user = getUserModel();
         serverText.text = "https://meet.jit.si/";
-        roomText.text = "${user.userName} ClassMate";
         subjectText.text = user.userName;
         nameText.text = user.userName;
         emailText.text = user.email;
@@ -225,7 +238,7 @@ class _VideoCallState extends State<VideoCall> {
                             const Spacer(flex: 16),
                             GestureDetector(
                               onTap: () {
-                                _joinMeeting(); // Join meet on tap
+                                _createMeeting(); // Join meet on tap
                               },
                               child: AnimatedContainer(
                                   duration: Duration(milliseconds: 300),
@@ -261,7 +274,7 @@ class _VideoCallState extends State<VideoCall> {
                                     builder: (context) {
                                       return AlertDialog(
                                         title: Text(
-                                          'Enter meeting name (username + ClassMate)',
+                                          'Enter meeting code',
                                           style: const TextStyle(
                                             color: Colors.white,
                                           ),
@@ -275,7 +288,7 @@ class _VideoCallState extends State<VideoCall> {
                                             hintStyle: const TextStyle(
                                               color: Colors.white,
                                             ),
-                                            hintText: "Username",
+                                            hintText: "Meeting code",
                                           ),
                                         ),
                                         actions: <Widget>[
@@ -336,12 +349,6 @@ class _VideoCallState extends State<VideoCall> {
       },
     );
   }
-  // Can use this, to add one more button which makes the meet Audio only.
-  // _onAudioOnlyChanged(bool? value) {
-  //   setState(() {
-  //     isAudioOnly = value!;
-  //   });
-  // }
 
   _onAudioMutedChanged(bool? value) {
     setState(() {
@@ -355,44 +362,39 @@ class _VideoCallState extends State<VideoCall> {
     });
   }
 
-  // Defining Join meeting function
+  _createMeeting() async {
+    // Using default serverUrl that is https://meet.jit.si/
+    String? serverUrl = serverText.text;
+    try {
+      var options = JitsiMeetingOptions(
+        roomNameOrUrl: 'ClassMate Code - ' + getRandomCode(),
+        serverUrl: serverUrl,
+        userDisplayName: nameText.text,
+        userEmail: emailText.text,
+        isAudioMuted: isAudioMuted,
+        isVideoMuted: isVideoMuted,
+      );
+
+      await JitsiMeetWrapper.joinMeeting(options: options);
+    } catch (error) {
+      debugPrint("error: $error");
+    }
+  }
+
   _joinMeeting() async {
     // Using default serverUrl that is https://meet.jit.si/
     String? serverUrl = serverText.text;
-
     try {
-      // Enable or disable any feature flag here
-      // If feature flag are not provided, default values will be used
-      // Full list of feature flags (and defaults) available in the README
-      Map<FeatureFlagEnum, bool> featureFlags = HashMap();
-      featureFlags[FeatureFlagEnum.WELCOME_PAGE_ENABLED] = false;
-      if (Platform.isAndroid) {
-        // Disable ConnectionService usage on Android to avoid issues (see README)
-        featureFlags[FeatureFlagEnum.CALL_INTEGRATION_ENABLED] = false;
-      } else if (Platform.isIOS) {
-        // Disable PIP on iOS as it looks weird
-        // featureFlags[FeatureFlagEnum.PIP_ENABLED] = false;
-      }
-
-      //uncomment to modify video resolution
-      //featureFlag.resolution = FeatureFlagVideoResolution.MD_RESOLUTION;
-
-      // Define meetings options here
-      var options = JitsiMeetingOptions(room: roomText.text)
-        ..serverURL = serverUrl
-        ..subject = subjectText.text
-        ..userDisplayName = nameText.text
-        ..userEmail = emailText.text
-        ..audioOnly = isAudioOnly
-        ..audioMuted = isAudioMuted
-        ..videoMuted = isVideoMuted
-        ..featureFlags = featureFlags;
-
-      // Joining meet
-      await JitsiMeet.joinMeeting(
-        options,
-        roomNameConstraints: new Map(), // to disable all constraints
+      var options = JitsiMeetingOptions(
+        roomNameOrUrl: 'ClassMate Code - ${roomText.text}',
+        serverUrl: serverUrl,
+        userDisplayName: nameText.text,
+        userEmail: emailText.text,
+        isAudioMuted: isAudioMuted,
+        isVideoMuted: isVideoMuted,
       );
+
+      await JitsiMeetWrapper.joinMeeting(options: options);
     } catch (error) {
       debugPrint("error: $error");
     }

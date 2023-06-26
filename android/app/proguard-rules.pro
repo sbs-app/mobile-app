@@ -7,24 +7,6 @@
 -keep class io.flutter.plugins.**  { *; }
 
 #=== Jitsi ===#
-# Source: https://github.com/jitsi/jitsi-meet/blob/master/android/app/proguard-rules.pro
-# Check above link for changes if release builds are broken again
-
-# Copyright (c) Facebook, Inc. and its affiliates.
-#
-# This source code is licensed under the MIT license found in the
-# LICENSE file in the root directory of this source tree.
-
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in /usr/local/Cellar/android-sdk/24.3.3/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# Add any project specific keep options here:
 
 # React Native
 
@@ -104,5 +86,7 @@
 # Rule to avoid build errors related to SVGs.
 -keep public class com.horcrux.svg.** {*;}
 
-# Hermes
--keep class com.facebook.hermes.unicode.** { *; }
+# https://github.com/facebook/fresco/issues/2638
+-keep public class com.facebook.imageutils.** {
+   public *;
+}

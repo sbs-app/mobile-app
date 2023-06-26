@@ -86,6 +86,9 @@ class _DeleteAccountState extends State<DeleteAccount> {
                                 Fluttertoast.showToast(
                                   msg: 'Account has been deleted.',
                                 );
+                                AuthBloc.addEventWithoutContext(
+                                  const AuthEvent.signOut(),
+                                );
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

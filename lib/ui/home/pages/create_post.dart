@@ -247,6 +247,7 @@ class _CreatePostPageState extends State<CreatePostPage>
                             width: double.maxFinite,
                             child: TextButton(
                               onPressed: () async {
+                                isLoading = true;
                                 final ImagePicker picker = ImagePicker();
                                 final XFile? image = await picker.pickImage(
                                   source: ImageSource.gallery,
@@ -311,13 +312,23 @@ class _CreatePostPageState extends State<CreatePostPage>
                                         Colors.white10,
                                       ),
                               ),
-                              child: const Text(
-                                "Pick image to upload",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                              child: isLoading
+                                  ? const SizedBox(
+                                      height: 15,
+                                      width: 15,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                    )
+                                  : const Text(
+                                      "Pick image to upload",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                             ),
                           )
                         ],

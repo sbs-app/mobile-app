@@ -114,16 +114,6 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           ),
                           createSettingTitle(
-                            Icons.edit_notifications,
-                            "Notificatons",
-                            () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const ReportBugPage(),
-                              ),
-                            ),
-                          ),
-                          createSettingTitle(
                             Icons.bug_report,
                             "Report Bug",
                             () => Navigator.push(

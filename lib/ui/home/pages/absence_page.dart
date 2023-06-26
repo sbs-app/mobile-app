@@ -131,9 +131,9 @@ class _AbsencePageState extends State<AbsencePage>
           builder: (context, child) => Theme(
                 data: ThemeData().copyWith(
                     colorScheme: ColorScheme.dark(
-                        primary: Color(0xffFF045F),
+                        primary: Color(0xff02b3fd),
                         onPrimary: Colors.white,
-                        onSurface: Color.fromARGB(255, 137, 217, 252),
+                        onSurface: Color.fromARGB(255, 255, 255, 255),
                         //onSurface: Color(0xffFF045F),
                         surface: Color.fromARGB(255, 0, 0, 0)),
                     textTheme: TextTheme(

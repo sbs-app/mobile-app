@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:classroom/ui/home/pages/calendar/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -178,7 +176,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         //onSurface: Color(0xffFF045F),
                         surface: Color.fromARGB(255, 0, 0, 0)),
                     textTheme: TextTheme(
-                        overline: TextStyle(
+                        labelSmall: TextStyle(
                       fontSize: 14,
                       color: Colors.red,
                     )),
@@ -201,13 +199,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
           builder: (context, child) => Theme(
                 data: ThemeData().copyWith(
                     colorScheme: ColorScheme.dark(
-                        primary: Color(0xffFF045F),
+                        primary: Color.fromARGB(255, 183, 208, 245),
                         onPrimary: Colors.white,
                         onSurface: Color.fromARGB(255, 137, 217, 252),
                         //onSurface: Color(0xffFF045F),
                         surface: Color.fromARGB(255, 0, 0, 0)),
                     textTheme: TextTheme(
-                        overline: TextStyle(
+                        labelSmall: TextStyle(
                       fontSize: 14,
                       color: Colors.white,
                     )),

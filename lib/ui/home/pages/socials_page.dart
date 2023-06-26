@@ -1,4 +1,3 @@
-import 'package:classroom/core/strings.dart';
 import 'package:classroom/core/user_utils.dart';
 import 'package:classroom/states/auth/auth_bloc.dart';
 import 'package:classroom/ui/home/pages/join_socials_page.dart';

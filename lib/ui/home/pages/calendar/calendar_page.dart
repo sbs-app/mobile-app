@@ -177,7 +177,7 @@ Future<List<Appointment>> _getCalendarDataSource() async {
           startTime: DateTime.parse((event['dtstart'] as IcsDateTime).dt),
           endTime: DateTime.parse((event['dtend'] as IcsDateTime).dt),
           subject: event['summary'],
-          color: const Color.fromARGB(255, 243, 136, 14),
+          color: Color.fromARGB(255, 243, 14, 87),
         ),
       );
     }
